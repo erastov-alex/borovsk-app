@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Личный кабинет</title>
+</head>
+<body>
+    <h2>Личный кабинет</h2>
+    <h3>Ваши бронирования:</h3>
+    <ul>
+        {% for booking in bookings %}
+            <li>Дата заезда: {{ booking['start_date'] }}, Дата выезда: {{ booking['end_date'] }}</li>
+        {% endfor %}
+    </ul>
+    
+    <form method="post">
+        <label for="username">Имя пользователя:</label><br>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Пароль:</label><br>
+        <input type="password" id="password" name="password" required><br>
+        <input type="submit" value="Изменить">
+    </form>
+
+</body>
+</html>

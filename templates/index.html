@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Бронирование загородных домов</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+</head>
+<body>
+    {% if 'username' in session %}
+        <p>Привет, {{ session['username'] }}</p>
+        <a href="/account">Личный кабинет</a>
+        <a href="/logout">Выход</a>
+    {% else %}
+        <a href="/login">Вход</a>
+        <a href="/register">Регистрация</a>
+    {% endif %}
+    <div class="header">
+        <img src="{{ url_for('static', filename='images/thing.jpg') }}" alt="Logo">
+        <h1>Уютные домики в Боровском районе</h1>
+    </div>
+    <div class="carousel">
+        <img src="{{ url_for('static', filename='images/karusel1.jpg') }}" alt="Image1">
+        <img src="{{ url_for('static', filename='images/karusel2.jpg') }}" alt="Image2">
+        <!-- Add more images -->
+    </div>
+    <div class="contacts">
+        <h2>Контакты:</h2>
+        <p>Телеграмм: <a href="https://t.me/your_telegram">@your_telegram</a></p>
+        <p>Инстаграмм: <a href="https://www.instagram.com/your_instagram">@your_instagram</a></p>
+        <p>Фейсбук: <a href="https://www.facebook.com/your_facebook">@your_facebook</a></p>
+    </div>
+    <a href="/book"><img src="{{ url_for('static', filename='images/button.png') }}" alt="Book Now" class="book-button"></a>
+</body>
+</html>
