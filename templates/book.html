@@ -28,16 +28,18 @@
         <a href="/">На Главную</a>
         <div id="booking-form">
             <!-- Форма для выбора даты и дома -->
-            <input type="date" id="start-date" name="start-date">
-            <input type="date" id="end-date" name="end-date">
-            <!-- Дополнительные элементы для выбора дома -->
-            <label for="house">Выберите дом:</label>
-            <select id="house" name="house_id">
-                <option value="1">Дом 1</option>
-                <option value="2">Дом 2</option>
-                <option value="3">Дом 3</option>
-            </select>
-            <button onclick="confirmBooking()">Забронировать</button>
+            <form action="/book" method="post">
+                <input type="date" id="start-date" name="start_date">
+                <input type="date" id="end-date" name="end_date">
+                <!-- Дополнительные элементы для выбора дома -->
+                <label for="house">Выберите дом:</label>
+                <select id="house" name="house_id">
+                    <option value="1">Дом 1</option>
+                    <option value="2">Дом 2</option>
+                    <option value="3">Дом 3</option>
+                </select>
+                <button type="submit">Забронировать</button>
+            </form>
         </div>
         <div id="confirmation-popup" class="popup" style="display: none;">
             <h2>Бронирование подтверждено</h2>

@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "db_check.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "db_check.py",
+            "console": "integratedTerminal"
+        },
+        {
             "name": "app.py",
             "type": "debugpy",
             "request": "launch",

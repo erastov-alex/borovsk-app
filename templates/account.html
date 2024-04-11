@@ -5,12 +5,16 @@
 </head>
 <body>
     <h2>Личный кабинет</h2>
-    <h3>Ваши бронирования:</h3>
-    <ul>
-        {% for booking in bookings %}
-            <li>Дата заезда: {{ booking['start_date'] }}, Дата выезда: {{ booking['end_date'] }}</li>
-        {% endfor %}
-    </ul>
+    {% if bookings_message %}
+        <p>{{ bookings_message }}</p>
+    {% else %}
+        <h3>Ваши бронирования:</h3>
+        <ul>
+            {% for booking in bookings %}
+                <li>Дата заезда: {{ booking[0] }}, Дата выезда: {{ booking[1] }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     
     <form method="post">
         <label for="username">Имя пользователя:</label><br>
