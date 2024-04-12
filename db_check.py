@@ -1,8 +1,8 @@
 import sqlite3
 
-conn = sqlite3.connect('db_bookings.sqlite')
+conn = sqlite3.connect('database.db')
 cursor = conn.cursor()
-cursor.execute('SELECT * FROM bookings')  
+cursor.execute('SELECT * FROM users')  
 rows = cursor.fetchall()
 conn.close()
 

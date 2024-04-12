@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Borovsky Hotel</title>
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<style>
+        .carousel-inner {
+            max-width: 1024px;
+            margin: auto;
+            height: 500px; /* Высота карусели */
+        }
+
+        .carousel-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Обрезка или масштабирование изображения */
+        }
+
+        .carousel-caption {
+            text-align: left; /* Выравнивание текста по левому краю */
+            bottom: 30%; /* Приподнять текст и кнопку вверх */
+            right: 40%; /* Центрирование по правому краю */
+            transform: translateX(0%); /* Корректировка положения */
+            background-color: rgba(0, 0, 0, 0.3); /* Небольшой фон для улучшения читаемости */
+            padding: 10px;
+		}
+		/* Добавляем стили для контактов в футере */
+		.footer {
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .footer h2 {
+			font-size: 20px; 
+            margin-bottom: 20px;
+        }
+
+        .footer p {
+            margin-bottom: 5px;
+        }
+
+        .footer a {
+            color: #000;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: #6c757d;
+        }
+
+        /* Располагаем контакты в одну линию */
+        .footer p {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+		/* Стили для кнопки входа и регистрации */
+        .login-btn {
+            position: absolute;
+            top: 10px; /* Располагаем в верхнем правом углу */
+            right: 10px;
+            padding: 5px 10px; /* Уменьшаем отступы внутри кнопки */
+            background-color: #007bff; /* Цвет фона кнопки */
+            color: #fff; /* Цвет текста */
+            border: none;
+            border-radius: 5px;
+            font-size: 14px; /* Уменьшаем размер шрифта */
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #0056b3; /* Изменение цвета фона при наведении */
+        }
+	</style>
+
+</head>
+<body>
+<!-- Header -->
+<header>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Навигация</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+			        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+                      <!-- в href указываем id div block куда нам нужно сделать скролл -->
+						<a class="nav-link" href="#carouselExampleIndicators">Галерея</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#cards">Дома</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#featurette1">Как добраться</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#featurette2">Партнерам</a>
+					</li>
+				</ul>
+			</div>
+			{% if username %}
+				<p>С возвращением, {{ username }}</p>
+				<a href="/account" class="login">Личный кабинет</a>
+			<!-- Если пользователь не зарегистрирован -->
+			{% else %}
+				<a class="login-btn" href="/registration">Вход / Регистрация</a>
+			{% endif %}
+		</div>
+	</nav>
+</header>
+
+<!-- Carousel With Indicators -->
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+	<!-- Indicators -->
+	<div class="carousel-indicators">
+		<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+		        aria-current="true" aria-label="Slide 1"></button>
+		<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+		        aria-label="Slide 2"></button>
+		<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+		        aria-label="Slide 3"></button>
+	</div>
+    <!-- Выбор домика -->
+    <div id="cards" class="container py-5">
+        <h2>Выберите домик</h2>
+        <!-- Здесь размещаете ваши домики с информацией и кнопками для выбора -->
+    </div>
+
+    <!-- Интерактивный календарь -->
+    <div id="calendar" class="container py-5">
+        <h2>Выберите дату</h2>
+        <!-- Здесь размещаете ваш интерактивный календарь -->
+    </div>
+
+    <!-- Окно подтверждения бронирования -->
+    <div id="confirmation" class="container py-5">
+        <h2>Подтверждение бронирования</h2>
+        <!-- Здесь размещаете форму или информацию о бронировании -->
+    </div>
+
+	<!-- Controls -->
+	<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+	        data-bs-slide="prev">
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Назад</span>
+	</button>
+	<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+	        data-bs-slide="next">
+		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Далее</span>
+	</button>
+</div>
+
+
+<!-- Footer -->
+<footer class="footer mt-auto py-3 bg-light">
+	<div class="container">
+		<h2>Контакты:</h2>
+		<p>Телеграмм: <a href="https://t.me/your_telegram">@your_telegram</a></p>
+		<p>Инстаграмм: <a href="https://www.instagram.com/your_instagram">@your_instagram</a></p>
+		<p>Фейсбук: <a href="https://www.facebook.com/your_facebook">@your_facebook</a></p>
+	</div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>
