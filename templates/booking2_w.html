@@ -163,7 +163,7 @@
                         <strong>Кровати:</strong> 1<br>
                         <strong>Комнаты:</strong> 2<br>
                         <strong>Удобства:</strong> Все удобства<br>
-                        <strong>Особенности:</strong> Прекрасно подход                    ат для романтического отдыха вдвоем. Уютная атмосфера и комфорт обеспечат незабываемый отдых.
+                        <strong>Особенности:</strong> Прекрасно подходит для романтического отдыха вдвоем. Уютная атмосфера и комфорт обеспечат незабываемый отдых.
                     </p>
                     <button class="btn btn-primary select-house-btn" data-house-id="1">Выбрать</button>
                 </div>
@@ -238,6 +238,8 @@
             <input type="hidden" id="house_id" name="house_id">
             <input type="hidden" id="start_date_input" name="start_date">
             <input type="hidden" id="end_date_input" name="end_date">
+            <p>Начальная дата: <span id="selectedStartDate"></span></p>
+            <p>Конечная дата: <span id="selectedEndDate"></span></p>
             <button type="submit" class="btn btn-primary">Подтвердить бронирование</button>
         </form>
         <p id="booking-info"></p> <!-- Добавляем параграф для отображения информации о бронировании -->
@@ -265,76 +267,71 @@
     const backButtonCalendar = document.getElementById('backButtonCalendar');
     const backButtonConfirmation = document.getElementById('backButtonConfirmation');
     const selectDateButton = document.getElementById('selectDateButton');
-    const bookingForm = document.getElementById('booking-form');
+    const selectedHouseInfo = document.getElementById('selectedHouseInfo');
+    const selectedStartDateSpan = document.getElementById('selectedStartDate');
+    const selectedEndDateSpan = document.getElementById('selectedEndDate');
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
 
-    let selectedHouseId = null;
-
+    // Переключение на календарь при нажатии на кнопку "Выбрать"
     selectHouseButtons.forEach(button => {
         button.addEventListener('click', function () {
-            selectedHouseId = button.getAttribute('data-house-id');
+            // Скрываем все карточки, кроме выбранной
             housesSelection.forEach(card => {
-                card.style.display = 'none';
+                if (card !== button.closest('.card')) {
+                    card.style.opacity = '0.5'; // Делаем карточку полупрозрачной
+                }
             });
-            document.getElementById('selectedHouseInfo').innerHTML = `Вы выбрали дом ${selectedHouseId}`;
+
+            // Показываем календарь
             calendarSection.style.display = 'block';
         });
     });
 
+    // Переключение на карточки при нажатии на кнопку "Назад" в календаре
     backButtonCalendar.addEventListener('click', function () {
+        // Возвращаем все карточки в исходное состояние
         housesSelection.forEach(card => {
-            card.style.display = 'block';
+            card.style.opacity = '1'; // Возвращаем нормальную прозрачность
         });
-        document.getElementById('selectedHouseInfo').innerHTML = '';
+
+        // Скрываем календарь
         calendarSection.style.display = 'none';
     });
 
+    // Переключение на календарь при нажатии на кнопку "Назад" в подтверждении бронирования
     backButtonConfirmation.addEventListener('click', function () {
-        calendarSection.style.display = 'block';
+        // Скрываем подтверждение бронирования
         confirmationSection.style.display = 'none';
+        // Показываем календарь
+        calendarSection.style.display = 'block';
     });
 
+    // Переключение на подтверждение бронирования при нажатии на кнопку "Выбрать" в календаре
     selectDateButton.addEventListener('click', function () {
-        const startDate = document.getElementById('start_date').value;
-        const endDate = document.getElementById('end_date').value;
-        const bookingInfo = document.getElementById('booking-info');
-        document.getElementById('start_date_input').value = startDate;
-        document.getElementById('end_date_input').value = endDate;
-
-        // Here you can add validation for dates, check if start date is before end date etc.
-
-        bookingInfo.innerText = `Вы выбрали даты с ${startDate} по ${endDate}`;
+        // Скрываем календарь
         calendarSection.style.display = 'none';
+
+        // Получаем выбранные даты
+        const startDate = startDateInput.value;
+        const endDate = endDateInput.value;
+
+        // Обновляем информацию о выбранном доме и подтверждение бронирования
+        selectedStartDateSpan.textContent = startDate;
+        selectedEndDateSpan.textContent = endDate;
+
+        // Получаем ID выбранного дома
+        const houseId = document.getElementById('house_id').value;
+
+        // Создаем строку с информацией о бронировании
+        const bookingInfo = `Вы выбрали дом с ID ${houseId}. Даты проживания: с ${startDate} по ${endDate}.`;
+
+        // Отображаем информацию о бронировании
+        document.getElementById('booking-info').textContent = bookingInfo;
+
+        // Показываем подтверждение бронирования
         confirmationSection.style.display = 'block';
     });
-
-    bookingForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        const formData = new FormData(this);
-        console.log('Form data:', formData); // Добавим вывод данных формы в консоль для отладки
-        fetch('/booking', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Response:', data); // Добавим вывод ответа сервера в консоль для отладки
-            if (data.success) {
-                alert('Ваше бронирование подтверждено');
-                const goToAccount = confirm('Желаете перейти в Личный кабинет?');
-                if (goToAccount) {
-                    window.location.href = '/account';
-                } else {
-                    window.location.href = '/';
-                }
-            } else {
-                alert('Что-то пошло не так. Попробуйте еще раз.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    });
-
 });
 </script>
 </body>

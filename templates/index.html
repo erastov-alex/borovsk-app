@@ -60,26 +60,49 @@
         }
 
 		/* Стили для кнопки входа и регистрации */
+
+		.btn-primary {
+			background-color: #188a1e;
+			color: #fff; /* Цвет текста */
+            border: none;
+            border-radius: 5px;
+            font-size: 14px; /* Уменьшаем размер шрифта */
+            cursor: pointer;
+            transition: background-color 0.3s;
+		}
+
+		.btn-primary:hover {
+            background-color: #347943; /* Изменение цвета фона при наведении */
+        }
+
         .login-btn {
             position: absolute;
             top: 10px; /* Располагаем в верхнем правом углу */
             right: 10px;
             padding: 5px 10px; /* Уменьшаем отступы внутри кнопки */
-            background-color: #007bff; /* Цвет фона кнопки */
+            background-color: #188a1e; /* Цвет фона кнопки 007bff*/ 
             color: #fff; /* Цвет текста */
             border: none;
             border-radius: 5px;
             font-size: 14px; /* Уменьшаем размер шрифта */
             cursor: pointer;
             transition: background-color 0.3s;
+			margin-right: 15px; /* Добавляем отступ справа */
         }
 
         .login-btn:hover {
-            background-color: #0056b3; /* Изменение цвета фона при наведении */
+            background-color: #347943; /* Изменение цвета фона при наведении */
         }
-		.welcome-text {
-			margin-right: 7px; /* Задаем отступ между текстом и кнопкой */
+
+		.welcome-block {
+			display: flex;
+			align-items: center; /* Выравнивание по вертикали */
 		}
+
+		.welcome-text {
+			margin-right: 150px; /* Отступ между текстом и кнопкой */
+		}
+			
 	</style>
 
 </head>
@@ -88,7 +111,9 @@
 <header>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Навигация</a>
+			<a class="navbar-brand" href="/">
+				<img src="static/img/logo.png" alt="Логотип" height="24">
+			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
 					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -105,21 +130,23 @@
 						<a class="nav-link" href="#featurette1">Как добраться</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#featurette2">Партнерам</a>
+						<a class="nav-link" href="#featurette2">Магазин</a>
 					</li>
 				</ul>
-				<span class="welcome-text">
-					{% if username %}
-						С возвращением, {{ username }}
-					{% endif %}
+				<span class="welcome-block">
+					<span class="welcome-text">
+						{% if username %}
+							С возвращением, {{ username }}
+						{% endif %}
+					</span>
+					<div>
+						{% if username %}
+							<a href="/user_panel" class="btn login-btn">Личный кабинет</a>
+						{% else %}
+							<a class="btn btn-primary" href="/registration">Вход / Регистрация</a>
+						{% endif %}
+					</div>
 				</span>
-				<div>
-					{% if username %}
-						<a href="/user_panel" class="btn btn-primary">Личный кабинет</a>
-					{% else %}
-						<a class="btn btn-primary" href="/registration">Вход / Регистрация</a>
-					{% endif %}
-				</div>
 			</div>
 		</div>
 	</nav>

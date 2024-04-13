@@ -15,7 +15,7 @@
         }
 
         .sidebar .nav-link {
-            border-radius: 0; /* Убираем закругление углов */
+            border-radius: 1; /* Убираем закругление углов */
             color: #333; /* Цвет текста */
         }
 
@@ -24,9 +24,14 @@
         }
 
         .sidebar .nav-link.active {
-            background-color: #007bff; /* Фон для активной ссылки */
+            background-color: #188a1e; /* Фон для активной ссылки */
             color: white; /* Цвет текста для активной ссылки */
         }
+
+        .nav-item {
+            margin-bottom: 20px; /* Устанавливаем отступ между пунктами меню */
+        }
+
     </style>
 </head>
 <body>
@@ -34,7 +39,9 @@
 <!-- Header -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Главная</a>
+        <a class="navbar-brand" href="/">
+            <img src="static/img/logo.png" alt="Логотип" height="24">
+        </a>
         <div class="d-flex align-items-center">
             <span class="me-3">Привет, {{ username }}</span>
             <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary">Выход</a>
@@ -47,13 +54,19 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar Menu -->
-        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 order-md-last d-md-block bg-light sidebar collapse">
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">
                             <span data-feather="home"></span>
                             Бронирования
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <span data-feather="home"></span>
+                            Информация об аккаунте
                         </a>
                     </li>
                     <li class="nav-item">
@@ -68,7 +81,7 @@
         </nav>
 
         <!-- Main Content -->
-		{% if json_data %}
+		{% if false %}
             {% include 'editland.html' %}
         {% else %}
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">

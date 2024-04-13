@@ -101,24 +101,24 @@ def user_panel():
 
      # Теперь нужно сделать группировку списка в один словарь json
     # Группировка данных в словарь JSON
-    json_data = {}
-    for raw in blocks_list:
-        # Создание новой записи, если ключ еще не существует
-        if raw['idblock'] not in json_data:
-            json_data[raw['idblock']] = []
+    # json_data = {}
+    # for raw in blocks_list:
+    #     # Создание новой записи, если ключ еще не существует
+    #     if raw['idblock'] not in json_data:
+    #         json_data[raw['idblock']] = []
 
-        # Добавление данных в существующий ключ
-        json_data[raw['idblock']].append({
-            'id': raw['id'],
-            'user_id': raw['user_id'],
-            'start_date': raw['start_date'],
-            'end_date': raw['end_date'],
-            'house_id': raw['title']
-        })
+    #     # Добавление данных в существующий ключ
+    #     json_data[raw['idblock']].append({
+    #         'id': raw['id'],
+    #         'user_id': raw['user_id'],
+    #         'start_date': raw['start_date'],
+    #         'end_date': raw['end_date'],
+    #         'house_id': raw['title']
+    #     })
 
     # print(json_data)
     # передаем на json на фронт - далее нужно смотреть admin_panel.html и обрабатывать там
-    return render_template('user_panel.html', json_data=json_data, username=username)
+    return render_template('user_panel.html', username=username)
 
 @app.route('/logout')
 def logout():
@@ -212,22 +212,32 @@ def registration():
 
 @app.route('/booking', methods=['GET', 'POST'])
 def booking():
-    if 'user_id' not in session:
+    username = None
+    if 'username' in session:
+        username = session['username']
+    else:
         return redirect(url_for('login'))
+    
     if request.method == 'POST':
         start_date = request.form['start_date']
         end_date = request.form['end_date']
         house_id = request.form['house_id']
         user_id = session['user_id']
 
-        conn = sqlite3.connect('db_bookings.sqlite')
+        conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
         cursor.execute('INSERT INTO bookings (user_id, start_date, end_date, house_id) VALUES (?, ?, ?, ?)', (user_id, start_date, end_date, house_id))
         conn.commit()
         conn.close()
 
         return redirect(url_for('index'))
-    return render_template('booking.html')
+    
+    # Извлекаем house_id, start_date и end_date из параметров GET-запроса, если они есть
+    house_id = request.args.get('house_id')
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+
+    return render_template('booking.html', username=username, house_id=house_id, start_date=start_date, end_date=end_date)
 
 if __name__ == '__main__':
     app.run(debug=True)
