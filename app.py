@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session
 import sqlite3 # подключаем Sqlite в наш проект 
 import hashlib # библиотека для хеширования 
 from createuser import create_user
+from helpers import *
 
 app = Flask(__name__)
 app.secret_key = 'admin1234'  # подствавьте свой секретный ключ
@@ -12,6 +13,11 @@ def get_db_connection():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
     return conn
+
+# Закрытие соединения с базой данных после запроса
+@app.teardown_appcontext
+def teardown_db(exception):
+    close_db()
 
 @app.route('/')
 def index():
@@ -82,43 +88,6 @@ def admin_panel():
     # передаем на json на фронт - далее нужно смотреть admin_panel.html и обрабатывать там
     return render_template('admin_panel.html', json_data=json_data)
 
-@app.route('/user_panel')
-def user_panel():
-    # Проверяем, авторизован ли пользователь
-    if 'username' not in session:
-        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
-
-    # Получаем имя пользователя из сеанса
-    username = session['username']
-
-    conn = get_db_connection()
-    blocks = conn.execute('SELECT * FROM bookings').fetchall()  # Получаем все записи из таблицы content
-    conn.close()
-
-    # Преобразование данных из БД в список словарей
-    blocks_list = [dict(ix) for ix in blocks]
-    # print(blocks_list) [{строка 1 из бд},{строка 2 из бд},{строка 3 из бд}, строка 4 из бд]
-
-     # Теперь нужно сделать группировку списка в один словарь json
-    # Группировка данных в словарь JSON
-    # json_data = {}
-    # for raw in blocks_list:
-    #     # Создание новой записи, если ключ еще не существует
-    #     if raw['idblock'] not in json_data:
-    #         json_data[raw['idblock']] = []
-
-    #     # Добавление данных в существующий ключ
-    #     json_data[raw['idblock']].append({
-    #         'id': raw['id'],
-    #         'user_id': raw['user_id'],
-    #         'start_date': raw['start_date'],
-    #         'end_date': raw['end_date'],
-    #         'house_id': raw['title']
-    #     })
-
-    # print(json_data)
-    # передаем на json на фронт - далее нужно смотреть admin_panel.html и обрабатывать там
-    return render_template('user_panel.html', username=username)
 
 @app.route('/logout')
 def logout():
@@ -126,39 +95,6 @@ def logout():
     session.clear()
     # Перенаправление на главную страницу или страницу входа
     return redirect(url_for('index'))
-
-@app.route('/update_content', methods=['POST'])
-def update_content():
-
-    booking_id = request.form['id']
-    user_id = request.form['user_id']
-    start_date = request.form['start_date']
-    end_date = request.form['end_date']
-    house_id = request.form['house_id']
-
-    # Обработка загруженного файла
-    # file = request.files['img']
-
-    # if file and allowed_file(file.filename):
-    #     filename = secure_filename(file.filename)
-    #     save_path = os.path.join(path_to_save_images, filename)
-    #     imgpath = "/static/imgs/"+filename
-    #     file.save(save_path)
-    #     # Обновите путь изображения в вашей базе данных
-
-    # Обновление данных в базе
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-    # if file:
-    #     cursor.execute('UPDATE content SET short_title=?, img=?, altimg=?, title=?, contenttext=? WHERE id=?',
-    #                (short_title, imgpath, altimg, title, contenttext, content_id))
-    # else:
-    #     cursor.execute('UPDATE content SET short_title=?, altimg=?, title=?, contenttext=? WHERE id=?',
-    #                    (short_title, altimg, title, contenttext, content_id))
-    # conn.commit()
-    conn.close()
-
-    return redirect(url_for('admin_panel'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -228,8 +164,8 @@ def booking():
         cursor.execute('INSERT INTO bookings (user_id, start_date, end_date, house_id) VALUES (?, ?, ?, ?)', (user_id, start_date, end_date, house_id))
         conn.commit()
         conn.close()
-
-        return render_template('user_panel.html', username=username)
+        
+        # return render_template('user_panel.html', username=username)
     
     # Извлекаем house_id, start_date и end_date из параметров GET-запроса, если они есть
     house_id = request.args.get('house_id')
@@ -237,6 +173,55 @@ def booking():
     end_date = request.args.get('end_date')
 
     return render_template('booking.html', username=username, house_id=house_id, start_date=start_date, end_date=end_date)
+
+
+@app.route('/user_panel')
+def user_panel():
+    # Проверяем, авторизован ли пользователь
+    if 'username' not in session:
+        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
+
+    # Получаем имя пользователя из сеанса
+    username = session['username']
+
+    # Проверяем наличие бронирований для текущего пользователя
+    has_bookings_var = has_bookings()
+    user_bookings = False
+    
+    if has_bookings_var:
+        user_bookings = get_users_bookings()
+
+    return render_template('user_panel.html', username=username, has_bookings=has_bookings_var, user_bookings = user_bookings)
+
+
+@app.route('/edit_booking_modal/<int:booking_id>', methods=['GET', 'POST'])
+def edit_booking_modal(booking_id):
+    # Проверяем, авторизован ли пользователь
+    if 'username' not in session:
+        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
+
+    # Получаем данные бронирования из базы данных по booking_id
+    booking = get_booking_by_id(booking_id)
+
+    if request.method == 'POST':
+        # Обработка формы редактирования бронирования
+        # Получаем данные из формы и обновляем бронирование в базе данных
+        start_date = request.form.get('start_date')
+        end_date = request.form.get('end_date')
+        house_id = request.form.get('house_id')
+
+        # Обновляем бронирование в базе данных
+        update_booking(booking_id, start_date, end_date, house_id)
+
+        # Получаем обновленные данные бронирования из базы данных
+        booking = get_booking_by_id(booking_id)
+
+        # Возвращаем шаблон модального окна с обновленными данными
+        return render_template('edit_booking_modal.html', booking=booking)
+
+    # Если метод запроса GET, просто возвращаем шаблон модального окна
+    return render_template('edit_booking_modal.html', booking=booking)
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

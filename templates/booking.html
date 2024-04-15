@@ -103,6 +103,19 @@
 
         .card {
             transition: opacity 0.3s, pointer-events 0s; /* Добавляем анимацию для изменения прозрачности */
+            height: 100%;
+        }
+
+        .card-img-top {
+            height: 200px; /* Выберите желаемую высоту изображения */
+            object-fit: cover;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
         }
 
     </style>
@@ -212,10 +225,8 @@
 
 
     <!-- Календарь -->
-    <div id="calendar" class="container py-5" style="display: none;">
+    <div id="calendar" class="container py-5" style="display: none; text-align: center;">
         <h2>Выберите дату</h2>
-        <button id="backButtonCalendar" class="btn btn-secondary mb-3">Назад</button>
-        <!-- Здесь размещаете ваш интерактивный календарь -->
         <div class="row">
             <div class="col-md-6">
                 <label for="start_date">Начальная дата:</label>
@@ -226,7 +237,12 @@
                 <input type="date" id="end_date" class="form-control">
             </div>
         </div>
-        <button id="selectDateButton" class="btn btn-primary mt-3">Выбрать</button>
+        <div class="row justify-content-start mt-3">
+            <button id="backButtonCalendar" class="btn btn-secondary me-3">Назад</button>
+        </div>
+        <div class="row justify-content-end mt-3">
+            <button id="selectDateButton" class="btn btn-primary">Выбрать</button>
+        </div>
     </div>
 
     <!-- Подтверждение бронирования -->
@@ -242,6 +258,15 @@
         </form>
         <p id="booking-info"></p> <!-- Добавляем параграф для отображения информации о бронировании -->
     </div>
+
+    <!-- Подтверждение бронирования -->
+    <div id="confirmation2" class="container py-5" style="display: none;">
+        <!-- Форма бронирования -->
+        <h2>Бронирование подтверждено</h2>
+        <p>Спасибо за бронирование!</p>
+        <a href="/user_panel" class="btn btn-primary">Личный кабинет</a>
+    </div>
+
 </div>
 
 <!-- Footer -->
@@ -315,7 +340,12 @@
             method: 'POST',
             body: formData
         });
+
+        // Скрываем блок с подтверждением бронирования
+        confirmationSection.style.display = 'none';
         
+        // Показываем сообщение о подтверждении бронирования и кнопку "Личный кабинет"
+        document.getElementById('confirmation2').style.display = 'block';
     });
 
 });
