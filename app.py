@@ -204,8 +204,7 @@ def registration():
 
         # Создание пользователя
         create_user(username, email, password)
-
-        return redirect(url_for('user_panel')) # Перенаправление на главную страницу после успешной регистрации
+        return render_template('user_panel.html', username=username)
 
     return render_template('login_reg.html')
 
@@ -230,7 +229,7 @@ def booking():
         conn.commit()
         conn.close()
 
-        return redirect(url_for('index'))
+        return render_template('user_panel.html', username=username)
     
     # Извлекаем house_id, start_date и end_date из параметров GET-запроса, если они есть
     house_id = request.args.get('house_id')

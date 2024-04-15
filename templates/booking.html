@@ -314,25 +314,8 @@
         fetch('/booking', {
             method: 'POST',
             body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Response:', data); // Добавим вывод ответа сервера в консоль для отладки
-            if (data.success) {
-                alert('Ваше бронирование подтверждено');
-                const goToAccount = confirm('Желаете перейти в Личный кабинет?');
-                if (goToAccount) {
-                    window.location.href = '/account';
-                } else {
-                    window.location.href = '/';
-                }
-            } else {
-                alert('Что-то пошло не так. Попробуйте еще раз.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
         });
+        
     });
 
 });

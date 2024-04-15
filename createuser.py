@@ -16,5 +16,3 @@ def create_user(username, email, password):
     conn.commit()
     conn.close()
 
-# Замените 'admin' и 'your_password' на желаемые имя пользователя и пароль
-create_user('admin', 'admin', '1@1.com')
