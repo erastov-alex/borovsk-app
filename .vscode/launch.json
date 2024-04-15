@@ -15,7 +15,7 @@
             "name": "app.py",
             "type": "debugpy",
             "request": "launch",
-            "program": "app.py",
+            "program": "src/app.py",
             "console": "integratedTerminal"
         }
     ]
