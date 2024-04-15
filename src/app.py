@@ -1,8 +1,8 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 import sqlite3 # подключаем Sqlite в наш проект 
 import hashlib # библиотека для хеширования 
-from createuser import create_user
-from helpers import *
+from src.db.createuser import create_user
+from src.db.helpers import *
 
 app = Flask(__name__)
 app.secret_key = 'admin1234'  # подствавьте свой секретный ключ
