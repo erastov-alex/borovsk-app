@@ -199,6 +199,9 @@ def edit_booking_modal(booking_id):
     # Проверяем, авторизован ли пользователь
     if 'username' not in session:
         return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
+    
+    # Получаем имя пользователя из сеанса
+    username = session['username']
 
     # Получаем данные бронирования из базы данных по booking_id
     booking = get_booking_by_id(booking_id)
@@ -217,10 +220,10 @@ def edit_booking_modal(booking_id):
         booking = get_booking_by_id(booking_id)
 
         # Возвращаем шаблон модального окна с обновленными данными
-        return render_template('edit_booking_modal.html', booking=booking)
+        return render_template('edit_booking_modal.html', booking=booking, username=username)
 
     # Если метод запроса GET, просто возвращаем шаблон модального окна
-    return render_template('edit_booking_modal.html', booking=booking)
+    return render_template('edit_booking_modal.html', booking=booking, username=username)
     
 
 if __name__ == '__main__':

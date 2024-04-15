@@ -75,34 +75,32 @@
             background-color: #347943; /* Изменение цвета фона при наведении */
         }
 
-        .login-btn {
-            position: absolute;
-            top: 10px; /* Располагаем в верхнем правом углу */
-            right: 10px;
-            padding: 5px 10px; /* Уменьшаем отступы внутри кнопки */
-            background-color: #188a1e; /* Цвет фона кнопки 007bff*/ 
-            color: #fff; /* Цвет текста */
-            border: none;
-            border-radius: 5px;
-            font-size: 14px; /* Уменьшаем размер шрифта */
-            cursor: pointer;
-            transition: background-color 0.3s;
-			margin-right: 15px; /* Добавляем отступ справа */
-        }
-
         .login-btn:hover {
             background-color: #347943; /* Изменение цвета фона при наведении */
         }
 
 		.welcome-block {
 			display: flex;
-			align-items: center; /* Выравнивание по вертикали */
+			align-items: center; /* Выравнивание элементов по вертикали */
+			justify-content: space-between; /* Равномерное распределение пространства между элементами */
+			position: relative; /* Относительное позиционирование */
 		}
-
+		
 		.welcome-text {
-			margin-right: 150px; /* Отступ между текстом и кнопкой */
+			margin-right: 10px; /* Отступ справа от текста */
 		}
-			
+		
+		.login-btn {
+			margin-left: 10px; /* Отступ слева от кнопки */
+			padding: 5px 10px; /* Уменьшаем отступы внутри кнопки */
+			background-color: #188a1e; /* Цвет фона кнопки */
+			color: #fff; /* Цвет текста */
+			border: none;
+			border-radius: 5px;
+			font-size: 14px; /* Уменьшаем размер шрифта */
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
 	</style>
 
 </head>
