@@ -1,10 +1,10 @@
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, render_template, redirect, url_for, request, session, jsonify
 import sqlite3 # подключаем Sqlite в наш проект 
 import hashlib # библиотека для хеширования 
 from db.createuser import create_user
 from db.helpers import *
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 app.secret_key = 'admin1234'  # подствавьте свой секретный ключ
 # секретный ключ для хеширования данных сессии при авторизации
 
@@ -145,35 +145,53 @@ def registration():
     return render_template('login_reg.html')
 
 
-@app.route('/booking', methods=['GET', 'POST'])
-def booking():
+@app.route('/house_selection', methods=['GET', 'POST'])
+def house_selection():
     username = None
     if 'username' in session:
         username = session['username']
     else:
         return redirect(url_for('login'))
+
+    # Извлекаем house_id, start_date и end_date из параметров GET-запроса, если они есть
+    house_id = request.args.get('house_id')
+
+    return render_template('house_selection.html', username=username, house_id=house_id)
+
+@app.route('/calendar', methods=['GET', 'POST'])
+def calendar():
+    house_id = request.args.get('house_id')
+    return render_template('calendar.html', house_id=house_id)
+
+
+@app.route('/booking_confirmation', methods=['GET', 'POST'])
+def booking_confirmation():
+    if request.method == 'GET':
+        # Если это GET запрос, просто отображаем страницу подтверждения бронирования
+        username = session.get('username')
+        house_id = request.args.get('house_id')
+        start_date = request.args.get('start_date')
+        end_date = request.args.get('end_date')
+        return render_template('booking_confirmation.html', username=username, house_id=house_id, start_date=start_date, end_date=end_date)
     
-    if request.method == 'POST':
+    elif request.method == 'POST':
+        # Если это POST запрос, обрабатываем данные бронирования
+        username = session.get('username')
+
         start_date = request.form['start_date']
         end_date = request.form['end_date']
         house_id = request.form['house_id']
         user_id = session['user_id']
 
-        conn = sqlite3.connect('database.db')
-        cursor = conn.cursor()
-        cursor.execute('INSERT INTO bookings (user_id, start_date, end_date, house_id) VALUES (?, ?, ?, ?)', (user_id, start_date, end_date, house_id))
-        conn.commit()
-        conn.close()
-        
-        # return render_template('user_panel.html', username=username)
-    
-    # Извлекаем house_id, start_date и end_date из параметров GET-запроса, если они есть
-    house_id = request.args.get('house_id')
-    start_date = request.args.get('start_date')
-    end_date = request.args.get('end_date')
-
-    return render_template('booking.html', username=username, house_id=house_id, start_date=start_date, end_date=end_date)
-
+        if user_id:
+            conn = sqlite3.connect('database.db')
+            cursor = conn.cursor()
+            cursor.execute('INSERT INTO bookings (user_id, start_date, end_date, house_id) VALUES (?, ?, ?, ?)', (user_id, start_date, end_date, house_id))
+            conn.commit()
+            conn.close()
+            return jsonify({'message': 'Booking confirmed'}), 200
+        else:
+            return jsonify({'error': 'User not logged in'}), 401
 
 @app.route('/user_panel')
 def user_panel():
