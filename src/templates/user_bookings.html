@@ -16,29 +16,10 @@
                         <strong>Дата заезда:</strong> {{ booking['start_date'] }}<br>
                         <strong>Дата выезда:</strong> {{ booking['end_date'] }}
                     </p>
-                    <a href="/edit_booking_modal/{{ booking['id'] }}" class="btn btn-outline-secondary edit-booking-btn" data-booking-id="{{ booking['id'] }}">Редактировать</a>
+                    <a href="/edit_booking/{{ booking['id'] }}/{{ booking['house_id'] }}/{{ booking['start_date'] }}/{{ booking['end_date'] }}" class="btn btn-outline-secondary edit-booking-btn">Редактировать</a>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 </main>
-
-
-<script>
-    $(document).ready(function() {
-        // Обработчик клика на кнопки "Редактировать"
-        $('.edit-booking-btn').click(function() {
-            var bookingId = $(this).data('booking-id');
-        
-            // Отправляем AJAX-запрос на сервер для получения содержимого модального окна
-            $.get('/edit_booking_modal/' + bookingId, function(data) {
-                // Вставляем полученное содержимое в модальное окно
-                $('#editBookingModal .modal-body').html(data);
-        
-                // Показываем модальное окно
-                $('#editBookingModal').modal('show');
-            });
-        });
-    });
-</script>

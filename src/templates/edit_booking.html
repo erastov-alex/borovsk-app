@@ -51,6 +51,15 @@
             transition: background-color 0.3s;
 		}
 
+        .btn-danger {
+			color: #fff; /* Цвет текста */
+            border: none;
+            border-radius: 5px;
+            font-size: 14px; /* Уменьшаем размер шрифта */
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
 		.btn-primary:hover {
             background-color: #347943; /* Изменение цвета фона при наведении */
         }
@@ -153,12 +162,32 @@
     <p>Дата окончания бронирования: {{ booking.end_date }}</p>
     <div class="btn-group" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editStartDateModal">Изменить начальную дату</button>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editEndDateModal">Изменить конечную дату</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editEndDateModal" style="margin-left: 10px;">Изменить конечную дату</button>
     </div>
     <div class="mt-3">
-        <a href="/cancel_booking/{{ booking.id }}" class="btn btn-danger">Отменить бронирование</a>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmCancelModal">Отменить бронирование</button>
     </div>
 </div>
+
+<!-- Модальное окно для подтверждения отмены бронирования -->
+<div class="modal fade" id="confirmCancelModal" tabindex="-1" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmCancelModalLabel">Подтверждение отмены бронирования</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверены, что хотите отменить бронирование?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <a href="/cancel_booking/{{ booking.id }}" class="btn btn-danger">Подтвердить</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Модальное окно для изменения начальной даты бронирования -->
 <div class="modal fade" id="editStartDateModal" tabindex="-1" aria-labelledby="editStartDateModalLabel" aria-hidden="true">
@@ -169,10 +198,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/edit_start_date/{{ booking.id }}" method="post">
+                <form action="/edit_start_date/{{ booking.id }}/{{ booking.house_id }}/{{ booking.start_date }}/{{ booking.end_date }}" method="post">
                     <div class="mb-3">
                         <label for="start_date" class="form-label">Новая дата начала бронирования:</label>
-                        <input type="date" class="form-control" id="start_date" name="start_date" required>
+                        <input type="date" class="form-control" id="start_date_new" name="start_date_new" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить изменения</button>
                 </form>
@@ -190,10 +219,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/edit_end_date/{{ booking.id }}" method="post">
+                <form action="/edit_end_date/{{ booking.id }}/{{ booking.house_id }}/{{ booking.start_date }}/{{ booking.end_date }}" method="post">
                     <div class="mb-3">
                         <label for="end_date" class="form-label">Новая дата окончания бронирования:</label>
-                        <input type="date" class="form-control" id="end_date" name="end_date" required>
+                        <input type="date" class="form-control" id="end_date_new" name="end_date_new" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить изменения</button>
                 </form>

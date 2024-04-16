@@ -8,12 +8,6 @@ app = Flask(__name__, template_folder='templates')
 app.secret_key = 'admin1234'  # подствавьте свой секретный ключ
 # секретный ключ для хеширования данных сессии при авторизации
 
-# Устанавливаем соединение с Базой Данных
-def get_db_connection():
-    conn = sqlite3.connect('database.db')
-    conn.row_factory = sqlite3.Row
-    return conn
-
 # Закрытие соединения с базой данных после запроса
 @app.teardown_appcontext
 def teardown_db(exception):
@@ -34,13 +28,11 @@ def admin_login():
         password = request.form['password'] # обрабатываем запрос с нашей формы который имеет атрибут name="password"
         hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest() # шифруем пароль в sha-256
 
-        # устанавливаем соединение с БД
-        conn = get_db_connection() 
-        # создаем запрос для поиска пользователя по username,
-        # если такой пользователь существует, то получаем все данные id, password
-        user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
-        # закрываем подключение БД
-        conn.close() 
+        with get_db_connection() as conn:
+            # создаем запрос для поиска пользователя по username,
+            # если такой пользователь существует, то получаем все данные id, password
+            user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+            # Ваши операции с базой данных здесь
         
         # теперь проверяем если данные сходятся формы с данными БД
         if user and user['password'] == hashed_password:
@@ -58,10 +50,12 @@ def admin_login():
 def admin_panel():
     if 'user_id' not in session:
         return redirect(url_for('admin_login'))
-
-    conn = get_db_connection()
-    blocks = conn.execute('SELECT * FROM bookings').fetchall()  # Получаем все записи из таблицы content
-    conn.close()
+    with get_db_connection() as conn:
+        # создаем запрос для поиска пользователя по username,
+        # если такой пользователь существует, то получаем все данные id, password
+        blocks = conn.execute('SELECT * FROM bookings').fetchall()  # Получаем все
+        # Ваши операции с базой данных здесь
+   
 
     # Преобразование данных из БД в список словарей
     blocks_list = [dict(ix) for ix in blocks]
@@ -105,13 +99,11 @@ def login():
         password = request.form['password'] # обрабатываем запрос с нашей формы который имеет атрибут name="password"
         hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest() # шифруем пароль в sha-256
 
-        # устанавливаем соединение с БД
-        conn = get_db_connection() 
-        # создаем запрос для поиска пользователя по username,
-        # если такой пользователь существует, то получаем все данные id, password
-        user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
-        # закрываем подключение БД
-        conn.close() 
+        with get_db_connection() as conn:
+            # создаем запрос для поиска пользователя по username,
+            # если такой пользователь существует, то получаем все данные id, password
+            user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+            # Ваши операции с базой данных здесь
         
         # теперь проверяем если данные сходятся формы с данными БД
         if user and user['password'] == hashed_password:
@@ -211,9 +203,74 @@ def user_panel():
 
     return render_template('user_panel.html', username=username, has_bookings=has_bookings_var, user_bookings = user_bookings)
 
+@app.route('/edit_start_date/<int:booking_id>/<int:house_id>/<string:start_date>/<string:end_date>', methods=['GET', 'POST'])
+def edit_start_date(booking_id, house_id, start_date, end_date):
+    if 'username' not in session:
+        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
+    
+    # Получаем имя пользователя из сеанса
+    username = session['username']
+    
+    # Инициализируем переменную booking
+    booking = get_booking_by_id(booking_id)
+    
+    if request.method == 'POST':
+        # Обработка формы редактирования бронирования
+        # Получаем данные из формы и обновляем бронирование в базе данных
+        start_date_new = request.form.get('start_date_new')
 
-@app.route('/edit_booking_modal/<int:booking_id>', methods=['GET', 'POST'])
-def edit_booking_modal(booking_id):
+        # Обновляем бронирование в базе данных
+        update_booking(booking_id, start_date_new, end_date, house_id)
+
+        # Получаем обновленные данные бронирования из базы данных
+        booking = get_booking_by_id(booking_id)
+
+        # Возвращаем шаблон модального окна с обновленными данными
+        return render_template('edit_booking.html', booking=booking, username=username)
+    
+@app.route('/edit_end_date/<int:booking_id>/<int:house_id>/<string:start_date>/<string:end_date>', methods=['GET', 'POST'])
+def edit_end_date(booking_id, house_id, start_date, end_date):
+    if 'username' not in session:
+        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
+    
+    # Получаем имя пользователя из сеанса
+    username = session['username']
+    
+    # Инициализируем переменную booking
+    booking = get_booking_by_id(booking_id)
+    
+    if request.method == 'POST':
+        # Обработка формы редактирования бронирования
+        # Получаем данные из формы и обновляем бронирование в базе данных
+        end_date_new = request.form.get('end_date_new')
+
+        # Обновляем бронирование в базе данных
+        update_booking(booking_id, start_date, end_date_new, house_id)
+
+        # Получаем обновленные данные бронирования из базы данных
+        booking = get_booking_by_id(booking_id)
+
+        # Возвращаем шаблон модального окна с обновленными данными
+        return render_template('edit_booking.html', booking=booking, username=username)
+
+
+@app.route('/edit_booking/<int:booking_id>/<int:house_id>/<string:start_date>/<string:end_date>', methods=['GET', 'POST'])
+def edit_booking(booking_id, house_id, start_date, end_date):
+    # Проверяем, авторизован ли пользователь
+    if 'username' not in session:
+        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
+    
+    # Получаем имя пользователя из сеанса
+    username = session['username']
+    
+    # Инициализируем переменную booking
+    booking = get_booking_by_id(booking_id)
+    
+    # Если метод запроса GET, просто возвращаем шаблон модального окна
+    return render_template('edit_booking.html', booking=booking, username=username)
+
+@app.route('/cancel_booking/<int:booking_id>')
+def cancel_booking(booking_id):
     # Проверяем, авторизован ли пользователь
     if 'username' not in session:
         return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
@@ -221,28 +278,12 @@ def edit_booking_modal(booking_id):
     # Получаем имя пользователя из сеанса
     username = session['username']
 
-    # Получаем данные бронирования из базы данных по booking_id
-    booking = get_booking_by_id(booking_id)
+    # Обновляем бронирование в базе данных
+    cancel_booking_by_id(booking_id)
 
-    if request.method == 'POST':
-        # Обработка формы редактирования бронирования
-        # Получаем данные из формы и обновляем бронирование в базе данных
-        start_date = request.form.get('start_date')
-        end_date = request.form.get('end_date')
-        house_id = request.form.get('house_id')
+    return redirect(url_for('user_panel'))
 
-        # Обновляем бронирование в базе данных
-        update_booking(booking_id, start_date, end_date, house_id)
 
-        # Получаем обновленные данные бронирования из базы данных
-        booking = get_booking_by_id(booking_id)
-
-        # Возвращаем шаблон модального окна с обновленными данными
-        return render_template('edit_booking_modal.html', booking=booking, username=username)
-
-    # Если метод запроса GET, просто возвращаем шаблон модального окна
-    return render_template('edit_booking_modal.html', booking=booking, username=username)
-    
 
 if __name__ == '__main__':
     app.run(debug=True)
