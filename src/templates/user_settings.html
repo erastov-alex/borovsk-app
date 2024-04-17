@@ -42,9 +42,9 @@
         }
 
         main {
-            flex: 1 1 auto;
-            min-width: 700px;
-            position: relative;
+            flex-grow: 1;
+            flex-shrink: 1;
+            flex-basis: 0;
         }
 
     </style>
@@ -73,7 +73,7 @@
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('user_panel') }}">
+                        <a class="nav-link" aria-current="page" href="{{ url_for('user_panel') }}">
                             <span data-feather="home"></span>
                             Бронирования
                         </a>
@@ -85,7 +85,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{ url_for('user_settings') }}">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('user_settings') }}">
                             <span data-feather="home"></span>
                             Настройки
                         </a>
@@ -96,22 +96,34 @@
         </nav>
 
 
-        <!-- Main Content -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            {% if has_bookings %}
-                {% include 'user_bookings.html' %}
-            {% else %}
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Добро пожаловать в Личный Кабинет</h1>
+        <!-- Settings Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 d-flex">
+            <h1 class="h2">Добро пожаловать в Настройки</h1>
+            <div class="mt-4">
+                <h2 class="h4">Настройки уведомлений</h2>
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="warnOneDay">
+                    <label class="form-check-label" for="warnOneDay">Предупреждать за день</label>
                 </div>
-
-                <!-- Content goes here -->
-                <div class="d-flex align-items-start">
-                    <p>Нет активных бронирований</p>
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="warnTwoDays">
+                    <label class="form-check-label" for="warnTwoDays">Предупреждать за два дня</label>
                 </div>
-            {% endif %}
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="warnOneWeek">
+                    <label class="form-check-label" for="warnOneWeek">Предупреждать за неделю</label>
+                </div>
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="disableNotifications">
+                    <label class="form-check-label" for="disableNotifications">Отключить уведомления</label>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h2 class="h4">Другие настройки</h2>
+                <button type="button" class="btn btn-primary mt-3">Изменить Пароль</button>
+                <button type="button" class="btn btn-danger mt-3">Удалить аккаунт</button>
+            </div>
         </main>
-
     </div>
 </div>
 

@@ -269,6 +269,28 @@ def edit_booking(booking_id, house_id, start_date, end_date):
     # Если метод запроса GET, просто возвращаем шаблон модального окна
     return render_template('edit_booking.html', booking=booking, username=username)
 
+
+@app.route('/user_info')
+def user_info():
+    # Проверяем, авторизован ли пользователь
+    if 'username' not in session:
+        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
+
+    # Получаем имя пользователя из сеанса
+    username = session['username']
+    return render_template('user_info.html', username=username)
+
+
+@app.route('/user_settings')
+def user_settings():
+    # Проверяем, авторизован ли пользователь
+    if 'username' not in session:
+        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
+
+    # Получаем имя пользователя из сеанса
+    username = session['username']
+    return render_template('user_settings.html', username=username)
+
 @app.route('/cancel_booking/<int:booking_id>')
 def cancel_booking(booking_id):
     # Проверяем, авторизован ли пользователь
