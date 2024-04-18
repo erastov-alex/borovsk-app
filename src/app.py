@@ -69,9 +69,16 @@ def registration():
 
         # Создание пользователя
         create_user(username, email, password)
-        return render_template('user_panel.html', username=username)
+        # в случае успеха создаем сессию в которую записываем id пользователя
+        user = User.query.filter_by(username=username).first()
+        session['user_id'] = user['id']
+        session['username'] = username
+        # и делаем переадресацию пользователя на новую страницу -> в нашу адимнку
+        return redirect(url_for('user_panel'))
+        # return render_template('user_panel.html', username=username)
 
     return render_template('login_reg.html')
+
 
 
 @app.route('/house_selection', methods=['GET', 'POST'])
