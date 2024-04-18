@@ -1,0 +1,30 @@
+{% extends 'base_admin_panel.html' %}
+
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Ваши бронирования</h1>
+    </div>
+
+    <!-- Код отображения бронирований --> 
+    <div class="row">
+        {% for booking in bookings %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Бронирование №{{ booking['id'] }}</h5>
+                    <p class="card-text">
+                        <strong>User:</strong> {{ booking['user_id'] }}<br>
+                        <strong>Дом:</strong> {{ booking['house_id'] }}<br>
+                        <strong>Дата заезда:</strong> {{ booking['start_date'] }}<br>
+                        <strong>Дата выезда:</strong> {{ booking['end_date'] }}
+                    </p>
+                    <a href="/edit_booking/{{ booking['id'] }}/{{ booking['house_id'] }}/{{ booking['start_date'] }}/{{ booking['end_date'] }}" class="btn btn-outline-secondary edit-booking-btn">Редактировать</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

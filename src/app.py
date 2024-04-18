@@ -23,9 +23,17 @@ def teardown_db(exception=None):
 @app.route('/')
 def index():
     username = None
+    show_toast = False
     if 'username' in session:
         username = session['username']
-    return render_template('index.html', username=username)
+    # Проверяем, было ли уже показано сообщение в текущей сессии
+        if 'toast_shown' not in session:
+            show_toast = True
+            session['toast_shown'] = True
+        else:
+            show_toast = False
+
+    return render_template('index.html', username=username, show_toast=show_toast)    
 
 
 @app.route('/logout')
@@ -49,6 +57,9 @@ def login():
         if user and user.password == hashed_password:
             session['user_id'] = user.id
             session['username'] = username
+            
+            if username == 'admin':
+                return redirect(url_for('admin_dashboard'))
             return redirect(url_for('user_panel'))
 
         else:
@@ -136,6 +147,8 @@ def user_panel():
     # Проверяем, авторизован ли пользователь
     if 'username' not in session:
         return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
+    if session['username'] == 'admin':
+        return redirect(url_for('admin_dashboard'))
 
     # Получаем имя пользователя из сеанса
     username = session['username']
@@ -250,6 +263,21 @@ def cancel_booking(booking_id):
     cancel_booking_by_id(booking_id)
 
     return redirect(url_for('user_panel'))
+
+
+@app.route('/admin_dashboard')
+def admin_dashboard():
+    # Проверяем, авторизован ли пользователь
+    if 'username' not in session:
+        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
+    
+    if session['username'] != 'admin':
+        return redirect(url_for('user_panel')) 
+    
+    bookings = get_all_bookings()
+    
+
+    return render_template('admin_dashboard.html', bookings=bookings)
 
 
 

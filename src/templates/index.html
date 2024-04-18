@@ -5,6 +5,26 @@
 {% endblock %}
 
 {% block content %}
+
+{% if show_toast %}
+<div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" class="rounded me-2" alt="... " height="24">
+        <strong class="me-auto">Дополните информацию</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+        <form>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Укажите свой номер:</label>
+                <input type="text" class="form-control" id="phone" name="phone">
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+</div>
+{% endif %}
+
 <!-- Carousel With Indicators -->
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 	<!-- Indicators -->
@@ -61,7 +81,7 @@
 
 <!-- Cards in grid -->
 <section id="cards" class="container mt-4">
-    <div class="row">
+    <div class="card-group">
         <!-- Card 1 -->
         <div class="col-md-4">
             <div class="card h-100">
@@ -200,3 +220,15 @@
 	</div>
 </section>
 {% endblock %}
+{% block scripts %}
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+		var toastList = toastElList.map(function (toastEl) {
+			return new bootstrap.Toast(toastEl);
+		});
+		toastList[0].show();
+	});	
+</script>
+{% endblock %}
+

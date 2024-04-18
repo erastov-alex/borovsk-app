@@ -6,8 +6,7 @@ from sqlalchemy.orm import joinedload
 import hashlib
 
 def create_user(username, email, password):
-    hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-    new_user = User(username=username, email=email, password=hashed_password)
+    new_user = User(username=username, email=email, password=password)
     with Session() as session:
         session.add(new_user)
         session.commit()
@@ -31,6 +30,14 @@ def get_user_by_username(username):
         user = session.query(User).filter_by(username=username).first()
     return user
 
+def get_all_bookings():
+    with Session() as session:
+        try:
+            bookings = session.query(Booking).all()
+            return bookings
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return None
 
 def has_bookings():
     user = get_current_user()
