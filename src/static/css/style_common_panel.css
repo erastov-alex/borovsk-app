@@ -1,0 +1,135 @@
+/* Стили для бокового меню */
+#sidebarMenu {
+    min-height: 100vh; /* Высота на всю высоту вьюпорта */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Тень для бокового меню */
+    z-index: 1000; /* Устанавливаем z-index, чтобы меню было поверх основного контента */
+}
+
+.sidebar .nav-link {
+    border-radius: 1; /* Убираем закругление углов */
+    color: #333; /* Цвет текста */
+}
+
+.sidebar .nav-link:hover {
+    background: #f8f9fa; /* Фон при наведении */
+}
+
+.sidebar .nav-link.active {
+    background-color: #188a1e; /* Фон для активной ссылки */
+    color: white; /* Цвет текста для активной ссылки */
+}
+
+.nav-item {
+    margin-bottom: 20px; /* Устанавливаем отступ между пунктами меню */
+}
+
+.container-fluid {
+display: flex;
+flex-wrap: nowrap; /* Запрещаем перенос элементов на новую строку */
+}
+
+#sidebarMenu {
+    flex: 0 0 auto; /* Задаем фиксированную ширину для бокового меню */
+}
+
+main {
+    flex: 1 1 auto;
+    min-width: 700px;
+    position: relative;
+}
+
+/* Добавляем стили для контактов в футере */
+.footer {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.footer h2 {
+    font-size: 20px; 
+    margin-bottom: 20px;
+}
+
+.footer p {
+    margin-bottom: 5px;
+}
+
+.footer a {
+    color: #000;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer a:hover {
+    color: #6c757d;
+}
+
+/* Располагаем контакты в одну линию */
+.footer p {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+/* Стили для кнопки входа и регистрации */
+
+.btn-primary {
+    background-color: #188a1e;
+    color: #fff; /* Цвет текста */
+    border: none;
+    border-radius: 5px;
+    font-size: 14px; /* Уменьшаем размер шрифта */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-danger {
+    color: #fff; /* Цвет текста */
+    border: none;
+    border-radius: 5px;
+    font-size: 14px; /* Уменьшаем размер шрифта */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #347943; /* Изменение цвета фона при наведении */
+}
+
+.login-btn:hover {
+    background-color: #347943; /* Изменение цвета фона при наведении */
+}
+
+.welcome-block {
+    display: flex;
+    align-items: center; /* Выравнивание элементов по вертикали */
+    justify-content: space-between; /* Равномерное распределение пространства между элементами */
+    position: relative; /* Относительное позиционирование */
+}
+
+.welcome-text {
+    margin-right: 10px; /* Отступ справа от текста */
+}
+
+.login-btn {
+    margin-left: 10px; /* Отступ слева от кнопки */
+    padding: 5px 10px; /* Уменьшаем отступы внутри кнопки */
+    background-color: #188a1e; /* Цвет фона кнопки */
+    color: #fff; /* Цвет текста */
+    border: none;
+    border-radius: 5px;
+    font-size: 14px; /* Уменьшаем размер шрифта */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Стили для маленьких кнопок */
+.btn-sm {
+    width: auto;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.navbar-collapse {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

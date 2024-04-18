@@ -1,0 +1,23 @@
+.card {
+    transition: opacity 0.3s, pointer-events 0s; /* Добавляем анимацию для изменения прозрачности */
+    height: 100%;
+}
+
+.card-img-top {
+    height: 200px; /* Выберите желаемую высоту изображения */
+    object-fit: cover;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+/* Стили для маленьких кнопок */
+.btn-sm {
+    width: auto;
+    padding: 5px 10px;
+    font-size: 14px;
+}

@@ -3,14 +3,15 @@ from db.models.database import Session
 from db.models.users import User
 from db.models.bookings import Booking 
 from db.tools.helpers import *
+from config import SECRET_KEY, DATABASE_NAME
 import hashlib # библиотека для хеширования 
 
 app = Flask(__name__, template_folder='templates')
-app.secret_key = 'admin1234'  # подствавьте свой секретный ключ
+app.secret_key = SECRET_KEY  # подствавьте свой секретный ключ
 # секретный ключ для хеширования данных сессии при авторизации
 
 # Конфигурация базы данных SQLite
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DATABASE_NAME}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Закрытие соединения с базой данных после запроса
@@ -146,7 +147,7 @@ def user_panel():
     if has_bookings_var:
         user_bookings = get_users_bookings()
 
-    return render_template('user_panel.html', username=username, has_bookings=has_bookings_var, user_bookings = user_bookings)
+    return render_template('user_panel.html', username=username, has_bookings=has_bookings_var, user_bookings = user_bookings, active_page = 'user_panel')
 
 @app.route('/edit_start_date/<int:booking_id>/<int:house_id>/<string:start_date>/<string:end_date>', methods=['GET', 'POST'])
 def edit_start_date(booking_id, house_id, start_date, end_date):
@@ -171,7 +172,7 @@ def edit_start_date(booking_id, house_id, start_date, end_date):
         booking = get_booking_by_id(booking_id)
 
         # Возвращаем шаблон модального окна с обновленными данными
-        return render_template('edit_booking.html', booking=booking, username=username)
+        return render_template('edit_booking.html', booking=booking, username=username, active_page = 'user_panel')
     
 @app.route('/edit_end_date/<int:booking_id>/<int:house_id>/<string:start_date>/<string:end_date>', methods=['GET', 'POST'])
 def edit_end_date(booking_id, house_id, start_date, end_date):
@@ -196,7 +197,7 @@ def edit_end_date(booking_id, house_id, start_date, end_date):
         booking = get_booking_by_id(booking_id)
 
         # Возвращаем шаблон модального окна с обновленными данными
-        return render_template('edit_booking.html', booking=booking, username=username)
+        return render_template('edit_booking.html', booking=booking, username=username, active_page = 'user_panel')
 
 
 @app.route('/edit_booking/<int:booking_id>/<int:house_id>/<string:start_date>/<string:end_date>', methods=['GET', 'POST'])
@@ -212,7 +213,7 @@ def edit_booking(booking_id, house_id, start_date, end_date):
     booking = get_booking_by_id(booking_id)
     
     # Если метод запроса GET, просто возвращаем шаблон модального окна
-    return render_template('edit_booking.html', booking=booking, username=username)
+    return render_template('edit_booking.html', booking=booking, username=username, active_page = 'user_panel')
 
 
 @app.route('/user_info')
@@ -223,7 +224,7 @@ def user_info():
 
     # Получаем имя пользователя из сеанса
     username = session['username']
-    return render_template('user_info.html', username=username)
+    return render_template('user_info.html', username=username, active_page='user_info')
 
 
 @app.route('/user_settings')
@@ -234,7 +235,7 @@ def user_settings():
 
     # Получаем имя пользователя из сеанса
     username = session['username']
-    return render_template('user_settings.html', username=username)
+    return render_template('user_settings.html', username=username, active_page='user_settings')
 
 @app.route('/cancel_booking/<int:booking_id>')
 def cancel_booking(booking_id):
