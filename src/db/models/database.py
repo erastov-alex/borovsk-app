@@ -6,14 +6,10 @@ from sqlalchemy.orm import sessionmaker
 DATABASE_NAME = 'database.sqlite'
 
 engine = create_engine(f'sqlite:///{DATABASE_NAME}')
-sql_session = sessionmaker(bind=engine)
+Session = sessionmaker(bind=engine)
 
 Base = declarative_base()
 
-
-def create_db():
-    Base.metadata.create_all(engine)
-    
 # def create_db():
 #     Base.metadata.create_all(engine)
     

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, session, jsonify
-from db.models.database import sql_session
+from db.models.database import Session
 from db.models.users import User
 from db.models.bookings import Booking 
 from db.tools.helpers import *
@@ -23,7 +23,7 @@ def teardown_db(exception=None):
 def index():
     username = None
     if 'username' in session:
-        username = sql_session['username']
+        username = session['username']
     return render_template('index.html', username=username)
 
 
@@ -43,7 +43,7 @@ def login():
         password = request.form['password']
         hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
-        user = User.query.filter_by(username=username).first()
+        user = get_user_by_username(username)
 
         if user and user.password == hashed_password:
             session['user_id'] = user.id
@@ -70,8 +70,8 @@ def registration():
         # Создание пользователя
         create_user(username, email, password)
         # в случае успеха создаем сессию в которую записываем id пользователя
-        user = User.query.filter_by(username=username).first()
-        session['user_id'] = user['id']
+        user = get_user_by_username(username)
+        session['user_id'] = user.id
         session['username'] = username
         # и делаем переадресацию пользователя на новую страницу -> в нашу адимнку
         return redirect(url_for('user_panel'))
@@ -114,17 +114,14 @@ def booking_confirmation():
         # Если это POST запрос, обрабатываем данные бронирования
         user_id = session.get('user_id')
         if user_id:
-            user = sql_session.query(User).filter_by(id=user_id).first()
+            user = Session().query(User).filter_by(id=user_id).first()
             if not user:
                 return jsonify({'error': 'User not found'}), 404
             
             start_date = request.form['start_date']
             end_date = request.form['end_date']
             house_id = request.form['house_id']
-
-            booking = Booking(user_id=user_id, start_date=start_date, end_date=end_date, house_id=house_id)
-            sql_session.add(booking)
-            sql_session.commit()
+            add_booking(user_id=user_id, start_date=start_date, end_date=end_date, house_id=house_id)
             return jsonify({'message': 'Booking confirmed'}), 200
         else:
             return jsonify({'error': 'User not logged in'}), 401
