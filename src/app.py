@@ -132,7 +132,17 @@ def registration():
 
         # Создание пользователя
         create_user(username, email, password)
-        return render_template('user_panel.html', username=username)
+        # в случае успеха создаем сессию в которую записываем id пользователя
+        with get_db_connection() as conn:
+            # создаем запрос для поиска пользователя по username,
+            # если такой пользователь существует, то получаем все данные id, password
+            user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+            # Ваши операции с базой данных здесь
+        session['user_id'] = user['id']
+        session['username'] = username
+        # и делаем переадресацию пользователя на новую страницу -> в нашу адимнку
+        return redirect(url_for('user_panel'))
+        # return render_template('user_panel.html', username=username)
 
     return render_template('login_reg.html')
 
@@ -152,8 +162,11 @@ def house_selection():
 
 @app.route('/calendar', methods=['GET', 'POST'])
 def calendar():
+    username = None
+    if 'username' in session:
+        username = session['username']
     house_id = request.args.get('house_id')
-    return render_template('calendar.html', house_id=house_id)
+    return render_template('calendar.html', house_id=house_id, username=username)
 
 
 @app.route('/booking_confirmation', methods=['GET', 'POST'])
