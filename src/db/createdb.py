@@ -1,26 +1,17 @@
-import sqlite3
+# import sys
+# import os
 
-# Создание или подключение к базе данных
-conn = sqlite3.connect('database.db')
+# sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
-# Создание курсора
-c = conn.cursor()
+# from db.model import db_check
 
-# Создание таблицы Users
-c.execute('''CREATE TABLE IF NOT EXISTS users (
-             id INTEGER PRIMARY KEY AUTOINCREMENT,
-             username TEXT,
-             password TEXT,
-             email TEXT)''')
 
-# Создание таблицы bookings
-c.execute('''CREATE TABLE IF NOT EXISTS bookings
-              (id INTEGER PRIMARY KEY AUTOINCREMENT,
-              user_id INTEGER,
-              start_date TEXT,
-              end_date TEXT,
-              house_id INTEGER,
-              FOREIGN KEY(user_id) REFERENCES users(id))''')
+from models.database import create_db
+from models.users import User
+from models.bookings import Booking
 
-# Закрытие соединения с базой данных
-conn.close()
+
+def create_database(load_fake_data: bool = True):
+    create_db()
+    
+create_database()

@@ -1,86 +1,30 @@
 from flask import Flask, render_template, redirect, url_for, request, session, jsonify
-import sqlite3 # подключаем Sqlite в наш проект 
+from db.models.database import sql_session
+from db.models.users import User
+from db.models.bookings import Booking 
+from db.tools.helpers import *
 import hashlib # библиотека для хеширования 
-from db.createuser import create_user
-from db.helpers import *
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = 'admin1234'  # подствавьте свой секретный ключ
 # секретный ключ для хеширования данных сессии при авторизации
 
+# Конфигурация базы данных SQLite
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 # Закрытие соединения с базой данных после запроса
 @app.teardown_appcontext
-def teardown_db(exception):
+def teardown_db(exception=None):
     close_db()
+
 
 @app.route('/')
 def index():
     username = None
     if 'username' in session:
-        username = session['username']
+        username = sql_session['username']
     return render_template('index.html', username=username)
-
-@app.route('/adm_login', methods=['GET', 'POST'])
-def admin_login():
-    error = None # обнуляем переменную ошибок 
-    if request.method == 'POST':
-        username = request.form['username'] # обрабатываем запрос с нашей формы который имеет атрибут name="username"
-        password = request.form['password'] # обрабатываем запрос с нашей формы который имеет атрибут name="password"
-        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest() # шифруем пароль в sha-256
-
-        with get_db_connection() as conn:
-            # создаем запрос для поиска пользователя по username,
-            # если такой пользователь существует, то получаем все данные id, password
-            user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
-            # Ваши операции с базой данных здесь
-        
-        # теперь проверяем если данные сходятся формы с данными БД
-        if user and user['password'] == hashed_password:
-            # в случае успеха создаем сессию в которую записываем id пользователя
-            session['user_id'] = user['id']
-            # и делаем переадресацию пользователя на новую страницу -> в нашу адимнку
-            return redirect(url_for('admin_panel'))
-
-        else:
-            error = 'Неправильное имя пользователя или пароль'
-
-    return render_template('login_adm.html', error=error)
-
-@app.route('/admin_panel')
-def admin_panel():
-    if 'user_id' not in session:
-        return redirect(url_for('admin_login'))
-    with get_db_connection() as conn:
-        # создаем запрос для поиска пользователя по username,
-        # если такой пользователь существует, то получаем все данные id, password
-        blocks = conn.execute('SELECT * FROM bookings').fetchall()  # Получаем все
-        # Ваши операции с базой данных здесь
-   
-
-    # Преобразование данных из БД в список словарей
-    blocks_list = [dict(ix) for ix in blocks]
-    # print(blocks_list) [{строка 1 из бд},{строка 2 из бд},{строка 3 из бд}, строка 4 из бд]
-
-     # Теперь нужно сделать группировку списка в один словарь json
-    # Группировка данных в словарь JSON
-    json_data = {}
-    for raw in blocks_list:
-        # Создание новой записи, если ключ еще не существует
-        if raw['idblock'] not in json_data:
-            json_data[raw['idblock']] = []
-
-        # Добавление данных в существующий ключ
-        json_data[raw['idblock']].append({
-            'id': raw['id'],
-            'user_id': raw['user_id'],
-            'start_date': raw['start_date'],
-            'end_date': raw['end_date'],
-            'house_id': raw['title']
-        })
-
-    # print(json_data)
-    # передаем на json на фронт - далее нужно смотреть admin_panel.html и обрабатывать там
-    return render_template('admin_panel.html', json_data=json_data)
 
 
 @app.route('/logout')
@@ -93,24 +37,17 @@ def logout():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None # обнуляем переменную ошибок 
+    error = None
     if request.method == 'POST':
-        username = request.form['username'] # обрабатываем запрос с нашей формы который имеет атрибут name="username"
-        password = request.form['password'] # обрабатываем запрос с нашей формы который имеет атрибут name="password"
-        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest() # шифруем пароль в sha-256
+        username = request.form['username']
+        password = request.form['password']
+        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
-        with get_db_connection() as conn:
-            # создаем запрос для поиска пользователя по username,
-            # если такой пользователь существует, то получаем все данные id, password
-            user = conn.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
-            # Ваши операции с базой данных здесь
-        
-        # теперь проверяем если данные сходятся формы с данными БД
-        if user and user['password'] == hashed_password:
-            # в случае успеха создаем сессию в которую записываем id пользователя
-            session['user_id'] = user['id']
-            session['username'] = request.form['username']
-            # и делаем переадресацию пользователя на новую страницу -> в нашу адимнку
+        user = User.query.filter_by(username=username).first()
+
+        if user and user.password == hashed_password:
+            session['user_id'] = user.id
+            session['username'] = username
             return redirect(url_for('user_panel'))
 
         else:
@@ -168,22 +105,23 @@ def booking_confirmation():
     
     elif request.method == 'POST':
         # Если это POST запрос, обрабатываем данные бронирования
-        username = session.get('username')
-
-        start_date = request.form['start_date']
-        end_date = request.form['end_date']
-        house_id = request.form['house_id']
-        user_id = session['user_id']
-
+        user_id = session.get('user_id')
         if user_id:
-            conn = sqlite3.connect('database.db')
-            cursor = conn.cursor()
-            cursor.execute('INSERT INTO bookings (user_id, start_date, end_date, house_id) VALUES (?, ?, ?, ?)', (user_id, start_date, end_date, house_id))
-            conn.commit()
-            conn.close()
+            user = sql_session.query(User).filter_by(id=user_id).first()
+            if not user:
+                return jsonify({'error': 'User not found'}), 404
+            
+            start_date = request.form['start_date']
+            end_date = request.form['end_date']
+            house_id = request.form['house_id']
+
+            booking = Booking(user_id=user_id, start_date=start_date, end_date=end_date, house_id=house_id)
+            sql_session.add(booking)
+            sql_session.commit()
             return jsonify({'message': 'Booking confirmed'}), 200
         else:
             return jsonify({'error': 'User not logged in'}), 401
+
 
 @app.route('/user_panel')
 def user_panel():
@@ -297,8 +235,8 @@ def cancel_booking(booking_id):
     if 'username' not in session:
         return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
     
-    # Получаем имя пользователя из сеанса
-    username = session['username']
+    # # Получаем имя пользователя из сеанса
+    # username = session['username']
 
     # Обновляем бронирование в базе данных
     cancel_booking_by_id(booking_id)
