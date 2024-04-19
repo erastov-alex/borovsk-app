@@ -49,6 +49,14 @@
     background-color: #347943; /* Изменение цвета фона при наведении */
 }
 
+.btn-outline-light {
+    color: #fff
+}
+
+.btn-outline-light:hover {
+    background-color: #347943; /* Изменение цвета фона при наведении */
+}
+
 .welcome-block {
     display: flex;
     align-items: center; /* Выравнивание элементов по вертикали */
