@@ -6,26 +6,15 @@
 
 {% block content %}
 <!-- Календарь -->
-<input type="hidden" id="house_id" value="{{ house_id }}">
 <div id="calendar" class="container py-5" style="text-align: center;">
-    <h2>Выберите дату</h2>
     <div class="row">
-        <div class="col-md-6">
-            <label for="start_date">Начальная дата:</label>
-            <input type="date" id="start_date" class="form-control">
-        </div>
-        <div class="col-md-6">
-            <label for="end_date">Конечная дата:</label>
-            <input type="date" id="end_date" class="form-control">
-        </div>
-    </div>
-    <div class="row justify-content-between mt-3" style="margin: 0 auto 10px;">
-        <a href="/house_selection" class="btn btn-secondary btn-sm">Назад</a>
-        <button id="selectDateButton" class="btn btn-primary btn-sm">Выбрать</button>
+        {% include 'calendar_module.html'%}
     </div>
 </div>
+<input type="hidden" id="house_id" value="{{ house_id }}">
+
+<div style="height: 40px;"></div>
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
 {% endblock %}
