@@ -6,25 +6,43 @@
 
 {% block content %}
 
+
 <!-- Подтверждение бронирования -->
-<div id="confirmation" class="container py-5" style="text-align: center;">
+<div id="confirmation" class="container py-5" style="text-align: center; margin-top: -80px;">
     <!-- Форма бронирования -->
-    <h2>Подтверждение бронирования</h2>
+    <div class="px-4 py-5 my-5 text-center">
+        <img class="d-block mx-auto mb-4" src="static/img/logo2.png" alt="" width="214" height="138">
+        <h1 class="display-5 fw-bold text-body-emphasis">Почти забронировали!</h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="lead mb-4">Осталось проверить информацию и подтвердить бронирование. Пожалуйста, проверьте данные и подтвердите бронирование:</p>
+          <p class="lead mb-4" id="booking-info"></p> <!-- Добавляем параграф для отображения информации о бронировании -->
+          <p class="lead mb-4" id="total-cost-info"></p> <!-- Добавляем параграф для отображения информации о стоимости -->
 
-    <p id="booking-info"></p> <!-- Добавляем параграф для отображения информации о бронировании -->
-    <p id="total-cost-info"></p> <!-- Добавляем параграф для отображения информации о стоимости -->
-
-    <form id="booking-form" method="post" action="/booking_confirmation">
-        <input type="hidden" id="house_id" name="house_id">
-        <input type="hidden" id="start_date_input" name="start_date">
-        <input type="hidden" id="end_date_input" name="end_date">
-        <button type="button" id="backButtonConfirmation" class="btn btn-secondary btn-sm">Назад</button>
-        <button type="submit" class="btn btn-primary btn-sm">Подтвердить бронирование</button>
-    </form>
-    
+          <form id="booking-form" method="post" action="/booking_confirmation">
+            <input type="hidden" id="house_id" name="house_id">
+            <input type="hidden" id="start_date_input" name="start_date">
+            <input type="hidden" id="end_date_input" name="end_date">
+            <button type="button" id="backButtonConfirmation" class="btn btn-outline-secondary">Назад</button>
+            <button type="submit" class="btn btn-success">Подтвердить бронирование</button>
+          </form>
+        </div>
+    </div>
 </div>
 
 <!-- Подтверждение бронирования -->
+
+<div id="confirmation2" class="container py-5" style="text-align: center; margin-top: -80px; display: none;">
+  <!-- Форма бронирования -->
+  <div class="px-4 py-5 my-5 text-center">
+      <img class="d-block mx-auto mb-4" src="static/img/logo2.png" alt="" width="214" height="138">
+      <h1 class="display-5 fw-bold text-body-emphasis">Бронирование подтверждено!</h1>
+      <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Спасибо за бронирование! В Личном кабинете вы можете изменить или отменить бронирование, а также указать предпочитаемое время заезда. Спасибо, что выбрали Нас! </p>
+        <a href="/user_panel" class="btn btn-success">Личный кабинет</a>
+      </div>
+  </div>
+</div>
+
 <div id="confirmation2" class="container py-5" style="display: none;">
     <!-- Форма бронирования -->
     <h2>Бронирование подтверждено</h2>

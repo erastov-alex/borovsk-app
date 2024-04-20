@@ -15,7 +15,7 @@
 }
 
 .sidebar .nav-link.active {
-    background-color: #188a1e; /* Фон для активной ссылки */
+    background-color: #28a745; /* Фон для активной ссылки */
     color: white; /* Цвет текста для активной ссылки */
 }
 
