@@ -111,12 +111,18 @@ def calendar():
     username = None
     if 'username' in session:
         username = session['username']
+    else:
+        return redirect(url_for('login'))
     house_id = request.args.get('house_id')
     return render_template('calendar.html', house_id=house_id, username=username)
 
 
 @app.route('/booking_confirmation', methods=['GET', 'POST'])
 def booking_confirmation():
+    if 'username' in session:
+        username = session['username']
+    else:
+        return redirect(url_for('login'))
     if request.method == 'GET':
         # Если это GET запрос, просто отображаем страницу подтверждения бронирования
         username = session.get('username')
