@@ -1,0 +1,28 @@
+.calendar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px; /* Устанавливаем отступ сверху */
+}
+
+.buttons-container {
+    position: fixed; /* Делаем позицию фиксированной */
+    bottom: 160px; /* Располагаем от нижнего края на расстоянии 20px */
+    left: 53%; /* Располагаем от левого края на 50% ширины экрана */
+    transform: translateX(-50%); /* Центрируем по горизонтали относительно родительского элемента */
+    display: flex;
+    justify-content: center; /* Центрируем кнопки по горизонтали */
+}
+
+.buttons-container .btn {
+    margin: 10px; /* Устанавливаем расстояние между кнопками */
+}
+
+/* Переопределение цвета текста для кнопки "Подробнее" */
+.btn-outline-light {
+    color: #898989; /* Изменяем цвет текста на черный */
+}
+
+.btn-outline-light {
+    border-color: #898989; /* Изменяем цвет обводки на черный */
+}

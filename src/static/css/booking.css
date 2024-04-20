@@ -15,9 +15,13 @@
     height: 100%;
 }
 
-/* Стили для маленьких кнопок */
-.btn-sm {
-    width: auto;
-    padding: 5px 10px;
-    font-size: 14px;
+/* Переопределение цвета текста для кнопки "Подробнее" */
+.card-body .btn-outline-light {
+    color: #898989; /* Изменяем цвет текста на черный */
 }
+
+.card-body .btn-outline-light {
+    border-color: #898989; /* Изменяем цвет обводки на черный */
+}
+
+@media (max-width: 767.98px) { .border-sm-start-none { border-left: none !important; } }

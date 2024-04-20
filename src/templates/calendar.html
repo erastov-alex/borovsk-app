@@ -1,3 +1,41 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="{{ url_for('static', filename='css/calendar.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='node_modules/air-datepicker/air-datepicker.css') }}" rel="stylesheet">
+    <style>
+        .air-datepicker.-disabled-range- {
+            --adp-cell-background-color-in-range: #eeeeee;
+            --adp-cell-background-color-selected: #d0d0d0;
+        }
+        .container {
+            position: relative; /* Делаем контейнер относительным */
+        }
+        #airdatepicker {
+            width: 200px; /* Ширина поля ввода */
+            position: absolute; /* Позиционируем абсолютно */
+            left: 100px; /* Располагаем слева */
+            top: -80px; /* Отступ сверху */
+            visibility: hidden;
+        }
+        #imageContainer {
+            position: absolute; /* Позиционируем абсолютно */
+            right: 0; /* Располагаем справа */
+            top: 0px; /* Отступ сверху */
+        }
+        .buttons-container {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 10px;
+            margin-left: 10px; /* Отступ слева для кнопок */
+        }
+        .buttons-container .btn {
+            margin-right: 100px; /* Отступ между кнопками */
+        }
+    </style>
+</head>
+
 {% extends 'base.html' %}
 
 {% block styles %}
@@ -5,16 +43,57 @@
 {% endblock %}
 
 {% block content %}
-<!-- Календарь -->
-<div id="calendar" class="container py-5" style="text-align: center;">
-    <div class="row">
-        {% include 'calendar_module.html'%}
+<body>
+    <h2 class="pb-2 display-6 text-center">Выбор Даты</h2>
+    <div class="calendar-container">
+        <input type="calendar" id="airdatepicker" class="form-control">
+        <input type="hidden" id="house_id" value="{{ house_id }}">
     </div>
-</div>
-<input type="hidden" id="house_id" value="{{ house_id }}">
+    <div style="height: 100px;"></div>
+    <div class="buttons-container">
+        <a href="/house_selection" class="btn btn-outline-secondary">Назад</a>
+        <button id="selectDateButton" class="btn btn-success">Выбрать</button>
+    </div>
 
-<div style="height: 40px;"></div>
-{% endblock %}
+    <script src="{{ url_for('static', filename='node_modules/air-datepicker/air-datepicker.js') }}"></script>
+    <script>
+        new AirDatepicker('#airdatepicker', {
+            position: 'right top',
+            range: true,
+            inline:true,
+            // multipleDatesSeparator: ' - '
+            // timepicker: true,
+            // Handle render process
+            onRenderCell({date, cellType}) {
+                let dates = [1, 5, 7, 10, 15, 20, 25],
+                emoji = ['💕', '😃', '🍙', '🍣', '🍻', '🎉', '🥁'],
+                isDay = cellType === 'day',
+                _date = date.getDate(),
+                shouldChangeContent = isDay && dates.includes(_date),
+                randomEmoji = emoji[Math.floor(Math.random() * emoji.length)];
 
-{% block scripts %}
+                return {
+                    html: shouldChangeContent ? randomEmoji : false,
+                    classes: shouldChangeContent ? '-emoji-cell-' : false
+                }
+            },
+            buttons: ['today', 'clear'],
+            locale: {
+                days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                today: 'Today',
+                clear: 'Clear',
+                dateFormat: 'dd.MM.yyyy',
+                timeFormat: 'hh:mm aa',
+                firstDay: 0
+            }
+        });
+    </script>
+
+    <script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
+    
 {% endblock %}
+</body>

@@ -4,7 +4,7 @@ from db.models.users import User
 from db.models.bookings import Booking 
 from db.tools.helpers import *
 from config import SECRET_KEY, DATABASE_NAME
-import hashlib # библиотека для хеширования 
+import hashlib # библиотека для хеширования
 
 app = Flask(__name__, template_folder='templates')
 app.secret_key = SECRET_KEY  # подствавьте свой секретный ключ
