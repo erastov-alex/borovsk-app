@@ -1,9 +1,9 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from .database import Base
 import hashlib
+from . import db
 
-class User(Base):
+class User(db.Model):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, autoincrement=True)

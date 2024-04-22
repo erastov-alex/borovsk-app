@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+{% block styles %}
+<link href="{{ url_for('static', filename='css/booking.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+	<!-- Carousel items -->
+	<div class="carousel-inner">
+		{% for i in range(num_of_photos) %}
+		<div class="carousel-item {% if i == 0 %}active{% endif %}">
+			<img src="static/img/houses/house{{ house_id }}_{{ i + 1 }}.png" class="d-block w-100" alt="Slide {{ i + 1 }}">
+			<div class="carousel-caption d-block">
+				<!-- Ваш заголовок и описание здесь -->
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+
+	<!-- Controls -->
+	<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+	        data-bs-slide="prev">
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Назад</span>
+	</button>
+	<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+	        data-bs-slide="next">
+		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Далее</span>
+	</button>
+</div>
+
+{% endblock %}
