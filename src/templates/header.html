@@ -26,15 +26,15 @@
 				</ul>
 				<span class="welcome-block">
 					<span class="welcome-text">
-						{% if username %}
-							С возвращением, {{ username }}
+						{% if current_user.username %}
+							С возвращением, {{ current_user.username }}
 						{% endif %}
 					</span>
 					<div>
-						{% if username %}
+						{% if current_user.username %}
 							<a href="/user_panel" class="btn btn-outline-secondary">Личный кабинет</a>
 						{% else %}
-							<a class="btn btn-outline-secondary" href="/registration">Вход / Регистрация</a>
+							<a class="btn btn-outline-secondary" href="/login">Вход / Регистрация</a>
 						{% endif %}
 					</div>
 				</span>

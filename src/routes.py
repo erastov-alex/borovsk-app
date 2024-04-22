@@ -1,12 +1,19 @@
-from app import app
-from flask import render_template, redirect, url_for, request, session, jsonify
-from models import House, Booking, User  # Импорт моделей
+from app import app, login_manager
+from flask import flash, render_template, redirect, url_for, request, session, jsonify
+from models.users import *  # Импорт моделей
 from tools.helpers import *
 from cache_db import get_disc_from_database
 import hashlib
 
+from flask_login import login_user, logout_user, current_user, login_required
 
+
+@login_manager.user_loader
+def load_user(user_id):
 # Закрытие соединения с базой данных после запроса
+    return User.query.get(user_id)
+
+
 @app.teardown_appcontext
 def teardown_db(exception=None):
     close_db()
@@ -14,25 +21,20 @@ def teardown_db(exception=None):
 
 @app.route('/')
 def index():
-    username = None
     show_toast = False
-    if 'username' in session:
-        username = session['username']
-    # Проверяем, было ли уже показано сообщение в текущей сессии
-        if 'toast_shown' not in session:
-            show_toast = True
-            session['toast_shown'] = True
-        else:
-            show_toast = False
+    if 'toast_shown' not in session:
+        show_toast = True
+        session['toast_shown'] = True
+    else:
+        show_toast = False
 
-    return render_template('index.html', username=username, show_toast=show_toast)    
+    return render_template('index.html', show_toast=show_toast, current_user=current_user)    
 
 
 @app.route('/logout')
+@login_required
 def logout():
-    # Удаление данных пользователя из сессии
-    session.clear()
-    # Перенаправление на главную страницу или страницу входа
+    logout_user()  # Выход пользователя из сеанса с помощью Flask-Login
     return redirect(url_for('index'))
 
 
@@ -47,74 +49,60 @@ def login():
         user = get_user_by_username(username)
 
         if user and user.password == hashed_password:
-            session['user_id'] = user.id
-            session['username'] = username
-            
+            login_user(user)  # Вход пользователя с помощью Flask-Login
             if username == 'admin':
                 return redirect(url_for('admin_dashboard'))
-            return redirect(url_for('user_panel'))
-
+            return redirect(url_for('index'))
         else:
             error = 'Неправильное имя пользователя или пароль'
-    return render_template('login_reg.html', error=error)
+    return render_template('login.html', error=error)
 
 
-@app.route('/registration', methods=['GET', 'POST'])
-def registration():
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
     if request.method == 'POST':
-        username = request.form['regUsername']
-        email = request.form['email']
-        password = request.form['regPassword']
-        confirm_password = request.form['confirmPassword']
-
-        # Проверка, что пароли совпадают
-        if password != confirm_password:
-            return render_template('login_reg.html', error="Пароли не совпадают")
-
-        # Создание пользователя
-        create_user(username, email, password)
-        # в случае успеха создаем сессию в которую записываем id пользователя
-        user = get_user_by_username(username)
-        session['user_id'] = user.id
-        session['username'] = username
-        # и делаем переадресацию пользователя на новую страницу -> в нашу адимнку
-        return redirect(url_for('user_panel'))
-        # return render_template('user_panel.html', username=username)
-
-    return render_template('login_reg.html')
-
+        name = request.form.get('name')
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+        intersted = request.form.get('intersted')
+        form = RegistrationForm(username=username, email=email, password=password, confirm_password=confirm_password)
+        if form.validate_on_submit():
+            user = User(name=name, username=form.username.data, email=form.email.data, password=form.password.data)
+            db.session.add(user)
+            db.session.commit()
+            login_user(user)
+            flash('Registration successful!', 'success')  # Оповещение об успешной регистрации
+            return redirect(url_for('index'))
+        else:
+            # Если форма не прошла валидацию, получаем ошибки для каждого поля
+            errors = {field.name: field.errors for field in form if field.errors}
+            flash('Registration failed. Please check the following fields:', 'danger')
+            print(errors, 'danger')  # Передаем ошибки всплывающему уведомлению
+    return render_template('register.html', form = form)
 
 
 @app.route('/house_selection', methods=['GET', 'POST'])
+@login_required
 def house_selection():
-    username = None
-    if 'username' in session:
-        username = session['username']
-    else:
-        return redirect(url_for('login'))
-
     # Извлекаем house_id, start_date и end_date из параметров GET-запроса, если они есть
     house_id = request.args.get('house_id')
 
-    return render_template('house_selection.html', username=username, house_id=house_id)
+    return render_template('house_selection.html', house_id=house_id)
+
 
 @app.route('/calendar', methods=['GET', 'POST'])
+@login_required
 def calendar():
-    username = None
-    if 'username' in session:
-        username = session['username']
-    else:
-        return redirect(url_for('login'))
     house_id = request.args.get('house_id')
-    return render_template('calendar.html', house_id=house_id, username=username)
+    return render_template('calendar.html', house_id=house_id, username=current_user.username)
 
 
 @app.route('/booking_confirmation', methods=['GET', 'POST'])
+@login_required
 def booking_confirmation():
-    if 'username' in session:
-        username = session['username']
-    else:
-        return redirect(url_for('login'))
     if request.method == 'GET':
         # Если это GET запрос, просто отображаем страницу подтверждения бронирования
         username = session.get('username')
@@ -125,7 +113,7 @@ def booking_confirmation():
     
     elif request.method == 'POST':
         # Если это POST запрос, обрабатываем данные бронирования
-        user_id = session.get('user_id')
+        user_id = current_user.id
         if user_id:
             user = User.query.filter_by(id=user_id).first()
             if not user:
@@ -141,33 +129,25 @@ def booking_confirmation():
 
 
 @app.route('/user_panel')
+@login_required
 def user_panel():
-    # Проверяем, авторизован ли пользователь
-    if 'username' not in session:
-        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
-    if session['username'] == 'admin':
+    # Если текущий пользователь администратор, перенаправляем на административную панель
+    if current_user.username == 'admin':
         return redirect(url_for('admin_dashboard'))
 
-    # Получаем имя пользователя из сеанса
-    username = session['username']
-
     # Проверяем наличие бронирований для текущего пользователя
-    has_bookings_var = has_bookings()
+    has_bookings_var = has_bookings(current_user)
     user_bookings = False
     
     if has_bookings_var:
-        user_bookings = get_users_bookings()
+        user_bookings = get_users_bookings(current_user)
 
-    return render_template('user_panel.html', username=username, has_bookings=has_bookings_var, user_bookings = user_bookings, active_page = 'user_panel')
+    return render_template('user_panel.html', has_bookings=has_bookings_var, user_bookings = user_bookings, active_page = 'user_panel')
+
 
 @app.route('/edit_start_date/<int:booking_id>/<int:house_id>/<string:start_date>/<string:end_date>', methods=['GET', 'POST'])
+@login_required
 def edit_start_date(booking_id, house_id, start_date, end_date):
-    if 'username' not in session:
-        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
-    
-    # Получаем имя пользователя из сеанса
-    username = session['username']
-    
     # Инициализируем переменную booking
     booking = get_booking_by_id(booking_id)
     
@@ -186,18 +166,13 @@ def edit_start_date(booking_id, house_id, start_date, end_date):
         return render_template(
             'edit_booking.html', 
             booking=booking, 
-            username=username, 
             active_page = 'user_panel'
             )
     
+    
 @app.route('/edit_end_date/<int:booking_id>/<int:house_id>/<string:start_date>/<string:end_date>', methods=['GET', 'POST'])
+@login_required
 def edit_end_date(booking_id, house_id, start_date, end_date):
-    if 'username' not in session:
-        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
-    
-    # Получаем имя пользователя из сеанса
-    username = session['username']
-    
     # Инициализируем переменную booking
     booking = get_booking_by_id(booking_id)
     
@@ -213,60 +188,39 @@ def edit_end_date(booking_id, house_id, start_date, end_date):
         booking = get_booking_by_id(booking_id)
 
         # Возвращаем шаблон модального окна с обновленными данными
-        return render_template('edit_booking.html', booking=booking, username=username, active_page = 'user_panel')
+        return render_template('edit_booking.html', booking=booking, active_page = 'user_panel')
 
 
 @app.route('/edit_booking/<int:booking_id>/<int:house_id>/<string:start_date>/<string:end_date>', methods=['GET', 'POST'])
+@login_required
 def edit_booking(booking_id, house_id, start_date, end_date):
-    # Проверяем, авторизован ли пользователь
-    if 'username' not in session:
-        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
-    
-    # Получаем имя пользователя из сеанса
-    username = session['username']
-    
+
     # Инициализируем переменную booking
     booking = get_booking_by_id(booking_id)
     
     # Если метод запроса GET, просто возвращаем шаблон модального окна
     return render_template(
         'edit_booking.html', 
-        booking=booking, 
-        username=username, 
+        booking=booking,  
         active_page = 'user_panel'
         )
 
 
 @app.route('/user_info')
+@login_required
 def user_info():
-    # Проверяем, авторизован ли пользователь
-    if 'username' not in session:
-        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
-
-    # Получаем имя пользователя из сеанса
-    username = session['username']
-    return render_template('user_info.html', username=username, active_page='user_info')
+    return render_template('user_info.html', active_page='user_info')
 
 
 @app.route('/user_settings')
+@login_required
 def user_settings():
-    # Проверяем, авторизован ли пользователь
-    if 'username' not in session:
-        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
+    return render_template('user_settings.html', active_page='user_settings')
 
-    # Получаем имя пользователя из сеанса
-    username = session['username']
-    return render_template('user_settings.html', username=username, active_page='user_settings')
 
 @app.route('/cancel_booking/<int:booking_id>')
+@login_required
 def cancel_booking(booking_id):
-    # Проверяем, авторизован ли пользователь
-    if 'username' not in session:
-        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
-    
-    # # Получаем имя пользователя из сеанса
-    # username = session['username']
-
     # Обновляем бронирование в базе данных
     cancel_booking_by_id(booking_id)
 
@@ -274,17 +228,13 @@ def cancel_booking(booking_id):
 
 
 @app.route('/admin_dashboard')
+@login_required
 def admin_dashboard():
-    # Проверяем, авторизован ли пользователь
-    if 'username' not in session:
-        return redirect(url_for('login'))  # Если не авторизован, перенаправляем на страницу входа
-    
-    if session['username'] != 'admin':
+    if current_user.username != 'admin':
         return redirect(url_for('user_panel')) 
     
     bookings = get_all_bookings()
     
-
     return render_template('admin_dashboard.html', bookings=bookings)
 
 

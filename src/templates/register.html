@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="static/img/logo_square.png">
+
+    <title>Регистрация</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .container {
+            max-width: 960px;
+          }
+          
+          .border-top { border-top: 1px solid #e5e5e5; }
+          .border-bottom { border-bottom: 1px solid #e5e5e5; }
+          .border-top-gray { border-top-color: #adb5bd; }
+          
+          .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+          
+          .lh-condensed { line-height: 1.25; }
+
+          .py-5.text-center + .col-md-5 {
+            margin-top: -35px; /* Уменьшаем верхний отступ */
+          }
+    </style>
+  </head>
+
+  <body class="bg-light">
+
+    <div class="container">
+      <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="static/img/logo_square.png" alt="" width="72" height="72">
+        <h2>Добро пожаловать к нам!</h2>
+        <p class="lead">Спасибо за выбор нашего сервиса! 🎉 Мы ценим ваш интерес к нашему сайту и рады приветствовать вас в нашем сообществе.</p>
+      </div>
+        <div class="col-md-5 order-md-1 d-block mx-auto">
+          
+          <form class="needs-validation" method="post" action="{{ url_for('register') }}" novalidate>
+            {{ form.csrf_token }}
+            <div class="mb-2">
+              <label for="address">Как к Вам обращаться?<span class="text-muted">(Не обязательно)</span></label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Например, Сергей, или Анна Викторовна">
+              <div class="invalid-feedback">
+                Ошибка!
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <label for="username">Логин</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">@</span>
+                </div>
+                <input type="text" class="form-control" id="username" name="username" placeholder="ваш_логин (Нужен для входа!)" required>
+                <div class="invalid-feedback" style="width: 100%;">
+                  Обязателен!
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email"  name="email" placeholder="ваша@почта.ру (Нужна для восстановления пароля!)" required>
+              <div class="invalid-feedback">
+                Введите почту!
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <label for="address">Пароль</label>
+              <input type="text" class="form-control" id="password" name="password" placeholder="Не менее 6 символов!" required>
+              <div class="invalid-feedback">
+                Введите пароль!
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <label for="address2">Пароль Еще Раз</label>
+              <input type="text" class="form-control" id="confirm_password" name="confirm_password" placeholder="еще раз" required>
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="interested" name="interested">
+              <label class="custom-control-label" for="same-address">Уведомлять по почте о Скидка и Промо-акциях</label>
+            </div>
+
+            <div style="height: 20px;"></div>
+
+            <button class="btn btn-outline-success btn-lg mt-2 d-block mx-auto" type="submit" formaction="{{ url_for('register') }}">Зарегистрироваться</button>
+          </form>
+        </div>
+      </div>
+
+      <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2024 Borovsky</p>
+        <ul class="list-inline">
+          <li class="list-inline-item"><a href="#">Правила</a></li>
+          <li class="list-inline-item"><a href="#">Политика</a></li>
+          <li class="list-inline-item"><a href="#">Поддержка</a></li>
+        </ul>
+      </footer>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/vendor/holder.min.js"></script>
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+  </body>
+</html>

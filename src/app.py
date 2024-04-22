@@ -1,10 +1,11 @@
 from flask import Flask
 from models import db  # Импорт объекта базы данных
 from config import SECRET_KEY, DATABASE_PATH
+from flask_login import LoginManager
 
 app = Flask(__name__)
 
-app.secret_key = SECRET_KEY  # подствавьте свой секретный ключ
+app.config['SECRET_KEY'] = SECRET_KEY  # подствавьте свой секретный ключ
 # секретный ключ для хеширования данных сессии при авторизации
 
 # Конфигурация базы данных SQLite
@@ -14,6 +15,9 @@ app.config['CACHE_TYPE'] = 'simple'
 
 # Инициализация базы данных
 db.init_app(app)
+
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
 # Создание таблиц в базе данных
 with app.app_context():
