@@ -18,19 +18,19 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link {% if active_page == 'user_panel' %}active{% endif %}" aria-current="page" href="{{ url_for('user_panel') }}">
+                            <a class="nav-link {% if active_page == 'user_panel' %}active{% endif %}" aria-current="page" href="{{ url_for('main.user_panel') }}">
                                 <span data-feather="home"></span>
                                 Бронирования
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if active_page == 'user_info' %}active{% endif %}" aria-current="page" href="{{ url_for('user_info') }}">
+                            <a class="nav-link {% if active_page == 'user_info' %}active{% endif %}" aria-current="page" href="{{ url_for('main.user_info') }}">
                                 <span data-feather="user"></span>
                                 Информация об аккаунте
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if active_page == 'user_settings' %}active{% endif %}" aria-current="page" href="{{ url_for('user_settings') }}">
+                            <a class="nav-link {% if active_page == 'user_settings' %}active{% endif %}" aria-current="page" href="{{ url_for('main.user_settings') }}">
                                 <span data-feather="settings"></span>
                                 Настройки
                             </a>

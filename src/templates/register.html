@@ -41,7 +41,7 @@
       </div>
         <div class="col-md-5 order-md-1 d-block mx-auto">
           
-          <form class="needs-validation" method="post" action="{{ url_for('register') }}" novalidate>
+          <form class="needs-validation" method="post" action="{{ url_for('users.register') }}" novalidate>
             {{ form.csrf_token }}
             <div class="mb-2">
               <label for="address">Как к Вам обращаться?<span class="text-muted">(Не обязательно)</span></label>
@@ -91,7 +91,7 @@
 
             <div style="height: 20px;"></div>
 
-            <button class="btn btn-outline-success btn-lg mt-2 d-block mx-auto" type="submit" formaction="{{ url_for('register') }}">Зарегистрироваться</button>
+            <button class="btn btn-outline-success btn-lg mt-2 d-block mx-auto" type="submit" formaction="{{ url_for('users.register') }}">Зарегистрироваться</button>
           </form>
         </div>
       </div>

@@ -6,7 +6,7 @@
         </a>
         <div class="d-flex align-items-center">
             <span class="me-3">Привет, {{ current_user.username }}</span>
-            <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary">Выход</a>
+            <a href="{{ url_for('users.logout') }}" class="btn btn-outline-secondary">Выход</a>
         </div>
     </div>
 </nav>

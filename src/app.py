@@ -3,6 +3,12 @@ from models import db  # Импорт объекта базы данных
 from config import SECRET_KEY, DATABASE_PATH
 from flask_login import LoginManager
 
+from models.users import User
+
+from main_routes import main_bp
+from user_routes import users_bp
+from booking_routes import bookings_bp
+
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = SECRET_KEY  # подствавьте свой секретный ключ
@@ -13,11 +19,21 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DATABASE_PATH}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['CACHE_TYPE'] = 'simple'
 
+app.register_blueprint(main_bp)
+app.register_blueprint(users_bp)
+app.register_blueprint(bookings_bp)
+
 # Инициализация базы данных
 db.init_app(app)
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(user_id):
+# Закрытие соединения с базой данных после запроса
+    return User.query.get(user_id)
+
 
 # Создание таблиц в базе данных
 with app.app_context():
@@ -25,6 +41,5 @@ with app.app_context():
     
 # Ваши маршруты и другие настройки Flask
 if __name__ == '__main__':
-    from routes import *  # Импорт маршрутов
     app.run(debug=True)
     
