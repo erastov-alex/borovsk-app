@@ -18,14 +18,14 @@ class User(UserMixin, db.Model):
     password = Column(String(100), nullable=False)
     bookings = relationship("Booking", back_populates="user")
     name = Column(String(50), nullable=True)
-    intersted = Column(Boolean,nullable=True)
+    interested = Column(Boolean,nullable=True)
 
-    def __init__(self, username, email, password, name, interested=False):
+    def __init__(self, username, email, password, name, interested):
         self.username = username
         self.email = email
         self.password = hashlib.sha256(password.encode('utf-8')).hexdigest()
         self.name = name
-        self.intersted = interested
+        self.interested = interested
         
     def get_id(self):
         return self.id
@@ -33,7 +33,7 @@ class User(UserMixin, db.Model):
     
 
 class LoginForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    username = StringField('Username', validators=[DataRequired(), Length(min=4, max=20)])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
     submit = SubmitField('Login')
 

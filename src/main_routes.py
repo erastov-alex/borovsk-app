@@ -1,10 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, jsonify
-from models.users import *  # Импорт моделей
 from tools.helpers import *
 from cache_db import get_disc_from_database
-import hashlib
 
-from flask_login import login_user, logout_user, current_user, login_required
+from flask_login import current_user, login_required
 
 main_bp = Blueprint('main', __name__)
 
@@ -68,46 +66,6 @@ def booking_confirmation():
             return jsonify({'message': 'Booking confirmed'}), 200
         else:
             return jsonify({'error': 'User not logged in'}), 401
-
-
-@main_bp.route('/user_panel')
-@login_required
-def user_panel():
-    # Если текущий пользователь администратор, перенаправляем на административную панель
-    if current_user.username == 'admin':
-        return redirect(url_for('admin_dashboard'))
-
-    # Проверяем наличие бронирований для текущего пользователя
-    has_bookings_var = has_bookings(current_user)
-    user_bookings = False
-    
-    if has_bookings_var:
-        user_bookings = get_users_bookings(current_user)
-
-    return render_template('user_panel.html', has_bookings=has_bookings_var, user_bookings = user_bookings, active_page = 'user_panel')
-
-
-@main_bp.route('/user_info')
-@login_required
-def user_info():
-    return render_template('user_info.html', active_page='user_info')
-
-
-@main_bp.route('/user_settings')
-@login_required
-def user_settings():
-    return render_template('user_settings.html', active_page='user_settings')
-
-
-@main_bp.route('/admin_dashboard')
-@login_required
-def admin_dashboard():
-    if current_user.username != 'admin':
-        return redirect(url_for('user_panel')) 
-    
-    bookings = get_all_bookings()
-    
-    return render_template('admin_dashboard.html', bookings=bookings)
 
 
 @main_bp.route('/house/<int:house_id>')

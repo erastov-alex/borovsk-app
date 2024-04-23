@@ -9,7 +9,24 @@
     <link href="{{ url_for('static', filename='css/style_common_panel.css') }}" rel="stylesheet">
     {% block styles %}{% endblock %}
 </head>
+
+
 <body>
+
+    <!-- Блок для вывода сообщений об успехе -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <ul class="list-unstyled mb-0">
+            {% for category, message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% endwith %}
+
     {% include 'header_panel.html' %}
     <div class="container-fluid">
         <div class="row">
@@ -18,19 +35,19 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link {% if active_page == 'user_panel' %}active{% endif %}" aria-current="page" href="{{ url_for('main.user_panel') }}">
+                            <a class="nav-link {% if active_page == 'user_panel' %}active{% endif %}" aria-current="page" href="{{ url_for('users.user_panel') }}">
                                 <span data-feather="home"></span>
                                 Бронирования
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if active_page == 'user_info' %}active{% endif %}" aria-current="page" href="{{ url_for('main.user_info') }}">
+                            <a class="nav-link {% if active_page == 'user_info' %}active{% endif %}" aria-current="page" href="{{ url_for('users.user_info') }}">
                                 <span data-feather="user"></span>
                                 Информация об аккаунте
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if active_page == 'user_settings' %}active{% endif %}" aria-current="page" href="{{ url_for('main.user_settings') }}">
+                            <a class="nav-link {% if active_page == 'user_settings' %}active{% endif %}" aria-current="page" href="{{ url_for('users.user_settings') }}">
                                 <span data-feather="settings"></span>
                                 Настройки
                             </a>
