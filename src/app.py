@@ -27,7 +27,7 @@ app.register_blueprint(bookings_bp)
 db.init_app(app)
 
 login_manager = LoginManager(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'users.login'
 
 @login_manager.user_loader
 def load_user(user_id):
