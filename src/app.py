@@ -4,11 +4,9 @@ from config import SECRET_KEY, DATABASE_PATH
 from flask_login import LoginManager
 
 from models.users import User
+from models.houses import House 
 
-from main_routes import main_bp
-from user_routes import users_bp
-from booking_routes import bookings_bp
-from admin_routes import admin_bp
+
 
 app = Flask(__name__)
 
@@ -20,10 +18,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DATABASE_PATH}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['CACHE_TYPE'] = 'simple'
 
-app.register_blueprint(main_bp)
-app.register_blueprint(users_bp)
-app.register_blueprint(bookings_bp)
-app.register_blueprint(admin_bp)
 
 # Инициализация базы данных
 db.init_app(app)
@@ -39,6 +33,15 @@ def load_user(user_id):
 # Закрытие соединения с базой данных после запроса
     return User.query.get(user_id)
 
+from main_routes import main_bp
+from user_routes import users_bp
+from booking_routes import bookings_bp
+from admin_routes import admin_bp
+
+app.register_blueprint(main_bp)
+app.register_blueprint(users_bp)
+app.register_blueprint(bookings_bp)
+app.register_blueprint(admin_bp)
 
 # Создание таблиц в базе данных
 with app.app_context():

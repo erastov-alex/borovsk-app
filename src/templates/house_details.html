@@ -3,6 +3,93 @@
 
 {% block styles %}
 <link href="{{ url_for('static', filename='css/booking.css') }}" rel="stylesheet">
+
+<style>
+	.bd-placeholder-img {
+	  font-size: 1.125rem;
+	  text-anchor: middle;
+	  -webkit-user-select: none;
+	  -moz-user-select: none;
+	  user-select: none;
+	}
+
+	@media (min-width: 768px) {
+	  .bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	  }
+	}
+
+	.container {
+		max-width: 960px;
+	  }
+	  
+	  /*
+	   * Custom translucent site header
+	   */
+	  
+	  .site-header {
+		background-color: rgba(0, 0, 0, .85);
+		-webkit-backdrop-filter: saturate(180%) blur(20px);
+		backdrop-filter: saturate(180%) blur(20px);
+	  }
+	  .site-header a {
+		color: #8e8e8e;
+		transition: color .15s ease-in-out;
+	  }
+	  .site-header a:hover {
+		color: #fff;
+		text-decoration: none;
+	  }
+	  
+	  /*
+	   * Dummy devices (replace them with your own or something else entirely!)
+	   */
+	  
+	  .product-device {
+		position: absolute;
+		right: 10%;
+		bottom: -30%;
+		width: 300px;
+		height: 540px;
+		background-color: #333;
+		border-radius: 21px;
+		transform: rotate(30deg);
+	  }
+	  
+	  .product-device::before {
+		position: absolute;
+		top: 10%;
+		right: 10px;
+		bottom: 10%;
+		left: 10px;
+		content: "";
+		background-color: rgba(255, 255, 255, .1);
+		border-radius: 5px;
+	  }
+	  
+	  .product-device-2 {
+		top: -25%;
+		right: auto;
+		bottom: 0;
+		left: 5%;
+		background-color: #e5e5e5;
+	  }
+	  
+	  
+	  /*
+	   * Extra utilities
+	   */
+	  
+	  .flex-equal > * {
+		flex: 1;
+	  }
+	  @media (min-width: 768px) {
+		.flex-md-equal > * {
+		  flex: 1;
+		}
+	  }
+</style>
+
 {% endblock %}
 
 {% block content %}
@@ -13,7 +100,7 @@
 	<div class="carousel-inner">
 		{% for i in range(num_of_photos) %}
 		<div class="carousel-item {% if i == 0 %}active{% endif %}">
-			<img src="static/img/houses/house{{ house_id }}_{{ i + 1 }}.png" class="d-block w-100" alt="Slide {{ i + 1 }}">
+			<img src="/static/img/houses/house{{ house.id }}/house{{ house.id }}_{{ i + 1 }}.png" class="d-block w-100" alt="Slide {{ i + 1 }}">
 			<div class="carousel-caption d-block">
 				<!-- Ваш заголовок и описание здесь -->
 			</div>
@@ -33,5 +120,67 @@
 		<span class="visually-hidden">Далее</span>
 	</button>
 </div>
+
+
+
+<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light">
+    <div class="col-md-5 p-lg-5 mx-auto my-5">
+      <h1 class="display-4 fw-normal"> {{ house.name }}</h1>
+      <p class="lead fw-normal"> {{ house.small_disc }} </p>
+    </div>
+    <div class="product-device shadow-sm d-none d-md-block"></div>
+    <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+  </div>
+
+  <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+    <div class="bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+      <div class="my-3 py-3">
+        <h2 class="display-5">{{ house.floors }} Этаж</h2>
+        <p class="lead">{{ house.beds }} Кровати</p>
+      </div>
+      <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+    </div>
+    <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+      <div class="my-3 p-3">
+        <h2 class="display-5">На {{ house.persons }} персон</h2>
+        <p class="lead">{{ house.rooms }} Комнат</p>
+      </div>
+      <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+    </div>
+  </div>
+
+  <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+    <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+      <div class="my-3 p-3">
+        <h2 class="display-5">{{ house.bbq }}</h2>
+        <p class="lead">Чтобы было где приготовить.</p>
+      </div>
+      <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+    </div>
+    <div class="bg-primary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+      <div class="my-3 py-3">
+        <h2 class="display-5">{{ house.water }}</h2>
+        <p class="lead">Чтобы было где освежиться.</p>
+      </div>
+      <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;"></div>
+    </div>
+  </div>
+
+  <div class="px-4 pt-5 my-5 text-center border-bottom">
+    <h1 class="display-4 fw-bold">Мы дарим уют</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">{{ house.big_disc }}</p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+        <button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Основная кнопка</button>
+        <button type="button" class="btn btn-outline-secondary btn-lg px-4">Вторичная</button>
+      </div>
+    </div>
+    <div class="overflow-hidden" style="max-height: 30vh;">
+      <div class="container px-5">
+        <img src="/static/img/houses/house{{ house.id }}/house{{ house.id }}_1.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+      </div>
+    </div>
+  </div>
+
 
 {% endblock %}

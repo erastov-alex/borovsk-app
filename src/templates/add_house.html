@@ -38,8 +38,7 @@
     <h2>Добавить дом</h2>
   </div>
   <div class="col-md-5 order-md-1 d-block mx-auto">
-    <form class="needs-validation" method="post" action="{{ url_for('add_house') }}" novalidate>
-      {{ form.csrf_token }}
+    <form class="needs-validation" method="post" action="{{ url_for('admin.add_house') }}" novalidate>
       <div class="mb-2">
         <label for="name">Название дома</label>
         <input type="text" class="form-control" id="name" name="name" placeholder="Название дома" required>

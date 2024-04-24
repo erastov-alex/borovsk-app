@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, jsonify
 from tools.helpers import *
-from cache_db import get_disc_from_database
+
 
 from flask_login import current_user, login_required
 
@@ -68,24 +68,16 @@ def booking_confirmation():
             return jsonify({'error': 'User not logged in'}), 401
 
 
-@main_bp.route('/house/<int:house_id>')
+@main_bp.route('/house_details/<int:house_id>')
 def house_details(house_id):
     # Получаем путь к папке с фотографиями для данного house_id
-    photo_dir = f"static/img/houses/house{house_id}/"
-    
-    # Получаем список файлов в этой папке
-    photos = get_all_photos(photo_dir)
-    
-    # Определяем количество фотографий
-    num_of_photos = len(photos)
-    
-    big_disc, small_disc = get_disc_from_database(house_id)
+    house = get_cache_house(house_id)
+    num_of_photos = len(os.listdir(house.photos_dir))
+
         
     # Рендерим шаблон, передавая количество фотографий в контексте
     return render_template(
         'house_details.html', 
-        house_id=house_id, 
-        num_of_photos=num_of_photos, 
-        big_disc=big_disc, 
-        small_disc=small_disc
+        house=house,
+        num_of_photos=num_of_photos
         )

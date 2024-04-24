@@ -1,57 +1,10 @@
 {% extends 'base_admin_panel.html' %}
 
-
 {% block content %}
-
-<!-- Блок для вывода сообщений об успехе -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <ul class="list-unstyled mb-0">
-        {% for category, message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{% endif %}
-{% endwith %}
-
-<!-- Блок для вывода сообщений об ошибках -->
-{% for field, errors in form.errors.items() %}
-{% for error in errors %}
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    {{ error }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{% endfor %}
-{% endfor %}
-
-<!-- Конец вашего контента -->
-
-<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Ваши бронирования</h1>
-    </div>
-
-    <!-- Код отображения бронирований --> 
-    <div class="row">
-        {% for booking in bookings %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Бронирование №{{ booking['id'] }}</h5>
-                    <p class="card-text">
-                        <strong>User:</strong> {{ booking['user_id'] }}<br>
-                        <strong>Дом:</strong> {{ booking['house_id'] }}<br>
-                        <strong>Дата заезда:</strong> {{ booking['start_date'] }}<br>
-                        <strong>Дата выезда:</strong> {{ booking['end_date'] }}
-                    </p>
-                    <a href="/edit_booking/{{ booking['id'] }}/{{ booking['house_id'] }}/{{ booking['start_date'] }}/{{ booking['end_date'] }}" class="btn btn-outline-secondary edit-booking-btn">Редактировать</a>
-                </div>
-            </div>
+    <main class="col">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="display-5 fw-normal" style="transform: translateX(26%);">DASHBOARD</h1>
         </div>
-        {% endfor %}
-    </div>
-</main>
+
+    </main>
 {% endblock %}

@@ -253,7 +253,16 @@
 		});
 		toastList[0].show();
 	});	
+  document.addEventListener('DOMContentLoaded', function () {
+    const selectHouseButtons = document.querySelectorAll('.select-house-btn');
+
+    selectHouseButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const houseId = button.getAttribute('data-house-id');
+            window.location.href = "/house_details/" + houseId;
+        });
+    });
+  });
 </script>
-<script src="{{ url_for('static', filename='js/booking.js') }}"></script>
 {% endblock %}
 

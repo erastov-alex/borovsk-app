@@ -2,6 +2,7 @@ import os
 
 from models.users import User
 from models.bookings import Booking 
+from models.houses import House
 from flask import session as s
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import joinedload
@@ -82,3 +83,26 @@ def close_db(exception=None):
 
 def get_all_photos(path):
     return os.listdir(path)
+
+
+def get_all_houses():
+    try:
+        houses = House.query.all()
+        return houses
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+    
+    
+def get_all_users():
+    try:
+        users = User.query.all()
+        return users
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+    
+    
+def get_cache_house(house_id):
+    house = House.query.filter_by(id=house_id).first()
+    return house

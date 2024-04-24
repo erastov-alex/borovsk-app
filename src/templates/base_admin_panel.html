@@ -38,9 +38,24 @@
     <link href="admin_panel.css" rel="stylesheet">
   </head>
   <body>
+
+<!-- Блок для вывода сообщений об успехе -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <ul class="list-unstyled mb-0">
+        {% for category, message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endwith %}
+
     
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Borovsky</a>
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">Borovsky</a>
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -58,25 +73,25 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+            <a class="nav-link {% if active_page == 'admin_dashboard' %}active{% endif %}" aria-current="page" href="{{ url_for('admin.admin_dashboard') }}">
               <span data-feather="home"></span>
               Dashboard
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link {% if active_page == 'all_bookings' %}active{% endif %}" aria-current="page" href="{{ url_for('admin.admin_bookings') }}">
               <span data-feather="file"></span>
               Бронирования
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link {% if active_page == 'all_houses' %}active{% endif %}" aria-current="page" href="{{ url_for('admin.admin_house') }}">
               <span data-feather="shopping-cart"></span>
-              Товары
+              Дома
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link {% if active_page == 'all_users' %}active{% endif %}" aria-current="page" href="{{ url_for('admin.admin_users') }}">
               <span data-feather="users"></span>
               Клиенты
             </a>
