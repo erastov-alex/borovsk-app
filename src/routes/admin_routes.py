@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, render_template, redirect, url_for, request
 from models.users import *
 from models.houses import *# Импорт моделей
-from tools.helpers import *
+from utils.helpers import *
 
 from flask_login import current_user, login_required
 

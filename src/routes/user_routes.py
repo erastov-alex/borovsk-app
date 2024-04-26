@@ -1,6 +1,6 @@
 from flask import Blueprint, flash, render_template, redirect, url_for, request
 from models.users import *  # Импорт моделей
-from tools.helpers import *
+from utils.helpers import *
 import hashlib
 
 from sqlalchemy.exc import IntegrityError
@@ -14,6 +14,7 @@ users_bp = Blueprint('users', __name__)
 @login_required
 def logout():
     logout_user()  # Выход пользователя из сеанса с помощью Flask-Login
+    flash("Вы успешно вышли")
     return redirect(url_for('main.index'))
 
 
@@ -30,6 +31,7 @@ def login():
             user = get_user_by_username(username)
             if user and user.password == hashed_password:
                 login_user(user)  # Вход пользователя с помощью Flask-Login
+                flash("Вы успешно вошли")
                 if username == 'admin':
                     return redirect(url_for('admin.admin_dashboard'))
                 return redirect(url_for('main.index'))

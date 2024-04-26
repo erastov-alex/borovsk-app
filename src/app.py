@@ -1,12 +1,8 @@
 from flask import Flask
 from models import db  # Импорт объекта базы данных
-from config import SECRET_KEY, DATABASE_PATH
-from flask_login import LoginManager
+from config import *
 
-from models.users import User
-from models.houses import House 
-
-
+from utils.cache import init_cache
 
 app = Flask(__name__)
 
@@ -14,29 +10,24 @@ app.config['SECRET_KEY'] = SECRET_KEY  # подствавьте свой сек�
 # секретный ключ для хеширования данных сессии при авторизации
 
 # Конфигурация базы данных SQLite
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DATABASE_PATH}'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['CACHE_TYPE'] = 'simple'
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SQLALCHEMY_TRACK_MODIFICATIONS
+
+init_cache(app)
+app.config['CACHE_TYPE'] = CACHE_TYPE
 
 
 # Инициализация базы данных
 db.init_app(app)
 
-login_manager = LoginManager(app)
-login_manager.login_view = 'users.login'
+from login import login_manager
+login_manager.init_app(app)
 
-# Устанавливаем пользовательское сообщение о входе
-login_manager.login_message = "Мы почти на месте, осталось только войти в аккаунт!"
 
-@login_manager.user_loader
-def load_user(user_id):
-# Закрытие соединения с базой данных после запроса
-    return User.query.get(user_id)
-
-from main_routes import main_bp
-from user_routes import users_bp
-from booking_routes import bookings_bp
-from admin_routes import admin_bp
+from routes.main_routes import main_bp
+from routes.user_routes import users_bp
+from routes.booking_routes import bookings_bp
+from routes.admin_routes import admin_bp
 
 app.register_blueprint(main_bp)
 app.register_blueprint(users_bp)
@@ -46,7 +37,7 @@ app.register_blueprint(admin_bp)
 # Создание таблиц в базе данных
 with app.app_context():
     db.create_all()
-    
+     
 # Ваши маршруты и другие настройки Flask
 if __name__ == '__main__':
     app.run(debug=True)

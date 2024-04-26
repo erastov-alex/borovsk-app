@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from models.users import *  # Импорт моделей
-from tools.helpers import *
+from utils.helpers import *
 
 from flask_login import login_required
 

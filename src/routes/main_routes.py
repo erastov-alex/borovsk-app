@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, jsonify
-from tools.helpers import *
+from utils.helpers import *
+from utils.cache import get_house_info
 
 
 from flask_login import current_user, login_required
@@ -15,7 +16,7 @@ def record_teardown(state):
 @main_bp.route('/')
 def index():
     show_toast = False
-    if 'toast_shown' not in session:
+    if 'toast_shown' not in session and current_user:
         show_toast = True
         session['toast_shown'] = True
     else:
@@ -71,7 +72,7 @@ def booking_confirmation():
 @main_bp.route('/house_details/<int:house_id>')
 def house_details(house_id):
     # Получаем путь к папке с фотографиями для данного house_id
-    house = get_cache_house(house_id)
+    house = get_house_info(house_id)
     num_of_photos = len(os.listdir(house.photos_dir))
 
         
