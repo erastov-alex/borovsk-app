@@ -65,3 +65,17 @@
     border: none; /* Удаляет обводку у карточек */
     margin-bottom: 20px; /* Устанавливает расстояние между карточками */
 }
+
+.card-cover {
+    opacity: 0.8; /* Пример значения прозрачности */
+}
+
+h2.text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* горизонтальное смещение, вертикальное смещение, размытие, цвет тени */
+}
+
+.position-relative.overflow-hidden {
+    background-size: cover;
+    background-position: center;
+    transition: background-image 1s ease; /* Добавляем переход для свойства background-image */
+}
