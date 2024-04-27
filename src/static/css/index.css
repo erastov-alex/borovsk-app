@@ -74,6 +74,15 @@ h2.text-shadow {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* горизонтальное смещение, вертикальное смещение, размытие, цвет тени */
 }
 
+h1.text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* горизонтальное смещение, вертикальное смещение, размытие, цвет тени */
+}
+
+p.text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* горизонтальное смещение, вертикальное смещение, размытие, цвет тени */
+}
+
+
 .position-relative.overflow-hidden {
     background-size: cover;
     background-position: center;
