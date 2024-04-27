@@ -22,7 +22,7 @@ def index():
     else:
         show_toast = False
 
-    return render_template('index.html', show_toast=show_toast, current_user=current_user)    
+    return render_template('main/index.html', show_toast=show_toast, current_user=current_user)    
 
 
 @main_bp.route('/house_selection', methods=['GET', 'POST'])
@@ -31,14 +31,14 @@ def house_selection():
     # Извлекаем house_id, start_date и end_date из параметров GET-запроса, если они есть
     house_id = request.args.get('house_id')
 
-    return render_template('house_selection.html', house_id=house_id)
+    return render_template('main/house_selection.html', house_id=house_id)
 
 
 @main_bp.route('/calendar', methods=['GET', 'POST'])
 @login_required
 def calendar():
     house_id = request.args.get('house_id')
-    return render_template('calendar.html', house_id=house_id, username=current_user.username)
+    return render_template('main/calendar.html', house_id=house_id, username=current_user.username)
 
 
 @main_bp.route('/booking_confirmation', methods=['GET', 'POST'])
@@ -50,7 +50,7 @@ def booking_confirmation():
         house_id = request.args.get('house_id')
         start_date = request.args.get('start_date')
         end_date = request.args.get('end_date')
-        return render_template('booking_confirmation.html', username=username, house_id=house_id, start_date=start_date, end_date=end_date)
+        return render_template('main/booking_confirmation.html', username=username, house_id=house_id, start_date=start_date, end_date=end_date)
     
     elif request.method == 'POST':
         # Если это POST запрос, обрабатываем данные бронирования
@@ -74,11 +74,13 @@ def house_details(house_id):
     # Получаем путь к папке с фотографиями для данного house_id
     house = get_house_info(house_id)
     num_of_photos = len(os.listdir(house.photos_dir))
+    stickers = [house.name, house.floors+' Этажа', 'Скидка', 'Мангал', 'Парковка']
 
         
     # Рендерим шаблон, передавая количество фотографий в контексте
     return render_template(
-        'house_details.html', 
+        'main/house_details.html', 
         house=house,
-        num_of_photos=num_of_photos
+        num_of_photos=num_of_photos,
+        stickers=stickers
         )

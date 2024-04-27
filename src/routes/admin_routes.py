@@ -14,7 +14,7 @@ def admin_dashboard():
     if current_user.username != 'admin':
         return redirect(url_for('user.user_panel')) 
     
-    return render_template('admin_dashboard.html')
+    return render_template('admin/admin_dashboard.html')
 
 
 @admin_bp.route('/add_house', methods=['GET', 'POST'])
@@ -45,7 +45,7 @@ def add_house():
         return redirect(url_for('admin.admin_house'))
     
     # Если метод GET, просто отображаем форму для добавления дома
-    return render_template('add_house.html')
+    return render_template('admin/add_house.html')
 
 
 
@@ -54,19 +54,19 @@ def add_house():
 @login_required
 def admin_bookings():
     bookings = get_all_bookings()
-    return render_template('admin_bookings.html', bookings=bookings) 
+    return render_template('admin/admin_bookings.html', bookings=bookings) 
 
  
 @admin_bp.route('/admin_house')
 @login_required
 def admin_house():
     all_houses = get_all_houses()
-    return render_template('admin_house.html', houses=all_houses) 
+    return render_template('admin/admin_house.html', houses=all_houses) 
 
  
 @admin_bp.route('/admin_users')
 @login_required
 def admin_users():
     all_users = get_all_users()
-    return render_template('admin_users.html', users=all_users) 
+    return render_template('admin/admin_users.html', users=all_users) 
 

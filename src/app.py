@@ -25,7 +25,7 @@ login_manager.init_app(app)
 
 
 from routes.main_routes import main_bp
-from routes.user_routes import users_bp
+from routes.users_routes import users_bp
 from routes.booking_routes import bookings_bp
 from routes.admin_routes import admin_bp
 

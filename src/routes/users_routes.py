@@ -37,7 +37,7 @@ def login():
                 return redirect(url_for('main.index'))
             else:
                 flash("Неправильное имя пользователя или пароль", 'danger')
-    return render_template('login.html', error=error, form=form)
+    return render_template('users/login.html', error=error, form=form)
 
 
 @users_bp.route('/register', methods=['GET', 'POST'])
@@ -73,7 +73,7 @@ def register():
             errors = {field.name: field.errors for field in form if field.errors}
             flash('Регистрация не удалась. Пожалуйста, проверьте следующие поля:', 'danger')
             print(errors, 'danger')  # Передаем ошибки всплывающему уведомлению
-    return render_template('register.html', form = form)
+    return render_template('users/register.html', form = form)
 
 
 @users_bp.route('/user_panel')
@@ -90,16 +90,16 @@ def user_panel():
     if has_bookings_var:
         user_bookings = get_users_bookings(current_user)
 
-    return render_template('user_panel.html', has_bookings=has_bookings_var, user_bookings = user_bookings, active_page = 'user_panel')
+    return render_template('users/user_panel.html', has_bookings=has_bookings_var, user_bookings = user_bookings, active_page = 'user_panel')
 
 
 @users_bp.route('/user_info')
 @login_required
 def user_info():
-    return render_template('user_info.html', active_page='user_info')
+    return render_template('users/user_info.html', active_page='user_info')
 
 
 @users_bp.route('/user_settings')
 @login_required
 def user_settings():
-    return render_template('user_settings.html', active_page='user_settings')
+    return render_template('users/user_settings.html', active_page='user_settings')

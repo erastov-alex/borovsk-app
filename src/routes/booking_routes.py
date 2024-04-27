@@ -27,7 +27,7 @@ def edit_start_date(booking_id, house_id, start_date, end_date):
 
         # Возвращаем шаблон модального окна с обновленными данными
         return render_template(
-            'edit_booking.html', 
+            'users/edit_booking.html', 
             booking=booking, 
             active_page = 'user_panel'
             )
@@ -51,7 +51,7 @@ def edit_end_date(booking_id, house_id, start_date, end_date):
         booking = get_booking_by_id(booking_id)
 
         # Возвращаем шаблон модального окна с обновленными данными
-        return render_template('edit_booking.html', booking=booking, active_page = 'user_panel')
+        return render_template('users/edit_booking.html', booking=booking, active_page = 'user_panel')
 
 
 @bookings_bp.route('/edit_booking/<int:booking_id>/<int:house_id>/<string:start_date>/<string:end_date>', methods=['GET', 'POST'])
@@ -63,7 +63,7 @@ def edit_booking(booking_id, house_id, start_date, end_date):
     
     # Если метод запроса GET, просто возвращаем шаблон модального окна
     return render_template(
-        'edit_booking.html', 
+        'users/edit_booking.html', 
         booking=booking,  
         active_page = 'user_panel'
         )
@@ -75,4 +75,4 @@ def cancel_booking(booking_id):
     # Обновляем бронирование в базе данных
     cancel_booking_by_id(booking_id)
 
-    return redirect(url_for('main.user_panel'))
+    return redirect(url_for('users.user_panel'))
