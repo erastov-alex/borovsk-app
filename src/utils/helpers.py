@@ -66,8 +66,10 @@ def update_booking(booking_id, start_date, end_date, house_id):
             booking.end_date = end_date
             booking.house_id = house_id
             db.session.commit()
+        return True
     except Exception:
         print("ERROR")
+        return None
 
 
 def cancel_booking_by_id(booking_id):

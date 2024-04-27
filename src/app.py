@@ -1,6 +1,8 @@
 from flask import Flask
 from models import db  # Импорт объекта базы данных
 from config import *
+from api.api import Api
+from api.routes import api
 
 from utils.cache import init_cache
 
@@ -20,6 +22,8 @@ app.config['CACHE_TYPE'] = CACHE_TYPE
 # Инициализация базы данных
 db.init_app(app)
 
+jwt = Api(app, JWT_SECRET_KEY)
+
 from login import login_manager
 login_manager.init_app(app)
 
@@ -33,6 +37,7 @@ app.register_blueprint(main_bp)
 app.register_blueprint(users_bp)
 app.register_blueprint(bookings_bp)
 app.register_blueprint(admin_bp)
+app.register_blueprint(api)
 
 # Создание таблиц в базе данных
 with app.app_context():

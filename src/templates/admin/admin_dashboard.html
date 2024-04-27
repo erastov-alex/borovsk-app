@@ -1,10 +1,40 @@
 {% extends 'base_admin_panel.html' %}
 
 {% block content %}
-    <main class="col">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="display-5 fw-normal" style="transform: translateX(26%);">DASHBOARD</h1>
-        </div>
+<main class="col">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="display-5 fw-normal" style="transform: translateX(26%);">DASHBOARD</h1>
+    </div>
 
-    </main>
+    <h2>Пользователи</h2>
+    <ul>
+        {% for user in users %}
+            <li>{{ user.username }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Бронирования</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Имя пользователя</th>
+                <th>Дата начала</th>
+                <th>Дата окончания</th>
+                <th>Номер дома</th>
+                <!-- Другие столбцы по вашему выбору -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.username }}</td>
+                    <td>{{ booking.start_date }}</td>
+                    <td>{{ booking.end_date }}</td>
+                    <td>{{ booking.house_id }}</td>
+                    <!-- Другие столбцы по вашему выбору -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
 {% endblock %}

@@ -97,9 +97,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link {% if active_page == 'api' %}active{% endif %}" aria-current="page" href="{{ url_for('admin.api') }}">
               <span data-feather="bar-chart-2"></span>
-              Отчеты
+              API
             </a>
           </li>
           <li class="nav-item">

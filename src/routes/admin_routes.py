@@ -1,9 +1,10 @@
-from flask import Blueprint, flash, render_template, redirect, url_for, request
+from flask import Blueprint, flash, render_template, redirect, url_for, request, jsonify
 from models.users import *
 from models.houses import *# Импорт моделей
 from utils.helpers import *
 
 from flask_login import current_user, login_required
+from flask_jwt_extended import create_access_token
 
 
 admin_bp = Blueprint('admin', __name__)
@@ -13,8 +14,10 @@ admin_bp = Blueprint('admin', __name__)
 def admin_dashboard():
     if current_user.username != 'admin':
         return redirect(url_for('user.user_panel')) 
-    
-    return render_template('admin/admin_dashboard.html')
+    users = get_all_users()
+    bookings = get_all_bookings()
+
+    return render_template('admin/admin_dashboard.html', users=users, bookings=bookings)
 
 
 @admin_bp.route('/add_house', methods=['GET', 'POST'])
@@ -70,3 +73,11 @@ def admin_users():
     all_users = get_all_users()
     return render_template('admin/admin_users.html', users=all_users) 
 
+@admin_bp.route('/api', methods=['GET', 'POST'])
+@login_required
+def api():
+    token = None
+    if request.method == 'POST':
+        token = create_access_token(identity=current_user.username)
+        return jsonify({'token': token})  # Вернуть токен в формате JSON
+    return render_template('admin/api.html', token=token) 

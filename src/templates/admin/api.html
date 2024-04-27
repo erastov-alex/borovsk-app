@@ -1,0 +1,57 @@
+{% extends 'base_admin_panel.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            Генератор токена
+        </div>
+        <div class="card-body">
+            <!-- Поле для отображения сгенерированного токена -->
+            <div class="form-group">
+                <label for="api-token">Сгенерированный токен:</label>
+                <input type="text" class="form-control" id="api-token" readonly value="{{ token }}">
+            </div>
+            <!-- Кнопка для генерации токена -->
+            <button type="button" class="btn btn-primary" onclick="generateToken()">Сгенерировать токен</button>
+            <button type="button" class="btn btn-success" onclick="copyToken()">Скопировать</button>
+        </div>
+    </div>
+</div>
+
+<!-- Подключаем Bootstrap для скриптов -->
+<script>
+    // Функция для генерации токена
+    function generateToken() {
+        // Отправляем AJAX запрос на сервер для генерации токена
+        fetch('/api', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // При получении ответа от сервера обновляем значение поля ввода с токеном
+            document.getElementById('api-token').value = data.token;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    function copyToken() {
+        // Находим поле ввода с токеном
+        var tokenInput = document.getElementById('api-token');
+    
+        // Выделяем текст в поле ввода
+        tokenInput.select();
+    
+        // Копируем выделенный текст в буфер обмена
+        document.execCommand('copy');
+    
+        // Отменяем выделение текста
+        window.getSelection().removeAllRanges();
+    
+        // Показываем уведомление о копировании
+        alert('Токен скопирован в буфер обмена!');
+    }
+</script>
+{% endblock %}
