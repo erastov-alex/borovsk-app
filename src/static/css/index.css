@@ -24,7 +24,25 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
+    background-color: #ffffff; /* Изменение цвета фона */
+    opacity: 1; /* Непрозрачный фон */
+    width: 600px; /* Увеличение размера окна вдвое */
+    height: 600px;
 }
+
+.toast-lg {
+    font-size: 1.2rem;
+    padding: 1.5rem;
+}
+
+.toast-header {
+    background-color: #ffffff; /* Изменение цвета фона */
+}
+
+.toast-body {
+    background-color: #ffffff; /* Изменение цвета фона */
+}
+
 
 @media (min-height: 600px) {
     .carousel-inner img {

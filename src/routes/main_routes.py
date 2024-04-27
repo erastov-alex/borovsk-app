@@ -15,14 +15,14 @@ def record_teardown(state):
 
 @main_bp.route('/')
 def index():
-    show_toast = False
+    show_toast = True
     if 'toast_shown' not in session and current_user:
         show_toast = True
         session['toast_shown'] = True
     else:
         show_toast = False
 
-    return render_template('main/index.html', show_toast=show_toast, current_user=current_user)    
+    return render_template('main/index.html', show_toast=False, current_user=current_user)    
 
 
 @main_bp.route('/house_selection', methods=['GET', 'POST'])
