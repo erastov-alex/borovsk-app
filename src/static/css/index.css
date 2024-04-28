@@ -61,14 +61,23 @@
     transition: background-color 0.3s;
 }
 
+
 .card {
     border: none; /* Удаляет обводку у карточек */
     margin-bottom: 20px; /* Устанавливает расстояние между карточками */
+    opacity: 0; /* initial opacity */
+    transform: scale(0.9); /* initial scale */
+    transition: opacity 0.5s, transform 0.5s; /* animation duration */
 }
 
 .card-cover {
     opacity: 0.8; /* Пример значения прозрачности */
 }
+  
+.card.animate {
+    opacity: 1; /* final opacity */
+    transform: scale(1); /* final scale */
+  }
 
 h2.text-shadow {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* горизонтальное смещение, вертикальное смещение, размытие, цвет тени */
@@ -124,7 +133,7 @@ p.text-shadow {
 
 
 /* Show .bg-image on smaller screens */
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1242px) {
     .video-bg {
       display: none;
     }
@@ -134,7 +143,7 @@ p.text-shadow {
   }
 
 /* Show .bg-image on smaller screens */
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 1243px) {
     .bg-image {
       display: none;
     }

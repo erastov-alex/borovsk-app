@@ -42,7 +42,7 @@
 <div class="bg-image">
   <div class="position-relative overflow-hidden p-3 p-md-5 text-center bg-light" style="background-image: url('https://s12.gifyu.com/images/SaSoN.gif'); background-size: cover; background-position: center;">
       <div class="col-md-5 p-lg-5 mx-auto my-5">
-          <h1 class="display-5 fw-normal text-shadow">Уютные домики в Боровске</h1>
+          <h1 class="display-5 fw-normal text-shadow">Загородный комплекс Borovsky</h1>
           <p class="lead mb-4 text-shadow">Проведи выходные на природе</p>
           <a href="/house_selection" class="btn btn-success-custom btn-lg">Забронировать</a>
       </div>
@@ -179,9 +179,9 @@
 	</button>
 </div>
 
+<h2 class="reveal-text pb-2 display-6 text-center px-4 py-5" id="animated-header">Достопримечательности - в шаговой доступности</h2>
 
-<div class="container px-4 py-5" id="custom-cards">
-    <h2 class="pb-2 display-6 text-center">Достопримечательности - в шаговой доступности</h2>
+<div class="container" id="custom-cards">
     <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
       <div class="col">
         <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://media.pravoslavie.ru/314850.b.jpg?mtime=1554118721');">
@@ -252,7 +252,7 @@
 	<div class="container-fluid py-5">
 	  <h1 class="display-5 fw-bold">Остались вопросы?</h1>
 	  <p class="col-md-8 fs-4">Воспользуйтесь формой заказа обратного звонка и мы свяжемся и уточним все детали</p>
-	  <button class="btn btn-success btn-lg" type="button">Заказать звонок</button>
+	  <button class="btn btn-success-custom btn-lg" type="button">Заказать звонок</button>
 	</div>
 </div>
 
@@ -276,6 +276,29 @@
         });
     });
   });
+
+
+  const cards = document.querySelectorAll('.card');
+  let animatedCards = [];
+
+  function animateCards() {
+    cards.forEach((card, index) => {
+      const cardTop = card.offsetTop;
+      const scrollPosition = window.scrollY + window.innerHeight;
+      if (scrollPosition > cardTop && !animatedCards.includes(index)) {
+        card.classList.add('animate');
+        animatedCards.push(index);
+        setTimeout(() => {
+          animateCards(); // call again after 1 second to animate the next card
+        }, 1000);
+      }
+    });
+  }
+
+  window.addEventListener('scroll', animateCards);
+  animateCards(); // initial animation on page load
+
+
 </script>
 {% endblock %}
 
