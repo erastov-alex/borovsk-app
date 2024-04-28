@@ -2,6 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for, request, sessio
 from utils.helpers import *
 from utils.cache import get_house_info
 
+import json
+
 
 from flask_login import current_user, login_required
 
@@ -38,7 +40,14 @@ def house_selection():
 @login_required
 def calendar():
     house_id = request.args.get('house_id')
-    return render_template('main/calendar.html', house_id=house_id, username=current_user.username)
+    available_dates = ['2024-04-01', '2024-04-02', '2024-04-03', '2024-04-12',
+        '2024-05-02', '2024-05-03']
+    return render_template(
+        'main/calendar.html', 
+        house_id=house_id, 
+        username=current_user.username, 
+        available_dates=available_dates
+        )
 
 
 @main_bp.route('/booking_confirmation', methods=['GET', 'POST'])

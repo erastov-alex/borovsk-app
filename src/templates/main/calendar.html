@@ -57,6 +57,8 @@
 
     <script src="{{ url_for('static', filename='node_modules/air-datepicker/air-datepicker.js') }}"></script>
     <script>
+        var availableDates = {{ available_dates | tojson }};
+        console.log(availableDates)
         new AirDatepicker('#airdatepicker', {
             position: 'right top',
             range: true,
@@ -64,19 +66,25 @@
             // multipleDatesSeparator: ' - '
             // timepicker: true,
             // Handle render process
-            onRenderCell({date, cellType}) {
-                let dates = [1, 5, 7, 10, 15, 20, 25],
-                emoji = ['💕', '😃', '🍙', '🍣', '🍻', '🎉', '🥁'],
-                isDay = cellType === 'day',
-                _date = date.getDate(),
-                shouldChangeContent = isDay && dates.includes(_date),
-                randomEmoji = emoji[Math.floor(Math.random() * emoji.length)];
-
-                return {
-                    html: shouldChangeContent ? randomEmoji : false,
-                    classes: shouldChangeContent ? '-emoji-cell-' : false
+            onRenderCell({ date, cellType }) {
+                if (cellType === 'day') {
+                    var month = date.getMonth() + 1;
+                    var year = date.getFullYear();
+                    var day = date.getDate();
+                    var key = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+                    console.log(key)
+                    var dates = availableDates.filter(date => date.startsWith(key));
+                    console.log(dates)
+                    if (dates.includes(key)) {
+                        return {
+                            html: '❌',
+                            classes: '-emoji-cell-'
+                        };
+                    }
                 }
+                return {};
             },
+                
             buttons: ['today', 'clear'],
             locale: {
                 days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
