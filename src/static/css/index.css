@@ -121,9 +121,21 @@ p.text-shadow {
     color: #ffffff;
     font-size: 50px;
   }
-.main {
-    max-width: 1600px;
-    margin: 0 auto;
-    margin-top: 50px;
-    padding: 0 20px;
-}
+
+
+/* Show .bg-image on smaller screens */
+@media only screen and (max-width: 768px) {
+    .video-bg {
+      display: none;
+    }
+    .bg-image {
+      display: block;
+    }
+  }
+
+/* Show .bg-image on smaller screens */
+@media only screen and (min-width: 769px) {
+    .bg-image {
+      display: none;
+    }
+  }
