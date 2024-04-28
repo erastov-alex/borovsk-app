@@ -40,13 +40,15 @@ def house_selection():
 @login_required
 def calendar():
     house_id = request.args.get('house_id')
-    available_dates = ['2024-04-01', '2024-04-02', '2024-04-03', '2024-04-12',
-        '2024-05-02', '2024-05-03']
+    '''
+    Return list of unavailable dates for house_id in YYYY-MM-DD format
+    '''
+    unavailable_dates = get_unavailable_dates(house_id)
     return render_template(
         'main/calendar.html', 
         house_id=house_id, 
         username=current_user.username, 
-        available_dates=available_dates
+        unavailable_dates=unavailable_dates
         )
 
 

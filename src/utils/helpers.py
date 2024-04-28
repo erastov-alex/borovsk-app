@@ -8,6 +8,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import joinedload
 from models import db
 
+from datetime import datetime, timedelta
+
 
 def create_user(username, email, password):
     new_user = User(username=username, email=email, password=password)
@@ -104,7 +106,14 @@ def get_all_users():
         print(f"An error occurred: {e}")
         return None
     
-    
-def get_cache_house(house_id):
-    house = House.query.filter_by(id=house_id).first()
-    return house
+
+def get_unavailable_dates(house_id):
+    unavailable_dates = []
+    bookings = Booking.query.filter_by(house_id=house_id).all()
+    for booking in bookings:
+        start_date = datetime.strptime(booking.start_date, '%Y-%m-%d')
+        end_date = datetime.strptime(booking.end_date, '%Y-%m-%d')
+        while start_date <= end_date:
+            unavailable_dates.append(start_date.strftime('%Y-%m-%d'))
+            start_date += timedelta(days=1)
+    return unavailable_dates

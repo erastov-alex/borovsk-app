@@ -57,8 +57,7 @@
 
     <script src="{{ url_for('static', filename='node_modules/air-datepicker/air-datepicker.js') }}"></script>
     <script>
-        var availableDates = {{ available_dates | tojson }};
-        console.log(availableDates)
+        var unavailableDates = {{ unavailable_dates | tojson }};
         new AirDatepicker('#airdatepicker', {
             position: 'right top',
             range: true,
@@ -72,9 +71,7 @@
                     var year = date.getFullYear();
                     var day = date.getDate();
                     var key = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-                    console.log(key)
-                    var dates = availableDates.filter(date => date.startsWith(key));
-                    console.log(dates)
+                    var dates = unavailableDates.filter(date => date.startsWith(key));
                     if (dates.includes(key)) {
                         return {
                             html: '❌',
@@ -94,7 +91,7 @@
                 monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 today: 'Today',
                 clear: 'Clear',
-                dateFormat: 'dd.MM.yyyy',
+                dateFormat: 'yyyy-MM-dd',
                 timeFormat: 'hh:mm aa',
                 firstDay: 0
             }
