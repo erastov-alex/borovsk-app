@@ -42,11 +42,11 @@
 }
 
 .btn-primary:hover {
-    background-color: #347943; /* Изменение цвета фона при наведении */
+    background-color: #094f4f; /* Изменение цвета фона при наведении */
 }
 
 .login-btn:hover {
-    background-color: #347943; /* Изменение цвета фона при наведении */
+    background-color: #094f4f; /* Изменение цвета фона при наведении */
 }
 
 .btn-outline-light {
@@ -54,7 +54,7 @@
 }
 
 .btn-outline-light:hover {
-    background-color: #347943; /* Изменение цвета фона при наведении */
+    background-color: #094f4f; /* Изменение цвета фона при наведении */
 }
 
 .welcome-block {
@@ -99,11 +99,15 @@
     background-color: #008080;
 }
 
+.btn-success:hover {
+    background-color: #094f4f;
+}
+
 
 .btn-success-custom {
     overflow: hidden;
     position: relative;
-    background-color: #0a5c5c;
+    background-color: #008080;
     color: #fff
 }
 
@@ -148,3 +152,12 @@
   .navbar-toggler-icon:focus {
     outline: none;
   }
+
+.btn-outline-success {
+    color: #0a5c5c;
+}
+
+.btn-outline-success:hover {
+    color: #073e3e;
+    background-color: #ececec;
+}
