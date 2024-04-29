@@ -1,4 +1,28 @@
-/* Стили для бокового меню */
+/* Уберем стили для main */
+main {
+    flex: 1 1 auto;
+    /* min-width: 700px; */ /* Удаляем фиксированную минимальную ширину */
+    position: relative;
+}
+
+/* Уберем стили для .container-fluid */
+.container-fluid {
+    /* max-width: 100%; */ /* Удаляем максимальную ширину */
+    overflow-x: hidden;
+}
+
+/* Добавим стили для контейнера с боковым меню и основным контентом */
+.container-fluid .row {
+    flex-wrap: nowrap; /* Запрещаем перенос элементов на новую строку */
+}
+
+/* Увеличим ширину бокового меню на маленьких экранах */
+@media (max-width: 767px) {
+    #sidebarMenu {
+        width: 20%; /* Увеличим ширину бокового меню */
+    }
+}
+
 #sidebarMenu {
     min-height: 100vh; /* Высота на всю высоту вьюпорта */
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Тень для бокового меню */
@@ -146,4 +170,17 @@ main {
 
 .btn-success:hover {
     background-color: #094f4f;
+}
+
+
+@media (max-width: 767px) {
+    #sidebarMenu {
+        width: 10%;
+    }
+    #sidebarMenu .nav-link span {
+        display: none;
+    }
+    #sidebarMenu .nav-link span[data-feather]::before {
+        content: attr(data-feather);
+    }
 }
