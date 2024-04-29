@@ -174,7 +174,8 @@ p.text-shadow {
     font-family: "Cormorant Infant", serif;
     font-weight: 400;
     font-style: normal;
-    font-size: 96px
+    font-size: 96px;
+    white-space: nowrap;
   }
 
   .cinzel-decorative-regular {
