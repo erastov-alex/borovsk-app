@@ -4,9 +4,38 @@
         <a class="navbar-brand" href="/">
             <img src="{{ url_for('static', filename='img/logo_square2.png') }}" alt="Логотип" height="24">
         </a>
-        <div class="d-flex align-items-center">
-            <span class="me-3">Привет, {{ current_user.username }}</span>
-            <a href="{{ url_for('users.logout') }}" class="btn btn-outline-secondary">Выход</a>
-        </div>
+        <div class="d-flex align-items-center justify-content-end"> <!-- Добавлен justify-content-end для выравнивания элементов по правому краю -->
+    <span class="me-3">Привет, {{ current_user.username }}</span>
+    <div class="dropdown">
+        <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi-person-circle h2"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end text-small shadow animated" aria-labelledby="dropdownUser3"> <!-- Добавлен класс dropdown-menu-end -->
+            <li class="nav-item">
+                <a class="nav-link {% if active_page == 'user_panel' %}active{% endif %}" aria-current="page" href="{{ url_for('users.user_panel') }}">
+                    <span data-feather="home"></span>
+                    <span class="d-lg-inline d-none">Бронирования</span>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link {% if active_page == 'user_info' %}active{% endif %}" aria-current="page" href="{{ url_for('users.user_info') }}">
+                    <span data-feather="book"></span>
+                    <span class="d-lg-inline d-none">Аккаунт</span>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link {% if active_page == 'user_settings' %}active{% endif %}" aria-current="page" href="{{ url_for('users.user_settings') }}">
+                    <span data-feather="settings"></span>
+                    <span class="d-lg-inline d-none">Настройки</span>
+                </a>  
+            </li>
+            <li>
+                <a class="nav-link {% if active_page == 'user_settings' %}active{% endif %}" aria-current="page" href="{{ url_for('users.logout') }}">
+                    <span data-feather="log-out"></span>
+                    <span class="d-lg-inline d-none">Выход</span>
+                </a>  
+            </li>
+        </ul>
     </div>
+</div>
 </nav>
