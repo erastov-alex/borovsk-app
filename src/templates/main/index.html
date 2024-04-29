@@ -2,6 +2,9 @@
 
 {% block styles %}
 <link href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Infant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -32,8 +35,8 @@
   </video>
   <div class="effects"></div>
   <div class="video-bg__content">
-      <h1 class="display-5 fw-normal">Загородный комплекс Borovsky</h1>
-      <p class="lead mb-4">Проведи выходные на природе</p>
+      <h1 class="cormorant-infant-regular">B O R O <span class="cinzel-decorative-regular">V</span> S K Y</h2>
+      <p class="roboto-thin mb-4">Загородный комплекс для выходных на природе</p>
       <a href="/house_selection" class="btn btn-success-custom btn-lg">Забронировать</a>
   </div>
   </div>
@@ -42,7 +45,8 @@
 <div class="bg-image">
   <div class="position-relative overflow-hidden p-3 p-md-5 text-center bg-light" style="background-image: url('https://s12.gifyu.com/images/SaSoN.gif'); background-size: cover; background-position: center;">
       <div class="col-md-5 p-lg-5 mx-auto my-5">
-          <h1 class="display-5 fw-normal text-shadow">Загородный комплекс Borovsky</h1>
+          <h1 class="display-5 fw-normal text-shadow">Загородный комплекс </h1>
+          <h2 class="satisfy-regular">  Borovsky</h2>
           <p class="lead mb-4 text-shadow">Проведи выходные на природе</p>
           <a href="/house_selection" class="btn btn-success-custom btn-lg">Забронировать</a>
       </div>
