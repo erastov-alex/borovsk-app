@@ -1,71 +1,4 @@
-/* Уберем стили для main */
-main {
-    flex: 1 1 auto;
-    /* min-width: 700px; */ /* Удаляем фиксированную минимальную ширину */
-    position: relative;
-}
 
-/* Уберем стили для .container-fluid */
-.container-fluid {
-    /* max-width: 100%; */ /* Удаляем максимальную ширину */
-    overflow-x: hidden;
-}
-
-/* Добавим стили для контейнера с боковым меню и основным контентом */
-.container-fluid .row {
-    flex-wrap: nowrap; /* Запрещаем перенос элементов на новую строку */
-}
-
-/* Увеличим ширину бокового меню на маленьких экранах */
-@media (max-width: 767px) {
-    #sidebarMenu {
-        width: 20%; /* Увеличим ширину бокового меню */
-    }
-}
-
-#sidebarMenu {
-    min-height: 100vh; /* Высота на всю высоту вьюпорта */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Тень для бокового меню */
-    z-index: 1000; /* Устанавливаем z-index, чтобы меню было поверх основного контента */
-}
-
-.sidebar .nav-link {
-    border-radius: 1; /* Убираем закругление углов */
-    color: #333; /* Цвет текста */
-}
-
-.sidebar .nav-link:hover {
-    background: #f8f9fa; /* Фон при наведении */
-}
-
-.sidebar .nav-link.active {
-    background-color: #008080; /* Фон для активной ссылки */
-    color: white; /* Цвет текста для активной ссылки */
-}
-
-.nav-item {
-    margin-bottom: 20px; /* Устанавливаем отступ между пунктами меню */
-}
-
-.container-fluid {
-display: flex;
-flex-wrap: nowrap; /* Запрещаем перенос элементов на новую строку */
-}
-
-#sidebarMenu {
-    flex: 0 0 auto; /* Задаем фиксированную ширину для бокового меню */
-}
-
-.container-fluid {
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
-main {
-    flex: 1 1 auto;
-    min-width: 700px;
-    position: relative;
-}
 
 /* Добавляем стили для контактов в футере */
 .footer {
@@ -157,12 +90,6 @@ main {
     font-size: 14px;
 }
 
-.navbar-collapse {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
 
 .btn-success {
     background-color: #008080;
@@ -172,15 +99,15 @@ main {
     background-color: #094f4f;
 }
 
+#menu .nav-link {
+    color: #008080; /* Цвет текста и иконок */
+}
 
-@media (max-width: 767px) {
-    #sidebarMenu {
-        width: 10%;
-    }
-    #sidebarMenu .nav-link span {
-        display: none;
-    }
-    #sidebarMenu .nav-link span[data-feather]::before {
-        content: attr(data-feather);
-    }
+#menu .nav-link.active {
+    background-color: #008080; /* Фон для активной ссылки */
+    color: white; /* Цвет текста для активной ссылки */
+}
+
+#menu .nav-link.active:hover {
+    background-color: #00686b; /* Изменение цвета фона при наведении на активную ссылку */
 }
