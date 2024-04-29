@@ -167,6 +167,9 @@ p.text-shadow {
   }
 
 
+
+
+
   .cormorant-infant-regular {
     font-family: "Cormorant Infant", serif;
     font-weight: 400;
@@ -198,4 +201,16 @@ p.text-shadow {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-style: normal;
+  }
+
+
+  /* Медиа-запрос для мобильных устройств */
+  @media screen and (max-width: 1242px) {
+    .cormorant-infant-regular {
+        font-size: 48px; /* Уменьшаем размер шрифта на мобильных устройствах */
+    }
+  
+    .cinzel-decorative-regular {
+        font-size: 48px; /* Уменьшаем размер шрифта на мобильных устройствах */
+    }
   }
