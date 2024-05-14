@@ -5,6 +5,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Infant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 {% endblock %}
 
 {% block content %}
@@ -68,118 +69,48 @@
     </div>
 </div>
 
-<!-- Cards in grid -->
-<section id="cards" class="container mt-4 mb-4">
-    <div class="card-group">
-        <!-- Card 1 -->
-        <div class="col-md-4">
-            <div class="card h-100">
-                <img src="https://modul-2.ru/assets/cache_image/projects/dom-17/render_01_760x507_ace.jpg.webp" class="card-img-top rounded-circle mx-auto mt-3"
-                     alt="Card image 1" style="width: 150px; height: 150px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Дом "Уютный"</h5>
-                    <p class="card-text">
-                        <strong>Тип:</strong> Одноэтажный<br>
-                        <strong>Вместимость:</strong> Для 2 персон<br>
-                        <strong>Кровати:</strong> 1<br>
-                        <strong>Комнаты:</strong> 2<br>
-                        <strong>Удобства:</strong> Все удобства<br>
-                        <strong>Особенности:</strong> Прекрасно подходит для романтического отдыха вдвоем. Уютная атмосфера и комфорт обеспечат незабываемый отдых.
-                    </p>
-                    <div class="mt-auto text-center"> <!-- Добавлен класс text-center для центрирования кнопки -->
-                        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-success select-house-btn" type="button" data-house-id="1">Выбрать</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="col-md-4">
-            <div class="card h-100">
-                <img src="https://img-fotki.yandex.ru/get/26292/127908635.e73/0_186f9c_59a2d690_orig.jpg" class="card-img-top rounded-circle mx-auto mt-3"
-                    alt="достопримечательности" style="width: 150px; height: 150px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Дом "Семейный"</h5>
-                    <p class="card-text">
-                        <strong>Тип:</strong> Двухэтажный<br>
-                        <strong>Вместимость:</strong> Для семьи из 4 человек<br>
-                        <strong>Кровати:</strong> 3<br>
-                        <strong>Комнаты:</strong> 3<br>
-                        <strong>Удобства:</strong> Полный набор удобств для комфортного проживания семьи.<br>
-                        <strong>Особенности:</strong> Просторное размещение для всей семьи. Каждый член семьи найдет здесь свое место для отдыха и развлечений.
-                    </p>
-                    <div class="mt-auto text-center"> <!-- Добавлен класс text-center для центрирования кнопки -->
-                      <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-success select-house-btn" type="button" data-house-id="2">Выбрать</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="col-md-4">
-            <div class="card h-100">
-                <img src="https://img-fotki.yandex.ru/get/39232/127908635.e73/0_186f9e_dea14748_orig.jpg" class="card-img-top rounded-circle mx-auto mt-3"
-                    alt="Card image 3" style="width: 150px; height: 150px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Дом "Большой"</h5>
-                    <p class="card-text">
-                        <strong>Тип:</strong> Двухэтажный<br>
-                        <strong>Вместимость:</strong> Для большой компании<br>
-                        <strong>Спальни:</strong> 4<br>
-                        <strong>Удобства:</strong> Полностью оборудованная кухня, просторная гостиная, барбекю зона.<br>
-                        <strong>Особенности:</strong> Идеальный выбор для отдыха в большой компании или семьей. Просторные спальни и общие зоны позволят всем гостям чувствовать себя комфортно и уютно.
-                    </p>
-                    <div class="mt-auto text-center"> <!-- Добавлен класс text-center для центрирования кнопки -->
-                      <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-success select-house-btn" type="button" data-house-id="3">Выбрать</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
 <!-- Carousel With Indicators -->
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-	<!-- Carousel items -->
-	<div class="carousel-inner">
-		<div class="carousel-item active">
-			<img src="static/img/carusel2.png" class="d-block w-100" alt="First slide">
-			<div class="carousel-caption d-block">
-				<h5>Уютные домики в Боровске</h5>
-				<p>Проведи выходные на природе</p>
-				<a href="/house_selection" class="btn btn btn btn-outline-light">Забронировать</a>
-			</div>
-		</div>
-		<div class="carousel-item">
-			<img src="static/img/carusel3.png" class="d-block w-100" alt="Second slide">
-			<div class="carousel-caption d-block">
-				<h5>Только Эко материалы</h5>
-				<p>Чистый воздух, баня и мангал</p>
-				<button class="btn btn btn-outline-light">Подробнее</button>
-			</div>
-		</div>
-		<div class="carousel-item">
-			<img src="static/img/carusel4.png" class="d-block w-100" alt="Third slide">
-			<div class="carousel-caption d-block">
-				<h5>Исторические места</h5>
-				<p>Памятники культуры и природы в шаговой доступности</p>
-				<button class="btn btn btn-outline-light">Список</button>
-			</div>
-		</div>
-	</div>
+  <!-- Carousel items -->
+  <div class="carousel-inner">
+    {% for house in houses %}
+    <div class="carousel-item {{ 'active' if loop.first else '' }}">
+      <div class="row justify-content-center">
+        <div class="carousel-left col-md-8">
+          <div class="mb-3 text-center">
+              <h5 class="display-5 fw-bold text-center">{{ house.name }}</h5>
+              <p class="roboto-thin mb-4"></p>
+                <strong>Тип:</strong> {{ house.floors }}<br>
+                <strong>Вместимость:</strong> {{ house.persons }}<br>
+                <strong>Кровати:</strong> {{ house.beds }}<br>
+                <strong>Комнаты:</strong> {{ house.rooms }}<br>
+                <strong>Удобства:</strong> {{ house.water }}<br>
+                <strong>Особенности:</strong> {{ house.bbq }}
+              </p>
+              <p class="card-text">{{ house.small_disc }}</p>
+              <p class="card-text">Цена: {{ house.price }}</p>
+              <a href="{{ url_for('main.house_details', house_id=house.id) }}" class="btn btn-success-custom">Выбрать</a>
+          </div>
+        </div>
+        <div class="carousel-right col-md-4">
+          <img src="{{ house.main_photo }}" class="d-block w-100" alt="House image">
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 
-	<!-- Controls -->
-	<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-	        data-bs-slide="prev">
-		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-		<span class="visually-hidden">Назад</span>
-	</button>
-	<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-	        data-bs-slide="next">
-		<span class="carousel-control-next-icon" aria-hidden="true"></span>
-		<span class="visually-hidden">Далее</span>
-	</button>
+  <!-- Controls -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Назад</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Далее</span>
+  </button>
 </div>
 
 <h2 class="reveal-text pb-2 display-6 text-center px-4 py-5" id="animated-header">Достопримечательности - в шаговой доступности</h2>

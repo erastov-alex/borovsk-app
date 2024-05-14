@@ -62,6 +62,18 @@
 }
 
 
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+.card-text {
+  text-align: center;
+}
+
+
+
 .card {
     border: none; /* Удаляет обводку у карточек */
     margin-bottom: 20px; /* Устанавливает расстояние между карточками */
@@ -214,4 +226,51 @@ p.text-shadow {
     .cinzel-decorative-regular {
         font-size: 48px; /* Уменьшаем размер шрифта на мобильных устройствах */
     }
+  }
+
+
+  #carouselExampleIndicators {
+    height: 400px; /* Set the carousel height to 400 pixels */
+    background-color: #d4e1e4;
+  }
+
+  .carousel-left {
+    margin-top: 30px;
+  }
+  
+
+  .carousel-inner img {
+    max-height: 400px; /* Set the maximum height of the image */
+    width: 100%; /* Set the width to 100% to fill the carousel */
+    object-fit: cover; /* Scale the image to cover the entire carousel */
+  }
+
+  .carousel-control-prev, .carousel-control-next {
+    background-color: #000; /* Set the background color of the controls to black */
+    border: none; /* Remove the default border */
+    border-radius: 0; /* Remove the default border radius */
+    width: 30px; /* Set the width of the controls */
+    height: 30px; /* Set the height of the controls */
+    top: 50%; /* Position the controls at the middle of the carousel */
+    transform: translateY(-50%); /* Vertically center the controls */
+  }
+  
+  .carousel-control-prev-icon, .carousel-control-next-icon {
+    background-image: none; /* Remove the default SVG icons */
+  }
+  
+  .carousel-control-prev::before {
+    content: "\f104"; /* Use a Font Awesome icon for the previous button */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: #fff; /* Set the icon color to white */
+    margin-left: 5px;
+  }
+  
+  .carousel-control-next::before {
+    content: "\f105"; /* Use a Font Awesome icon for the next button */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: #fff; /* Set the icon color to white */
+    margin-left: 15px;
   }

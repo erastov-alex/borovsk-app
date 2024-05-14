@@ -29,8 +29,10 @@ class House(db.Model):
     rooms = Column(Integer, nullable=False)
     bbq = Column(Boolean, nullable=False)
     water = Column(Boolean, nullable=False)
+    main_photo = Column(String, nullable=False)
     photos_dir = Column(String, nullable=False)
     small_disc = Column(String, nullable=False)
     big_disc = Column(String, nullable=False)
+    price = Column(Integer, nullable=False)
     bookings = relationship("Booking", back_populates="house")
     

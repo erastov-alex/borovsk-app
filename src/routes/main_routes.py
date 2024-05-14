@@ -23,8 +23,9 @@ def index():
         session['toast_shown'] = True
     else:
         show_toast = False
+    houses = get_all_houses()
 
-    return render_template('main/index.html', show_toast=False, current_user=current_user)    
+    return render_template('main/index.html', show_toast=False, current_user=current_user, houses=houses)    
 
 
 @main_bp.route('/house_selection', methods=['GET', 'POST'])

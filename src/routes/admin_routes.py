@@ -31,13 +31,15 @@ def add_house():
         rooms = request.form.get('rooms')
         bbq = True if request.form.get('bbq') else False
         water = True if request.form.get('water') else False
+        main_photo = request.form.get('main_photo')
         photos_dir = request.form.get('photos_dir')
         small_disc = request.form.get('small_disc')
         big_disc = request.form.get('big_disc')
+        price = request.form.get('price')
 
         # Создаем новый объект дома
         new_house = House(name=name, floors=floors, persons=persons, beds=beds, rooms=rooms,
-                          bbq=bbq, water=water, photos_dir=photos_dir, small_disc=small_disc, big_disc=big_disc)
+                          bbq=bbq, water=water,main_photo=main_photo, photos_dir=photos_dir, small_disc=small_disc, big_disc=big_disc, price=price)
         
         # Добавляем его в базу данных
         db.session.add(new_house)
@@ -81,3 +83,40 @@ def api():
         token = create_access_token(identity=current_user.username)
         return jsonify({'token': token})  # Вернуть токен в формате JSON
     return render_template('admin/api.html', token=token) 
+
+@admin_bp.route('/edit_house/<house_id>', methods=['GET', 'POST'])
+@login_required
+def edit_house(house_id):
+    house = House.query.get(house_id)
+
+    if request.method == 'POST':
+        # Update house attributes
+        house.name = request.form.get('name')
+        house.floors = request.form.get('floors')
+        house.persons = request.form.get('persons')
+        house.beds = request.form.get('beds')
+        house.rooms = request.form.get('rooms')
+        house.bbq = True if request.form.get('bbq') else False
+        house.water = True if request.form.get('water') else False
+        house.main_photo = request.form.get('main_photo')
+        house.photos_dir = request.form.get('photos_dir')
+        house.small_disc = request.form.get('small_disc')
+        house.big_disc = request.form.get('big_disc')
+        house.price = request.form.get('price')
+        db.session.commit()  # Commit the changes
+        flash('Изменения Сохранены!')
+        return redirect(url_for('admin.admin_house'))  # Redirect to houses list
+
+    return render_template('admin/add_house.html', edit=True, house=house)
+
+@admin_bp.route('/del_house/<house_id>', methods=['POST'])
+@login_required
+def del_house(house_id):
+    if request.method == 'POST':
+        house = House.query.get(house_id)
+        db.session.delete(house)  # Remove the house object from the session
+        db.session.commit()  # Commit the changes
+        flash('Дом Удален!')
+        return redirect(url_for('admin.admin_house'))  # Redirect to houses list
+
+    return render_template('admin/add_house.html', edit=True, house=house)

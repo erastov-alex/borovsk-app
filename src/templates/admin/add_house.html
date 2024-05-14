@@ -33,15 +33,17 @@
 
 <body class="bg-light">
 
-<div class="container">
-  <div class="py-5 text-center">
-    <h2>Добавить дом</h2>
-  </div>
   <div class="col-md-5 order-md-1 d-block mx-auto">
-    <form class="needs-validation" method="post" action="{{ url_for('admin.add_house') }}" novalidate>
+    <form class="needs-validation" method="post" action="{% if edit %}{{ url_for('admin.edit_house', house_id=house.id) }}{% else %}{{ url_for('admin.add_house') }}{% endif %}" novalidate>
+      {% if edit %}
+        <h2>Редактировать дом</h2>
+      {% else %}
+        <h2>Добавить дом</h2>
+      {% endif %}
+  
       <div class="mb-2">
         <label for="name">Название дома</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="Название дома" required>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Название дома" value="{{ house.name if edit else '' }}" required>
         <div class="invalid-feedback">
           Обязательное поле!
         </div>
@@ -49,7 +51,7 @@
 
       <div class="mb-2">
         <label for="floors">Количество этажей</label>
-        <input type="text" class="form-control" id="floors" name="floors" placeholder="Количество этажей" required>
+        <input type="text" class="form-control" id="floors" name="floors" placeholder="Количество этажей" value="{{ house.floors if edit else '' }}" required>
         <div class="invalid-feedback">
           Обязательное поле!
         </div>
@@ -57,7 +59,7 @@
 
       <div class="mb-2">
         <label for="persons">Количество персон</label>
-        <input type="number" class="form-control" id="persons" name="persons" placeholder="Количество персон" required>
+        <input type="number" class="form-control" id="persons" name="persons" placeholder="Количество персон" value="{{ house.persons if edit else '' }}" required>
         <div class="invalid-feedback">
           Обязательное поле!
         </div>
@@ -65,7 +67,7 @@
 
       <div class="mb-2">
         <label for="beds">Количество кроватей</label>
-        <input type="number" class="form-control" id="beds" name="beds" placeholder="Количество кроватей" required>
+        <input type="number" class="form-control" id="beds" name="beds" placeholder="Количество кроватей" value="{{ house.floors if edit else '' }}" required>
         <div class="invalid-feedback">
           Обязательное поле!
         </div>
@@ -73,7 +75,7 @@
 
       <div class="mb-2">
         <label for="rooms">Количество комнат</label>
-        <input type="number" class="form-control" id="rooms" name="rooms" placeholder="Количество комнат" required>
+        <input type="number" class="form-control" id="rooms" name="rooms" placeholder="Количество комнат" value="{{ house.rooms if edit else '' }}" required>
         <div class="invalid-feedback">
           Обязательное поле!
         </div>
@@ -81,21 +83,30 @@
 
       <div class="mb-2">
         <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="bbq" name="bbq">
+          <input type="checkbox" class="form-check-input" id="bbq" name="bbq" value="{{ house.bbq if edit else '' }}">
           <label class="form-check-label" for="bbq">Наличие барбекю</label>
         </div>
       </div>
 
       <div class="mb-2">
         <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="water" name="water">
+          <input type="checkbox" class="form-check-input" id="water" name="water" value="{{ house.water if edit else '' }}">
           <label class="form-check-label" for="water">Наличие воды</label>
+        </div>
+      </div>
+      
+
+      <div class="mb-2">
+        <label for="main_photo">Главная фотография (путь до файла)</label>
+        <input type="text" class="form-control" id="main_photo" name="main_photo" placeholder="Путь до главной фотографии" value="{{ house.main_photo if edit else '' }}" required>
+        <div class="invalid-feedback">
+          Обязательное поле!
         </div>
       </div>
 
       <div class="mb-2">
         <label for="photos_dir">Директория с фотографиями</label>
-        <input type="text" class="form-control" id="photos_dir" name="photos_dir" placeholder="Директория с фотографиями" required>
+        <input type="text" class="form-control" id="photos_dir" name="photos_dir" placeholder="Директория с фотографиями" value="{{ house.photos_dir if edit else '' }}" required>
         <div class="invalid-feedback">
           Обязательное поле!
         </div>
@@ -103,7 +114,7 @@
 
       <div class="mb-2">
         <label for="small_disc">Короткое описание</label>
-        <textarea class="form-control" id="small_disc" name="small_disc" rows="3" placeholder="Короткое описание" required></textarea>
+        <textarea class="form-control" id="small_disc" name="small_disc" rows="3" placeholder="Короткое описание" required>{{ house.small_disc if edit else '' }}</textarea>
         <div class="invalid-feedback">
           Обязательное поле!
         </div>
@@ -111,12 +122,22 @@
 
       <div class="mb-2">
         <label for="big_disc">Подробное описание</label>
-        <textarea class="form-control" id="big_disc" name="big_disc" rows="5" placeholder="Подробное описание" required></textarea>
+        <textarea class="form-control" id="big_disc" name="big_disc" rows="5" placeholder="Подробное описание" required>{{ house.big_disc if edit else '' }}</textarea>
         <div class="invalid-feedback">
           Обязательное поле!
         </div>
       </div>
 
+      <div class="mb-2">
+        <label for="price">Цена</label>
+        <textarea class="form-control" id="price" name="price" rows="5" placeholder="Цена" required>{{ house.price if edit else '' }}</textarea>
+        <div class="invalid-feedback">
+          Обязательное поле!
+        </div>
+      </div>
+      {% if edit %}
+        <button class="btn btn-outline-danger btn-lg mt-2 mx-2" type="submit" formaction="{{ url_for('admin.del_house', house_id=house.id) }}" formmethod="post">Удалить дом</button>
+      {% endif %}
       <button class="btn btn-outline-success btn-lg mt-2 d-block mx-auto" type="submit">Сохранить</button>
     </form>
   </div>
