@@ -4,32 +4,13 @@
 <link href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Infant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Infant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Pacifico&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 {% endblock %}
 
 {% block content %}
 
-{% if show_toast %}
-<div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
-        <img src="{{ url_for('static', filename='img/logo.png') }}" class="rounded me-2" alt="... " height="24">
-        <strong class="me-auto">Дополните информацию</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-    <div class="toast-body">
-        <form>
-            <div class="mb-3">
-                <label for="phone" class="form-label">Укажите свой номер:</label>
-                <input type="text" class="form-control" id="phone" name="phone">
-            </div>
-            <button type="submit" class="btn btn-success">Отправить</button>
-        </form>
-    </div>
-</div>
-{% endif %}
-
-<!-- featured -->
+<!-- FEATURED FOR BIG SCREEN -->
 <div class="video-bg">
   <video playsinline loop autoplay="autoplay" muted preload="auto" id="video-bg">
     <source src="static/video/video_main.mp4" type="video/mp4" />
@@ -37,62 +18,76 @@
   <div class="effects"></div>
   <div class="video-bg__content">
       <h1 class="cormorant-infant-regular">B O R O <span class="cinzel-decorative-regular">V</span> S K Y</h2>
-      <p class="roboto-thin mb-4">Загородный комплекс для выходных на природе</p>
-      <a href="/house_selection" class="btn btn-success-custom btn-lg" style="background-color: rgba(0, 128, 128, 0.68);">Забронировать</a>
+      <a href="/house_selection" class="btn btn-success-custom btn-lg">Забронировать</a>
   </div>
   </div>
 </div>
 
+<!-- FEATURED FOR SMALL SCREEN -->
 <div class="bg-image">
   <div class="position-relative overflow-hidden p-3 p-md-5 text-center bg-light" style="background-image: url('https://s12.gifyu.com/images/Sapca.gif'); background-size: cover; background-position: center;">
       <div class="col-md-5 p-lg-5 mx-auto my-5">
         <h1 class="cormorant-infant-regular">B O R O <span class="cinzel-decorative-regular">V</span> S K Y</h2>
-          <p class="roboto-thin mb-4">Загородный комплекс для выходных на природе</p>
-          <a href="/house_selection" class="btn btn-success-custom btn-lg" style="background-color: rgba(0, 128, 128, 0.68);">Забронировать</a>
+          <p class="nunito-sans-font mb-4">Загородный комплекс для выходных на природе</p>
+          <a href="/house_selection" class="btn btn-success-custom btn-lg">Забронировать</a>
       </div>
       <div class="product-device shadow-sm d-none d-md-block"></div>
       <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
   </div>
 </div>
 
-
-<!-- Main -->
-<div class="px-4 py-5 my-5 text-center mt-4">
-    <img class="logo-animated d-block mx-auto mb-4" src="static/img/logo_square2.png" alt="" width="144" height="144">
-    <h1 class="display-5 fw-bold">Уютные домики в Боровске</h1>
+<!-- HERO ONE-->
+<div class="hero-one text-center">
+    <h1 class="display-5 fw-bold mb-5">Добро пожаловать в уникальный мир уюта!</h1>
     <div class="col-lg-6 mx-auto">
-      <p class="lead mb-4">Современные коттеджи 101м² с панорамным остеклением и приватной территорией рядом с историческим городом России</p>
-      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-        <button type="button" class="btn btn btn-success-custom btn-lg px-4 me-sm-3">Заказать звонок</button>
-        <button type="button" class="btn btn-outline-secondary btn-lg px-4">Подарочный сертификат</button>
-      </div>
+      <p class="nunito-sans-font mb-4">Мы - маленькая компания с большим сердцем, специализирующаяся на создании уютных современных домов с учетом богатой истории нашего города - Боровска.</p>
+    </div>
+    <div class="col-lg-6 mx-auto">
+      <p class="nunito-sans-font">Для нас важно, чтобы каждый клиент не просто наслаждался отдыхом в наших домах, но и чувствовал себя как дома, окруженным заботой и вниманием. Мы ценим уникальность каждого человека и стремимся создать для него неповторимый опыт, сочетающий в себе комфорт, уют и современные удобства.</p>
     </div>
 </div>
 
-<!-- Carousel With Indicators -->
+<!-- HOUSES CAROUSEL -->
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-  <!-- Carousel items -->
+  <!-- HOUSES -->
   <div class="carousel-inner">
     {% for house in houses %}
     <div class="carousel-item {{ 'active' if loop.first else '' }}">
       <div class="row justify-content-center">
+        <!-- LEFT SIDE -->
         <div class="carousel-left col-md-8">
-          <div class="mb-3 text-center">
-              <h5 class="display-5 fw-bold text-center">{{ house.name }}</h5>
-              <p class="roboto-thin mb-4"></p>
-                <strong>Тип:</strong> {{ house.floors }}<br>
-                <strong>Вместимость:</strong> {{ house.persons }}<br>
-                <strong>Кровати:</strong> {{ house.beds }}<br>
-                <strong>Комнаты:</strong> {{ house.rooms }}<br>
-                <strong>Удобства:</strong> {{ house.water }}<br>
-                <strong>Особенности:</strong> {{ house.bbq }}
-              </p>
+          <div class="main-text">
+              <h5 class="pacifico-regular text-center">{{ house.name }}</h5>
+          </div>
+          <div class="disc-block">
+            <div class="sticker-block">
+              <div class="sticker nunito-sans-sticker">{{ house.floors }} этажа</div>
+              <div class="sticker nunito-sans-sticker">На {{ house.persons }} человек</div>
+              <div class="sticker nunito-sans-sticker"> {{ house.beds }} кровати</div>
+              <div class="sticker nunito-sans-sticker"> {{ house.rooms }} комнаты</div>
+              {% if house.water %}
+                <div class="sticker nunito-sans-font">
+                  Доступ к воде
+                </div>
+              {% endif %}
+              {% if house.bbq %}
+                <div class="sticker nunito-sans-font">
+                  BBQ
+                </div>
+              {% endif %}
+
+            </div>
+            <div class="text-block">
               <p class="card-text">{{ house.small_disc }}</p>
-              <p class="card-text">Цена: {{ house.price }}</p>
+              <p class="card-text bold"> <span class="nunito-sans-bold">Цена:</span> {{ house.price }}</p>
+            </div>
+          </div>
+          <div class="button-block"> 
               <a href="{{ url_for('main.house_details', house_id=house.id) }}" class="btn btn-success-custom">Выбрать</a>
           </div>
         </div>
-        <div class="carousel-right col-md-4">
+        <!-- RIGHT SIDE -->
+        <div class="carousel-right col-md-4 d-none d-md-block">
           <img src="{{ house.main_photo }}" class="d-block w-100" alt="House image">
         </div>
       </div>
@@ -100,7 +95,7 @@
     {% endfor %}
   </div>
 
-  <!-- Controls -->
+  <!-- CONTROLS -->
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
           data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -113,10 +108,20 @@
   </button>
 </div>
 
-<h2 class="reveal-text pb-2 display-6 text-center px-4 py-5" id="animated-header">Достопримечательности - в шаговой доступности</h2>
+<!-- HERO TWO-->
+<div class="hero-one text-center">
+    <p class="nunito-sans-font mb-4 col-lg-6 mx-auto">Мы собрали для Вас всю необходимую информацию для незабываемого отдыха в Боровске. Этот удивительный город богат историей и достопримечательностями, которые не оставят вас равнодушными. У нас есть возможность организовать для вас увлекательные экскурсии по самым интересным местам.</p>
+  </div>
+</div>
 
+
+
+<!-- ATTRACTIONS BLOCK  -->
+<!-- ATTRACTIONS CARDS  -->
 <div class="container" id="custom-cards">
     <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+
+      <!-- FIRST CARDS  -->
       <div class="col">
         <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://media.pravoslavie.ru/314850.b.jpg?mtime=1554118721');">
           <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
@@ -133,7 +138,8 @@
           </div>
         </div>
       </div>
-
+      
+      <!-- SECOND CARDS  -->
       <div class="col">
         <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://img-fotki.yandex.ru/get/373240/121998322.ec/0_a47dc_f2919d23_orig.jpg');">
           <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
@@ -151,6 +157,7 @@
         </div>
       </div>
 
+      <!-- THIRD CARDS  -->
       <div class="col">
         <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://i.pinimg.com/736x/1d/e8/dd/1de8dd51e4559aec8602de70997d3add--moscow-russia.jpg');">
           <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
@@ -167,9 +174,78 @@
           </div>
         </div>
       </div>
+
+      <!-- FOURTH CARDS  -->
+      <div class="col">
+        <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://borovsk-sobor.ru/files/2014/06/museum_borovsk1.jpg');">
+          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-shadow">Собор Благовещения Пресвятой Богородицы</h2>
+            <ul class="d-flex list-unstyled mt-auto">
+              <li class="me-auto">
+                <img src="static/img/logo_square2.png" alt="logo" width="32" height="32" class="rounded-circle">
+              </li>
+              <li class="d-flex align-items-center">
+                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                <button class="btn btn btn-outline-light">Подробнее</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- FIFTH CARDS  -->
+      <div class="col">
+        <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/21/96/3b/4e/caption.jpg?w=1200&h=-1&s=1');">
+          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-shadow">Музей-квартира К.Э.Циолковского</h2>
+            <ul class="d-flex list-unstyled mt-auto">
+              <li class="me-auto">
+                <img src="static/img/logo_square2.png" alt="logo" width="32" height="32" class="rounded-circle">
+              </li>
+              <li class="d-flex align-items-center">
+                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                <button class="btn btn btn-outline-light btn-text-shadow">Подробнее</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIXTH CARD  -->
+      <div class="col">
+        <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/73/be/d6/getlstd-property-photo.jpg?w=1200&h=-1&s=1');">
+          <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold text-shadow">Музей Kомпьютеров</h2>
+            <ul class="d-flex list-unstyled mt-auto">
+              <li class="me-auto">
+                <img src="static/img/logo_square2.png" alt="logo" width="32" height="32" class="rounded-circle">
+              </li>
+              <li class="d-flex align-items-center">
+                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"/></svg>
+                <button class="btn btn btn-outline-light btn-text-shadow">Подробнее</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+
     </div>
   </div>
 
+<!-- HERO THREE-->
+<div class="hero-one text-center">
+  <div class="col-lg-6 mx-auto">
+    <p class="nunito-sans-font mb-4">
+      Для удобства наших гостей, мы расположены прямо у въезда в Боровск, что делает нас легко доступными для всех путешественников. Если вы планируете прибыть к нам своим собственным транспортом, просто следуйте указателям к городу Боровск, и вы увидите нас сразу по прибытии.</p>
+  </div>
+  <div class="col-lg-6 mx-auto">
+    <p class="nunito-sans-font">Если вам нужна помощь с транспортом по прибытии в Боровск, не стесняйтесь обратиться к нам. Мы готовы предоставить услуги трансфера, чтобы ваше путешествие было максимально комфортным и беззаботным. Просто свяжитесь с нами заранее, чтобы мы могли организовать ваш транспорт до нашего уютного уголка в Боровске.</p>
+  </div>
+</div>
+
+<!-- YANDEX MAPS  -->
 <script type="text/javascript">
 	ymaps.ready(init);
 	function init(){
@@ -181,7 +257,7 @@
 </script>
 <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Afeaf069919655a5f41cc02c09986ab1770ef8976a395a96b0af2962149937464&amp;width=100%25&amp;height=400&amp;lang=ru_RU&amp;scroll=true"></script>
 
-<!-- Пользовательский джамботрон -->
+<!-- FINAL BLOCK  -->
 <div class="p-5 mb-4 bg-light rounded-3">
 	<div class="container-fluid py-5">
 	  <h1 class="display-5 fw-bold">Остались вопросы?</h1>
@@ -189,19 +265,12 @@
 	  <button class="btn btn-success-custom btn-lg" type="button">Заказать звонок</button>
 	</div>
 </div>
-
 {% endblock %}
+
 {% block scripts %}
 <script>
-	document.addEventListener("DOMContentLoaded", function() {
-		var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-		var toastList = toastElList.map(function (toastEl) {
-			return new bootstrap.Toast(toastEl);
-		});
-		toastList[0].show();
-	});	
   document.addEventListener('DOMContentLoaded', function () {
-    const selectHouseButtons = document.querySelectorAll('.select-house-btn');
+    const selectHouseButtons = document.querySelectorAll('.select-house-btn'); // in carousel 
 
     selectHouseButtons.forEach(button => {
         button.addEventListener('click', function () {
@@ -210,8 +279,9 @@
         });
     });
   });
+  
 
-
+  // ANIMATION FOR CARDS
   const cards = document.querySelectorAll('.card');
   let animatedCards = [];
 
@@ -235,4 +305,3 @@
 
 </script>
 {% endblock %}
-

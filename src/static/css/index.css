@@ -1,66 +1,289 @@
-.carousel-inner {
-    max-width: 100vw; 
-    overflow: hidden;
+/*FONTS */
+.nunito-sans-font {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 24px;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
 }
 
-.carousel-inner img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Обрезка или масштабирование изображения */
+.nunito-sans-sticker {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  font-variation-settings:
+    "wdth" 100,
+    "YTLC" 500;
 }
 
-.carousel-caption {
-    text-align: left; /* Выравнивание текста по левому краю */
-    bottom: 30%; /* Приподнять текст и кнопку вверх */
-    right: 40%; /* Центрирование по правому краю */
-    transform: translateX(0%); /* Корректировка положения */
-    background-color: rgba(0, 0, 0, 0.0); /* Небольшой фон для улучшения читаемости */
-    padding: 10px;
+.nunito-sans-bold {
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 1400;
+  font-style: normal;
+  font-size: 14px;
+  font-variation-settings:
+    "wdth" 1100,
+    "YTLC" 500;
 }
 
-.toast {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999;
-    background-color: #ffffff; /* Изменение цвета фона */
-    opacity: 1; /* Непрозрачный фон */
-    width: 600px; /* Увеличение размера окна вдвое */
-    height: 600px;
+.pacifico-regular {
+  font-family: "Pacifico", cursive;
+  font-weight: 400;
+  font-size: 96px;
+  font-style: normal;
 }
 
-.toast-lg {
-    font-size: 1.2rem;
-    padding: 1.5rem;
+.cormorant-infant-regular {
+  font-family: "Cormorant Infant", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 96px;
+  white-space: nowrap;
 }
 
-.toast-header {
-    background-color: #ffffff; /* Изменение цвета фона */
+.cinzel-decorative-regular {
+  font-family: "Cinzel Decorative", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 96px
 }
 
-.toast-body {
-    background-color: #ffffff; /* Изменение цвета фона */
+.roboto-thin {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+  font-size: 20px
+}
+  
+.roboto-light {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+  
+.roboto-regular {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/*FONTS SHADOWS*/
+h2.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* горизонтальное смещение, вертикальное смещение, размытие, цвет тени */
+}
+
+h1.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* горизонтальное смещение, вертикальное смещение, размытие, цвет тени */
+}
+
+p.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* горизонтальное смещение, вертикальное смещение, размытие, цвет тени */
 }
 
 
-@media (min-height: 600px) {
-    .carousel-inner img {
-        object-fit: cover; /* Обрезка или масштабирование изображения */
-        width: 100%;
-        height: 500px; /* Максимальная высота карусели */
-    }
-}
+/*HTML ELEMENTS*/
 
+/*FEATURED */
 .bg-image {
     color: white; /* Цвет текста */
     opacity: 2; /* Прозрачность фото */
 }
 
-.btn-outline-success{
-    transition: background-color 0.3s;
+.video-bg {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.video-bg video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+.effects {
+  position: absolute;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.6);
 }
 
+.video-bg__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  z-index: 2;
+  color: #ffffff;
+  font-size: 50px;
+}
+
+/* Show .bg-image on smaller screens */
+@media only screen and (max-width: 1242px) {
+  .video-bg {
+    display: none;
+  }
+  .bg-image {
+    display: block;
+  }
+  .cormorant-infant-regular {
+    font-size: 48px; /* Уменьшаем размер шрифта на мобильных устройствах */
+  }
+  .cinzel-decorative-regular {
+    font-size: 48px; /* Уменьшаем размер шрифта на мобильных устройствах */
+  }
+}
+
+/* Show .bg-image on smaller screens */
+@media only screen and (min-width: 1243px) {
+  .bg-image {
+    display: none;
+  }
+}
+
+
+/*HERO*/
+.hero-one {
+  margin-top: 100px;
+  margin-bottom: 100px;
+} 
+
+
+/*HOUSES CAROUSEL */
+.sticker {
+  background-color: #f2f2f2; /* Цвет фона стикера */
+  color: #000; /* Цвет текста */
+  padding: 10px; /* Отступ внутри стикера */
+  border-radius: 5px; /* Закругление углов стикера */
+  font-family: Arial, sans-serif; /* Шрифт текста */
+  display: inline-block; /* Стикер занимает только столько места, сколько нужно для текста */
+  margin: 0 5px; /* Отступы между стикерами */
+}
+
+#carouselExampleIndicators {
+  height: 500px; /* Set the carousel height to 400 pixels */
+  background-color: #f8f7ff;
+}
+
+.carousel-left {
+  margin-top: 30px;
+}
+
+.main-text {
+  width: 74%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.sticker-block {
+  display: flex; /* Используем flexbox для расположения в ряд */
+  justify-content: center; /* Выравниваем элементы по центру по горизонтали */
+  padding-bottom: 20px;
+}
+
+.button-block {
+  display: flex; /* Используем flexbox для расположения в ряд */
+  justify-content: center; /* Выравниваем элементы по центру по горизонтали */
+  padding-top: 15px;
+}
+
+
+.card-text {
+  width: 74%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.carousel-inner {
+  max-width: 100vw; 
+  overflow: hidden;
+}
+  
+.carousel-inner img {
+  max-height: 500px; /* Set the maximum height of the image */
+  width: 100%; /* Set the width to 100% to fill the carousel */
+  object-fit: cover; /* Scale the image to cover the entire carousel */
+}
+
+.carousel-caption {
+  text-align: left; /* Выравнивание текста по левому краю */
+  bottom: 30%; /* Приподнять текст и кнопку вверх */
+  right: 40%; /* Центрирование по правому краю */
+  transform: translateX(0%); /* Корректировка положения */
+  background-color: rgba(0, 0, 0, 0.0); /* Небольшой фон для улучшения читаемости */
+  padding: 10px;
+}
+
+.carousel-control-prev, .carousel-control-next {
+  background-color: #000; /* Set the background color of the controls to black */
+  border: none; /* Remove the default border */
+  border-radius: 0; /* Remove the default border radius */
+  width: 30px; /* Set the width of the controls */
+  height: 30px; /* Set the height of the controls */
+  top: 50%; /* Position the controls at the middle of the carousel */
+  transform: translateY(-50%); /* Vertically center the controls */
+}
+  
+.carousel-control-prev-icon, .carousel-control-next-icon {
+  background-image: none; /* Remove the default SVG icons */
+}
+  
+.carousel-control-prev::before {
+  content: "\f104"; /* Use a Font Awesome icon for the previous button */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: #fff; /* Set the icon color to white */
+  margin-left: 5px;
+ }
+  
+.carousel-control-next::before {
+  content: "\f105"; /* Use a Font Awesome icon for the next button */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: #fff; /* Set the icon color to white */
+  margin-left: 15px;
+}
+
+
+@media (min-height: 600px) {
+  .carousel-inner img {
+    object-fit: cover; /* Обрезка или масштабирование изображения */
+    width: 100%;
+    height: 500px; /* Максимальная высота карусели */
+  }
+}
+
+/*ATTRACTION CARDS */
+.card {
+  border: none; /* Удаляет обводку у карточек */
+  margin-bottom: 20px; /* Устанавливает расстояние между карточками */
+  opacity: 0; /* initial opacity */
+  transform: scale(0.9); /* initial scale */
+  transition: opacity 0.5s, transform 0.5s; /* animation duration */
+}
+
+.card-cover {
+  opacity: 0.8; /* Пример значения прозрачности */
+}
 
 .card-body {
   display: flex;
@@ -68,209 +291,12 @@
   align-items: center;
   padding: 20px;
 }
+
 .card-text {
   text-align: center;
 }
 
-
-
-.card {
-    border: none; /* Удаляет обводку у карточек */
-    margin-bottom: 20px; /* Устанавливает расстояние между карточками */
-    opacity: 0; /* initial opacity */
-    transform: scale(0.9); /* initial scale */
-    transition: opacity 0.5s, transform 0.5s; /* animation duration */
-}
-
-.card-cover {
-    opacity: 0.8; /* Пример значения прозрачности */
-}
-  
 .card.animate {
-    opacity: 1; /* final opacity */
-    transform: scale(1); /* final scale */
-  }
-
-h2.text-shadow {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* горизонтальное смещение, вертикальное смещение, размытие, цвет тени */
+  opacity: 1; /* final opacity */
+  transform: scale(1); /* final scale */
 }
-
-h1.text-shadow {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* горизонтальное смещение, вертикальное смещение, размытие, цвет тени */
-}
-
-p.text-shadow {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* горизонтальное смещение, вертикальное смещение, размытие, цвет тени */
-}
-
-.video-bg {
-    height: 100vh;
-    width: 100%;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-.video-bg video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    width: 100%;
-    height: 100vh;
-    object-fit: cover;
-}
-.effects {
-    position: absolute;
-    object-fit: cover;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0,0,0,0.6);
-}
-
-.video-bg__content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    z-index: 2;
-    color: #ffffff;
-    font-size: 50px;
-  }
-
-
-/* Show .bg-image on smaller screens */
-@media only screen and (max-width: 1242px) {
-    .video-bg {
-      display: none;
-    }
-    .bg-image {
-      display: block;
-    }
-  }
-
-/* Show .bg-image on smaller screens */
-@media only screen and (min-width: 1243px) {
-    .bg-image {
-      display: none;
-    }
-  }
-
-
-  .logo-animated {
-    animation: breathe 5s infinite;
-  }
-  
-  @keyframes breathe {
-    0% {
-      transform: scale(0.93);
-    }
-    50% {
-      transform: scale(1.02);
-    }
-    100% {
-      transform: scale(0.93);
-    }
-  }
-
-
-
-
-
-  .cormorant-infant-regular {
-    font-family: "Cormorant Infant", serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 96px;
-    white-space: nowrap;
-  }
-
-  .cinzel-decorative-regular {
-    font-family: "Cinzel Decorative", serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 96px
-  }
-
-  .roboto-thin {
-    font-family: "Roboto", sans-serif;
-    font-weight: 100;
-    font-style: normal;
-    font-size: 20px
-  }
-  
-  .roboto-light {
-    font-family: "Roboto", sans-serif;
-    font-weight: 300;
-    font-style: normal;
-  }
-  
-  .roboto-regular {
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-  }
-
-
-  /* Медиа-запрос для мобильных устройств */
-  @media screen and (max-width: 1242px) {
-    .cormorant-infant-regular {
-        font-size: 48px; /* Уменьшаем размер шрифта на мобильных устройствах */
-    }
-  
-    .cinzel-decorative-regular {
-        font-size: 48px; /* Уменьшаем размер шрифта на мобильных устройствах */
-    }
-  }
-
-
-  #carouselExampleIndicators {
-    height: 400px; /* Set the carousel height to 400 pixels */
-    background-color: #d4e1e4;
-  }
-
-  .carousel-left {
-    margin-top: 30px;
-  }
-  
-
-  .carousel-inner img {
-    max-height: 400px; /* Set the maximum height of the image */
-    width: 100%; /* Set the width to 100% to fill the carousel */
-    object-fit: cover; /* Scale the image to cover the entire carousel */
-  }
-
-  .carousel-control-prev, .carousel-control-next {
-    background-color: #000; /* Set the background color of the controls to black */
-    border: none; /* Remove the default border */
-    border-radius: 0; /* Remove the default border radius */
-    width: 30px; /* Set the width of the controls */
-    height: 30px; /* Set the height of the controls */
-    top: 50%; /* Position the controls at the middle of the carousel */
-    transform: translateY(-50%); /* Vertically center the controls */
-  }
-  
-  .carousel-control-prev-icon, .carousel-control-next-icon {
-    background-image: none; /* Remove the default SVG icons */
-  }
-  
-  .carousel-control-prev::before {
-    content: "\f104"; /* Use a Font Awesome icon for the previous button */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    color: #fff; /* Set the icon color to white */
-    margin-left: 5px;
-  }
-  
-  .carousel-control-next::before {
-    content: "\f105"; /* Use a Font Awesome icon for the next button */
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    color: #fff; /* Set the icon color to white */
-    margin-left: 15px;
-  }

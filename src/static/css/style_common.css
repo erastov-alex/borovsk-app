@@ -96,18 +96,18 @@
   }
 
 .btn-success {
-    background-color: #008080;
+    background-color: #6683EA;
 }
 
 .btn-success:hover {
-    background-color: #094f4f;
+    background-color: #6683eaad;
 }
 
 
 .btn-success-custom {
     overflow: hidden;
     position: relative;
-    background-color: #008080;
+    background-color: #6683EA;
     color: #fff
 }
 
@@ -135,7 +135,7 @@
 
 .btn-success-custom:hover {
     background-position: right center;
-    background-color: #094f4f;
+    background-color: #6683eac1;
     color: #fff 
 }
 
@@ -154,10 +154,10 @@
   }
 
 .btn-outline-success {
-    color: #0a5c5c;
+    color: #6683EA;
 }
 
 .btn-outline-success:hover {
-    color: #073e3e;
+    color: #6683eadc;
     background-color: #ececec;
 }
