@@ -149,6 +149,9 @@ p.text-shadow {
   .cinzel-decorative-regular {
     font-size: 48px; /* Уменьшаем размер шрифта на мобильных устройствах */
   }
+  .pacifico-regular {
+    font-size: 64px;
+  }
 }
 
 /* Show .bg-image on smaller screens */
