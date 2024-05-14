@@ -182,36 +182,29 @@
 
   <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
     <div class="bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden" >
-      <div class="my-3 py-3">
-        <h2 class="display-5">{{ house.floors }} Этаж</h2>
-        <p class="lead">{{ house.beds }} Кровати</p>
-      </div>
-      <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0; background-image: url('https://cdn.wowowhome.com/photos/2019/12/lightbox-by-bohlin-cywinski-jackson-05-1-1536x1024.jpg'); background-size: cover; background-position: center;"></div>
+        <img src="https://cdn.wowowhome.com/photos/2019/12/lightbox-by-bohlin-cywinski-jackson-05-1-1536x1024.jpg" class="mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0; object-fit: cover;">
     </div>
     <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-      <div class="my-3 p-3">
-        <h2 class="display-5">На {{ house.persons }} персон</h2>
-        <p class="lead">{{ house.rooms }} Комнат</p>
-      </div>
-      <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0; background-image: url('/static/animations/dynamic_in1.webp'); background-size: cover; background-position: center;"></div>
+        <img src="/static/animations/dynamic_in1.webp" class="mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0; object-fit: cover;">
     </div>
-  </div>
+</div>
 
-  <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+<div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
     <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
-      <div class="my-3 p-3">
-        <h2 class="display-5">{{ house.bbq }}</h2>
-        <p class="lead">Чтобы было где приготовить.</p>
-      </div>
-      <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0; background-image: url('https://cdn.wowowhome.com/photos/2019/12/lightbox-by-bohlin-cywinski-jackson-05-1-1536x1024.jpg'); background-size: cover; background-position: center;"></div>
+        <div class="my-3 p-3">
+            <h2 class="display-5">{{ house.bbq }}</h2>
+            <p class="lead">Чтобы было где приготовить.</p>
+        </div>
+        <img src="https://cdn.wowowhome.com/photos/2019/12/lightbox-by-bohlin-cywinski-jackson-05-1-1536x1024.jpg" class="mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0; object-fit: cover;">
     </div>
     <div class="bg-primary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
-      <div class="my-3 py-3">
-        <h2 class="display-5">{{ house.water }}</h2>
-        <p class="lead">Чтобы было где освежиться.</p>
-      </div>
-      <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0; background-image: url('https://cdn.wowowhome.com/photos/2019/12/lightbox-by-bohlin-cywinski-jackson-05-1-1536x1024.jpg'); background-size: cover; background-position: center;"></div>
+        <div class="my-3 py-3">
+            <h2 class="display-5">{{ house.water }}</h2>
+            <p class="lead">Чтобы было где освежиться.</p>
+        </div>
+        <img src="https://cdn.wowowhome.com/photos/2019/12/lightbox-by-bohlin-cywinski-jackson-05-1-1536x1024.jpg" class="mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0; object-fit: cover;">
     </div>
-  </div>
+</div>
+
 
 {% endblock %}

@@ -32,7 +32,7 @@
 /* Стили для кнопки входа и регистрации */
 
 .btn-primary {
-    background-color: #188a1e;
+    background-color: #6683EA;
     color: #fff; /* Цвет текста */
     border: none;
     border-radius: 5px;
@@ -42,11 +42,11 @@
 }
 
 .btn-primary:hover {
-    background-color: #094f4f; /* Изменение цвета фона при наведении */
+    background-color: #6683EA; /* Изменение цвета фона при наведении */
 }
 
 .login-btn:hover {
-    background-color: #094f4f; /* Изменение цвета фона при наведении */
+    background-color: #6683EA; /* Изменение цвета фона при наведении */
 }
 
 .btn-outline-light {
@@ -54,7 +54,7 @@
 }
 
 .btn-outline-light:hover {
-    background-color: #094f4f; /* Изменение цвета фона при наведении */
+    background-color: #6683eac6; /* Изменение цвета фона при наведении */
 }
 
 .welcome-block {
@@ -71,7 +71,7 @@
 .login-btn {
     margin-left: 10px; /* Отступ слева от кнопки */
     padding: 5px 10px; /* Уменьшаем отступы внутри кнопки */
-    background-color: #188a1e; /* Цвет фона кнопки */
+    background-color: #6683EA; /* Цвет фона кнопки */
     color: #fff; /* Цвет текста */
     border: none;
     border-radius: 5px;
@@ -155,9 +155,11 @@
 
 .btn-outline-success {
     color: #6683EA;
+    border-color: #6683EA;
 }
 
 .btn-outline-success:hover {
     color: #6683eadc;
+    border-color: #6683eadc;
     background-color: #ececec;
 }
