@@ -2,6 +2,7 @@ from flask import Blueprint, flash, render_template, redirect, url_for, request,
 from models.users import *
 from models.houses import *# Импорт моделей
 from utils.helpers import *
+from utils.cache import get_all_houses, delete_cache
 
 from flask_login import current_user, login_required
 from flask_jwt_extended import create_access_token
@@ -42,6 +43,7 @@ def add_house():
                           bbq=bbq, water=water,main_photo=main_photo, photos_dir=photos_dir, small_disc=small_disc, big_disc=big_disc, price=price)
         
         # Добавляем его в базу данных
+        delete_cache()
         db.session.add(new_house)
         db.session.commit()
         
@@ -104,6 +106,7 @@ def edit_house(house_id):
         house.big_disc = request.form.get('big_disc')
         house.price = request.form.get('price')
         db.session.commit()  # Commit the changes
+        delete_cache()
         flash('Изменения Сохранены!')
         return redirect(url_for('admin.admin_house'))  # Redirect to houses list
 
@@ -120,3 +123,10 @@ def del_house(house_id):
         return redirect(url_for('admin.admin_house'))  # Redirect to houses list
 
     return render_template('admin/add_house.html', edit=True, house=house)
+
+@admin_bp.route('/del_cache', methods=['POST'])
+@login_required
+def del_cache():
+    delete_cache()
+    return redirect(url_for('admin.admin_dashboard'))
+    

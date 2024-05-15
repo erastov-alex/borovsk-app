@@ -2,6 +2,8 @@ from models.houses import House
 
 from flask_caching import Cache
 
+from flask import flash
+
 cache = Cache()
 
 
@@ -25,3 +27,11 @@ def get_all_houses():
         houses = House.query.all()
         cache.set(cache_key, houses, timeout=300)
     return houses
+
+def delete_cache():
+    cache_key = 'all_houses'
+    houses = cache.get(cache_key)
+    if houses:
+        cache.delete(cache_key)
+        flash("Кэш удален")
+        

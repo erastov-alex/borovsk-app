@@ -174,7 +174,10 @@
     <div class="col-lg-6 mx-auto">
       <p class="lead mb-4">{{ house.big_disc }}</p>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-        <button type="button" class="btn btn-success btn-lg px-4 me-sm-3">Забронировать</button>
+		<form action="{{ url_for('main.house_selection') }}" method="POST">
+			<input type="hidden" name="house_id" value="{{ house.id }}">
+			<button data-mdb-button-init data-mdb-ripple-init class="btn btn-success btn-lg px-4 me-sm-3" type="submit">Забронировать</button>
+		</form>
         <button type="button" class="btn btn-outline-secondary btn-lg px-4">Заказать звонок</button>
       </div>
     </div>
