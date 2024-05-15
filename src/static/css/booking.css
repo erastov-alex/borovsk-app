@@ -38,3 +38,12 @@
 
 
 @media (max-width: 767.98px) { .border-sm-start-none { border-left: none !important; } }
+
+.img-limit-height {
+    height: 150px; /* Ограничение высоты изображения */
+    object-fit: cover; /* Сохранение пропорций, обрезка излишков */
+}
+
+.text-success-custom {
+    color: blueviolet;
+}

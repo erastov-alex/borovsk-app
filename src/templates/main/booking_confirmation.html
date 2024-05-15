@@ -11,19 +11,19 @@
 <div id="confirmation" class="container py-5" style="text-align: center; margin-top: -80px;">
     <!-- Форма бронирования -->
     <div class="px-4 py-5 my-5 text-center">
-        <img class="d-block mx-auto mb-4" src="static/img/logo_square2.png" alt="" width="144" height="144">
+        <img class="d-block mx-auto mb-4" src="static/img/logo_square3.png" alt="" width="144" height="144">
         <h1 class="display-5 fw-bold text-body-emphasis">Почти забронировали!</h1>
         <div class="col-lg-6 mx-auto">
           <p class="lead mb-4">Осталось проверить информацию и подтвердить бронирование. Пожалуйста, проверьте данные и подтвердите бронирование:</p>
-          <p class="lead mb-4" id="booking-info"></p> <!-- Добавляем параграф для отображения информации о бронировании -->
-          <p class="lead mb-4" id="total-cost-info"></p> <!-- Добавляем параграф для отображения информации о стоимости -->
+          <p class="lead mb-4" >Вы выбрали дом с ID {{ house_id }} c {{ start_date }} по {{ end_date }}</p> 
+          <p class="lead mb-4" >Стоимость - 12 500</p> 
 
           <form id="booking-form" method="post" action="/booking_confirmation">
             <input type="hidden" id="house_id" name="house_id">
             <input type="hidden" id="start_date_input" name="start_date">
             <input type="hidden" id="end_date_input" name="end_date">
-            <button type="button" id="backButtonConfirmation" class="btn btn-outline-secondary">Назад</button>
-            <button type="submit" class="btn btn-success-custom">Подтвердить бронирование</button>
+            <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='/calendar'">Назад</button>
+            <button type="submit" class="btn btn-success-custom" id="buttonConfirmation">Подтвердить бронирование</button>
           </form>
         </div>
     </div>
@@ -31,10 +31,11 @@
 
 <!-- Подтверждение бронирования -->
 
+
 <div id="confirmation2" class="container py-5" style="text-align: center; margin-top: -80px; display: none;">
   <!-- Форма бронирования -->
   <div class="px-4 py-5 my-5 text-center">
-      <img class="d-block mx-auto mb-4" src="static/img/logo_square2.png" alt="" width="144" height="144">
+      <img class="d-block mx-auto mb-4" src="static/img/logo_square3.png" alt="" width="144" height="144">
       <h1 class="display-5 fw-bold text-body-emphasis">Бронирование подтверждено!</h1>
       <div class="col-lg-6 mx-auto">
         <p class="lead mb-4">Спасибо за бронирование! В Личном кабинете вы можете изменить или отменить бронирование, а также указать предпочитаемое время заезда. Спасибо, что выбрали Нас! </p>
@@ -46,5 +47,13 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/booking_confirmation.js') }}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      {% if confirmed %}
+          // Если бронирование подтверждено, скрываем блок confirmation и показываем блок confirmation2
+          document.getElementById('confirmation').style.display = 'none';
+          document.getElementById('confirmation2').style.display = 'block';
+      {% endif %}
+  });
+</script>
 {% endblock %}

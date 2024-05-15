@@ -11,13 +11,17 @@
     position: relative;
     transform: translateX(0%);
 }
+.custom-margin {
+    margin-left: 40px;
+    margin-right: 40px;
+}
 </style>
 {% endblock %}
 
 {% block content %}
 <!-- Main Content -->
 
-
+<div class="custom-margin">
 {% if has_bookings %}
     <main class="col">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -59,4 +63,5 @@
         <p>Нет активных бронирований</p>
     </div>
 {% endif %}
+</div>
 {% endblock %}

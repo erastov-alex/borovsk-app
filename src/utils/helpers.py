@@ -88,14 +88,14 @@ def close_db(exception=None):
 def get_all_photos(path):
     return os.listdir(path)
 
-
-def get_all_houses():
-    try:
-        houses = House.query.all()
-        return houses
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        return None
+# in cache
+# def get_all_houses():
+#     try:
+#         houses = House.query.all()
+#         return houses
+#     except Exception as e:
+#         print(f"An error occurred: {e}")
+#         return None
     
     
 def get_all_users():

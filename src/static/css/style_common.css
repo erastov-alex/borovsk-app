@@ -30,7 +30,6 @@
 }
 
 /* Стили для кнопки входа и регистрации */
-
 .btn-primary {
     background-color: #6683EA;
     color: #fff; /* Цвет текста */
@@ -97,12 +96,26 @@
 
 .btn-success {
     background-color: #6683EA;
+    border-color: #6683eaf1;
 }
 
 .btn-success:hover {
     background-color: #6683eaad;
+    border-color: #6683eaf1;
+    box-shadow: 0 0 0 0.2rem rgba(41, 51, 90, 0.1); /* Опционально: добавить тень для подсветки */
 }
 
+.btn-success:focus {
+    background-color: #6683EA; /* Цвет фона при фокусе */
+    border-color: #6683EA; /* Цвет обводки при фокусе */
+    box-shadow: 0 0 0 0.2rem rgba(41, 51, 90, 0.3); /* Опционально: добавить тень для подсветки */
+}
+
+.btn-success:active {
+    background-color: #6683EA; /* Цвет фона при фокусе */
+    border-color: #6683EA; /* Цвет обводки при фокусе */
+    box-shadow: 0 0 0 0.2rem rgba(135, 102, 234, 0.5); /* Опционально: добавить тень для подсветки */
+}
 
 .btn-success-custom {
     overflow: hidden;
@@ -153,13 +166,22 @@
     outline: none;
   }
 
-.btn-outline-success {
+.btn-outline-success-custom {
     color: #6683EA;
     border-color: #6683EA;
 }
 
-.btn-outline-success:hover {
-    color: #6683eadc;
+.btn-outline-success-custom:hover {
+    color: #ffffffdc;
     border-color: #6683eadc;
-    background-color: #ececec;
+    background-color: #6683EA;
+    box-shadow: 0 0 0 0.2rem rgba(135, 102, 234, 0.1); /* Опционально: добавить тень для подсветки */
+}
+
+.btn-outline-success-custom:focus {
+    box-shadow:0 0 0 .25rem rgba(25, 45, 135, 0.5) /* Опционально: добавить тень для подсветки */
+}
+
+.btn-outline-success-custom:active {
+    box-shadow:0 0 0 .25rem rgba(25, 45, 135, 0.5) /* Опционально: добавить тень для подсветки */
 }

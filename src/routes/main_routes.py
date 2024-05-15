@@ -1,9 +1,7 @@
-from flask import Blueprint, render_template, redirect, url_for, request, session, jsonify
+from flask import Blueprint, render_template, redirect, url_for, request, session, jsonify, flash
 from utils.helpers import *
 from utils.cache import get_house_info
-
-import json
-
+from utils.cache import get_all_houses
 
 from flask_login import current_user, login_required
 
@@ -17,34 +15,47 @@ def record_teardown(state):
 
 @main_bp.route('/')
 def index():
-    show_toast = True
-    if 'toast_shown' not in session and current_user:
-        show_toast = True
-        session['toast_shown'] = True
-    else:
-        show_toast = False
     houses = get_all_houses()
 
-    return render_template('main/index.html', show_toast=False, current_user=current_user, houses=houses)    
+    return render_template('main/index.html', current_user=current_user, houses=houses)    
 
 
 @main_bp.route('/house_selection', methods=['GET', 'POST'])
 @login_required
 def house_selection():
+    houses = get_all_houses()
     # Извлекаем house_id, start_date и end_date из параметров GET-запроса, если они есть
-    house_id = request.args.get('house_id')
+    if request.method == "POST":
+        house_id = request.form.get('house_id')
+        session['house_id'] = house_id
+        return redirect(url_for('main.calendar'))
 
-    return render_template('main/house_selection.html', house_id=house_id)
+    return render_template('main/house_selection.html', houses=houses)
 
 
 @main_bp.route('/calendar', methods=['GET', 'POST'])
 @login_required
 def calendar():
-    house_id = request.args.get('house_id')
+    house_id = session.get('house_id')  # Retrieve house_id from session
+    if not house_id:
+        return redirect(url_for('main.house_selection'))
     '''
     Return list of unavailable dates for house_id in YYYY-MM-DD format
     '''
     unavailable_dates = get_unavailable_dates(house_id)
+    
+    if request.method == 'POST':
+        start_date = request.form.get('start_date')
+        end_date = request.form.get('end_date')
+        if not start_date and not end_date:
+            flash("Пожалуйста, выберите даты")
+        elif start_date in unavailable_dates or end_date in unavailable_dates:
+            flash("К сожалению, выбранные даты заняты")
+        else:
+            session['start_date'] = start_date
+            session['end_date'] = end_date
+            return redirect(url_for('main.booking_confirmation')) 
+    
     return render_template(
         'main/calendar.html', 
         house_id=house_id, 
@@ -56,13 +67,15 @@ def calendar():
 @main_bp.route('/booking_confirmation', methods=['GET', 'POST'])
 @login_required
 def booking_confirmation():
+    house_id = session.get('house_id')
+    start_date = session.get('start_date')
+    end_date = session.get('end_date')
+    if not house_id and not start_date and not end_date:
+        return redirect(url_for('main.calendar')) 
+    
     if request.method == 'GET':
         # Если это GET запрос, просто отображаем страницу подтверждения бронирования
-        username = session.get('username')
-        house_id = request.args.get('house_id')
-        start_date = request.args.get('start_date')
-        end_date = request.args.get('end_date')
-        return render_template('main/booking_confirmation.html', username=username, house_id=house_id, start_date=start_date, end_date=end_date)
+        return render_template('main/booking_confirmation.html', house_id=house_id, start_date=start_date, end_date=end_date)
     
     elif request.method == 'POST':
         # Если это POST запрос, обрабатываем данные бронирования
@@ -71,12 +84,12 @@ def booking_confirmation():
             user = User.query.filter_by(id=user_id).first()
             if not user:
                 return jsonify({'error': 'User not found'}), 404
-            
-            start_date = request.form['start_date']
-            end_date = request.form['end_date']
-            house_id = request.form['house_id']
             add_booking(user_id=user_id, start_date=start_date, end_date=end_date, house_id=house_id)
-            return jsonify({'message': 'Booking confirmed'}), 200
+            session.pop('house_id')
+            session.pop('start_date')
+            session.pop('end_date')
+            return render_template('main/booking_confirmation.html', house_id=house_id, start_date=start_date, end_date=end_date, confirmed=True)
+            
         else:
             return jsonify({'error': 'User not logged in'}), 401
 

@@ -71,18 +71,6 @@
     margin-right: 10px; /* Отступ справа от текста */
 }
 
-.login-btn {
-    margin-left: 10px; /* Отступ слева от кнопки */
-    padding: 5px 10px; /* Уменьшаем отступы внутри кнопки */
-    background-color: #157347; /* Цвет фона кнопки */
-    color: #fff; /* Цвет текста */
-    border: none;
-    border-radius: 5px;
-    font-size: 14px; /* Уменьшаем размер шрифта */
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
 /* Стили для маленьких кнопок */
 .btn-sm {
     width: auto;
@@ -90,26 +78,17 @@
     font-size: 14px;
 }
 
-
-.btn-success {
-    background-color: #008080;
-}
-
-.btn-success:hover {
-    background-color: #094f4f;
-}
-
 .nav-link {
-    color: #008080; /* Цвет текста и иконок */
+    color: #6683EA; /* Цвет текста и иконок */
 }
 
 .nav-link.active {
-    background-color: #008080; /* Фон для активной ссылки */
+    background-color: #6683EA; /* Фон для активной ссылки */
     color: white; /* Цвет текста для активной ссылки */
 }
 
 .nav-link.active:hover {
-    background-color: #00686b; /* Изменение цвета фона при наведении на активную ссылку */
+    background-color: #6683eab6; /* Изменение цвета фона при наведении на активную ссылку */
 }
 
 @keyframes dropdownFadeIn {
@@ -126,7 +105,7 @@
 .dropdown-menu {
     width: 200px; /* Устанавливаем начальную ширину (можно изменить по вашему желанию) */
     margin-top: 10px; /* Установите нужное вам значение отступа */
-    animation: dropdownFadeIn ease-in-out 0.7s forwards; /* Анимация появления с задержкой в 0.5 секунды и длительностью 0.5 секунды */
+    animation: dropdownFadeIn ease-in-out 0.3s forwards; /* Анимация появления с задержкой в 0.5 секунды и длительностью 0.5 секунды */
     opacity: 0; /* Начальное состояние: скрыто */
     transform: translateY(-10px); /* Начальное состояние: сдвинуто вверх */
     display: none; /* Добавьте это, чтобы изначально скрыть меню */
