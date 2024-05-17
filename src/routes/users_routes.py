@@ -84,7 +84,7 @@ def register():
                         "Произошла ошибка при регистрации. Пожалуйста, попробуйте еще раз.",
                         "danger",
                     )
-                return render_template("register.html", form=form)
+                return render_template("users/register.html", form=form)
             login_user(user)
             flash(
                 "Успешная регистрация!", "success"
