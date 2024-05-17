@@ -29,9 +29,6 @@ def get_all_houses():
     return houses
 
 def delete_cache():
-    cache_key = 'all_houses'
-    houses = cache.get(cache_key)
-    if houses:
-        cache.delete(cache_key)
-        flash("Кэш удален")
+    cache.clear()
+    flash("Кэш удален", "success")
         
