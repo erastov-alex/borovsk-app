@@ -4,8 +4,8 @@ from . import db
 
 
 class House(db.Model):
-    __tablename__ = 'houses'
-    
+    __tablename__ = "houses"
+
     """
     id: уникальный идентификатор дома (первичный ключ).
     name: название дома.
@@ -35,4 +35,3 @@ class House(db.Model):
     big_disc = Column(String, nullable=False)
     price = Column(Integer, nullable=False)
     bookings = relationship("Booking", back_populates="house")
-    

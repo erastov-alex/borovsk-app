@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+
 # Импорт моделей, чтобы они были доступны в других частях приложения
 
 db = SQLAlchemy()

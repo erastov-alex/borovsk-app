@@ -8,14 +8,14 @@
             "name": "db_check.py",
             "type": "debugpy",
             "request": "launch",
-            "program": "db_check.py",
+            "program": "src/utils/db_check.py",
             "console": "integratedTerminal"
         },
         {
             "name": "app.py",
             "type": "debugpy",
             "request": "launch",
-            "program": "src/app.py",
+            "program": "app.py",
             "console": "integratedTerminal"
         }
     ]
