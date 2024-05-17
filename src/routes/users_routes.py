@@ -1,6 +1,7 @@
 from flask import Blueprint, flash, render_template, redirect, url_for, request
-from src.models.users import *  # Импорт моделей
+from src.models.users import * 
 from src.utils.helpers import *
+from src.models.forms import *
 import hashlib
 
 from sqlalchemy.exc import IntegrityError
@@ -123,10 +124,37 @@ def user_panel():
     )
 
 
-@users_bp.route("/user_info")
+@users_bp.route("/user_info", methods=["GET", "POST"])
 @login_required
 def user_info():
-    return render_template("users/user_info.html", active_page="user_info")
+    form = InfoForm(
+        username=current_user.username,
+        email= current_user.email
+        )
+    if request.method == "POST":
+        first_name = request.form.get("first_name")
+        second_name = request.form.get("second_name")
+        name = request.form.get("name")
+        username = request.form.get("username")
+        email = request.form.get("email")
+        phone = request.form.get("phone")
+        form = InfoForm(
+            username=username
+            )
+        if form.validate_on_submit():
+            user = current_user
+            user.first_name = first_name
+            user.second_name = second_name
+            user.name = name
+            user.username = username
+            user.email = email
+            user.phone = phone
+            db.session.commit() 
+            flash("Изменения Сохранены!")
+            return redirect(url_for("users.user_info")) 
+        else:
+            flash('Oops!')
+    return render_template("users/user_info.html", active_page="user_info", form=form)
 
 
 @users_bp.route("/user_settings")
