@@ -10,8 +10,7 @@ from src.utils.cache import init_cache
 
 app = Flask(__name__, template_folder="src/templates", static_folder="src/static")
 
-app.config["SECRET_KEY"] = SECRET_KEY  # подствавьте свой секретный ключ
-# секретный ключ для хеширования данных сессии при авторизации
+app.config["SECRET_KEY"] = SECRET_KEY
 
 # Конфигурация базы данных SQLite
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
@@ -20,6 +19,9 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = SQLALCHEMY_TRACK_MODIFICATIONS
 init_cache(app)
 app.config["CACHE_TYPE"] = CACHE_TYPE
 
+from flask_wtf import CSRFProtect
+
+csrf = CSRFProtect(app)
 
 # Инициализация базы данных
 db.init_app(app)
@@ -52,6 +54,5 @@ app.register_blueprint(api)
 # with app.app_context():
 #     db.create_all()
 
-# Ваши маршруты и другие настройки Flask
 if __name__ == "__main__":
     app.run(debug=True)

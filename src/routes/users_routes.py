@@ -30,7 +30,7 @@ def login():
         form = LoginForm(username=username, password=hashed_password)
         if form.validate_on_submit():
             user = get_user_by_username(username)
-            if user and user.password == hashed_password:
+            if user and user.check_password(form.password.data):
                 login_user(user)  # Вход пользователя с помощью Flask-Login
                 flash("Вы успешно вошли")
                 if username == "admin":
