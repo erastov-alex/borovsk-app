@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel="icon" href="static/img/logo_square.png">
+  <link rel="icon" href="static/img/logo_square3.png">
 
   <title>Добавить дом</title>
 
@@ -35,6 +35,8 @@
 
   <div class="col-md-5 order-md-1 d-block mx-auto">
     <form class="needs-validation" method="post" action="{% if edit %}{{ url_for('admin.edit_house', house_id=house.id) }}{% else %}{{ url_for('admin.add_house') }}{% endif %}" novalidate>
+      {{ form.csrf_token }}
+
       {% if edit %}
         <h2>Редактировать дом</h2>
       {% else %}
@@ -42,99 +44,99 @@
       {% endif %}
   
       <div class="mb-2">
-        <label for="name">Название дома</label>
-        <input type="text" class="form-control" id="name" name="name" placeholder="Название дома" value="{{ house.name if edit else '' }}" required>
-        <div class="invalid-feedback">
-          Обязательное поле!
-        </div>
+        {{ form.name.label }}
+        {{ form.name(class_='form-control', required=True, placeholder='Название дома') }}
+        {% if form.name.errors %}
+          <div class="invalid-feedback">{{ form.name.errors[0] }}</div>
+        {% endif %}
       </div>
 
       <div class="mb-2">
-        <label for="floors">Количество этажей</label>
-        <input type="text" class="form-control" id="floors" name="floors" placeholder="Количество этажей" value="{{ house.floors if edit else '' }}" required>
-        <div class="invalid-feedback">
-          Обязательное поле!
-        </div>
+        {{ form.floors.label }}
+        {{ form.floors(class_='form-control', required=True, placeholder='Количество этажей') }}
+        {% if form.floors.errors %}
+          <div class="invalid-feedback">{{ form.floors.errors[0] }}</div>
+        {% endif %}
       </div>
-
+  
       <div class="mb-2">
-        <label for="persons">Количество персон</label>
-        <input type="number" class="form-control" id="persons" name="persons" placeholder="Количество персон" value="{{ house.persons if edit else '' }}" required>
-        <div class="invalid-feedback">
-          Обязательное поле!
-        </div>
+        {{ form.persons.label }}
+        {{ form.persons(class_='form-control', required=True, placeholder='Количество персон') }}
+        {% if form.persons.errors %}
+          <div class="invalid-feedback">{{ form.persons.errors[0] }}</div>
+        {% endif %}
       </div>
-
+  
       <div class="mb-2">
-        <label for="beds">Количество кроватей</label>
-        <input type="number" class="form-control" id="beds" name="beds" placeholder="Количество кроватей" value="{{ house.floors if edit else '' }}" required>
-        <div class="invalid-feedback">
-          Обязательное поле!
-        </div>
+        {{ form.beds.label }}
+        {{ form.beds(class_='form-control', required=True, placeholder='Количество кроватей') }}
+        {% if form.beds.errors %}
+          <div class="invalid-feedback">{{ form.beds.errors[0] }}</div>
+        {% endif %}
       </div>
-
+  
       <div class="mb-2">
-        <label for="rooms">Количество комнат</label>
-        <input type="number" class="form-control" id="rooms" name="rooms" placeholder="Количество комнат" value="{{ house.rooms if edit else '' }}" required>
-        <div class="invalid-feedback">
-          Обязательное поле!
-        </div>
+        {{ form.rooms.label }}
+        {{ form.rooms(class_='form-control', required=True, placeholder='Количество комнат') }}
+        {% if form.rooms.errors %}
+          <div class="invalid-feedback">{{ form.rooms.errors[0] }}</div>
+        {% endif %}
       </div>
-
-      <div class="mb-2">
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="bbq" name="bbq" value="{{ house.bbq if edit else '' }}">
-          <label class="form-check-label" for="bbq">Наличие барбекю</label>
-        </div>
-      </div>
-
+  
       <div class="mb-2">
         <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="water" name="water" value="{{ house.water if edit else '' }}">
-          <label class="form-check-label" for="water">Наличие воды</label>
+          {{ form.bbq(class_='form-check-input') }}
+          {{ form.bbq.label(class_='form-check-label') }}
         </div>
+      </div>
+  
+      <div class="mb-2">
+        <div class="form-check">
+          {{ form.water(class_='form-check-input') }}
+          {{ form.water.label(class_='form-check-label') }}
+        </div>
+      </div>
+  
+      <div class="mb-2">
+        {{ form.main_photo.label }}
+        {{ form.main_photo(class_='form-control', required=True, placeholder='Путь до главной фотографии') }}
+        {% if form.main_photo.errors %}
+          <div class="invalid-feedback">{{ form.main_photo.errors[0] }}</div>
+        {% endif %}
+      </div>
+  
+      <div class="mb-2">
+        {{ form.photos_dir.label }}
+        {{ form.photos_dir(class_='form-control', required=True, placeholder='Директория с фотографиями') }}
+        {% if form.photos_dir.errors %}
+          <div class="invalid-feedback">{{ form.photos_dir.errors[0] }}</div>
+        {% endif %}
+      </div>
+  
+      <div class="mb-2">
+        {{ form.small_disc.label }}
+        {{ form.small_disc(class_='form-control', required=True, rows='3', placeholder='Короткое описание') }}
+        {% if form.small_disc.errors %}
+          <div class="invalid-feedback">{{ form.small_disc.errors[0] }}</div>
+        {% endif %}
+      </div>
+  
+      <div class="mb-2">
+        {{ form.big_disc.label }}
+        {{ form.big_disc(class_='form-control', required=True, rows='5', placeholder='Подробное описание') }}
+        {% if form.big_disc.errors %}
+          <div class="invalid-feedback">{{ form.big_disc.errors[0] }}</div>
+        {% endif %}
+      </div>
+  
+      <div class="mb-2">
+        {{ form.price.label }}
+        {{ form.price(class_='form-control', required=True, rows='5', placeholder='Цена') }}
+        {% if form.price.errors %}
+          <div class="invalid-feedback">{{ form.price.errors[0] }}</div>
+        {% endif %}
       </div>
       
-
-      <div class="mb-2">
-        <label for="main_photo">Главная фотография (путь до файла)</label>
-        <input type="text" class="form-control" id="main_photo" name="main_photo" placeholder="Путь до главной фотографии" value="{{ house.main_photo if edit else '' }}" required>
-        <div class="invalid-feedback">
-          Обязательное поле!
-        </div>
-      </div>
-
-      <div class="mb-2">
-        <label for="photos_dir">Директория с фотографиями</label>
-        <input type="text" class="form-control" id="photos_dir" name="photos_dir" placeholder="Директория с фотографиями" value="{{ house.photos_dir if edit else '' }}" required>
-        <div class="invalid-feedback">
-          Обязательное поле!
-        </div>
-      </div>
-
-      <div class="mb-2">
-        <label for="small_disc">Короткое описание</label>
-        <textarea class="form-control" id="small_disc" name="small_disc" rows="3" placeholder="Короткое описание" required>{{ house.small_disc if edit else '' }}</textarea>
-        <div class="invalid-feedback">
-          Обязательное поле!
-        </div>
-      </div>
-
-      <div class="mb-2">
-        <label for="big_disc">Подробное описание</label>
-        <textarea class="form-control" id="big_disc" name="big_disc" rows="5" placeholder="Подробное описание" required>{{ house.big_disc if edit else '' }}</textarea>
-        <div class="invalid-feedback">
-          Обязательное поле!
-        </div>
-      </div>
-
-      <div class="mb-2">
-        <label for="price">Цена</label>
-        <textarea class="form-control" id="price" name="price" rows="5" placeholder="Цена" required>{{ house.price if edit else '' }}</textarea>
-        <div class="invalid-feedback">
-          Обязательное поле!
-        </div>
-      </div>
       {% if edit %}
         <button class="btn btn-outline-danger btn-lg mt-2 mx-2" type="submit" formaction="{{ url_for('admin.del_house', house_id=house.id) }}" formmethod="post">Удалить дом</button>
       {% endif %}

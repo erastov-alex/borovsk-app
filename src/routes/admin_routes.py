@@ -1,6 +1,7 @@
 from flask import Blueprint, flash, render_template, redirect, url_for, request, jsonify
 from src.models.users import *
 from src.models.houses import *  # Импорт моделей
+from src.models.forms import HouseForm
 from src.utils.helpers import *
 from src.utils.cache import get_all_houses, delete_cache
 
@@ -25,19 +26,35 @@ def admin_dashboard():
 @admin_bp.route("/add_house", methods=["GET", "POST"])
 @login_required
 def add_house():
-    if request.method == "POST":
-        name = request.form.get("name")
-        floors = request.form.get("floors")
-        persons = request.form.get("persons")
-        beds = request.form.get("beds")
-        rooms = request.form.get("rooms")
-        bbq = True if request.form.get("bbq") else False
-        water = True if request.form.get("water") else False
-        main_photo = request.form.get("main_photo")
-        photos_dir = request.form.get("photos_dir")
-        small_disc = request.form.get("small_disc")
-        big_disc = request.form.get("big_disc")
-        price = request.form.get("price")
+    form = HouseForm()
+        
+    if form.validate_on_submit():
+        name = form.name.data
+        floors = form.floors.data
+        persons = form.persons.data
+        beds = form.beds.data
+        rooms = form.rooms.data
+        bbq = form.bbq.data
+        water = form.water.data
+        main_photo = form.main_photo.data
+        photos_dir = form.photos_dir.data
+        small_disc = form.small_disc.data
+        big_disc = form.big_disc.data
+        price = form.price.data
+
+    # if request.method == "POST":
+    #     name = request.form.get("name")
+    #     floors = request.form.get("floors")
+    #     persons = request.form.get("persons")
+    #     beds = request.form.get("beds")
+    #     rooms = request.form.get("rooms")
+    #     bbq = True if request.form.get("bbq") else False
+    #     water = True if request.form.get("water") else False
+    #     main_photo = request.form.get("main_photo")
+    #     photos_dir = request.form.get("photos_dir")
+    #     small_disc = request.form.get("small_disc")
+    #     big_disc = request.form.get("big_disc")
+    #     price = request.form.get("price")
 
         # Создаем новый объект дома
         new_house = House(
@@ -65,7 +82,7 @@ def add_house():
         return redirect(url_for("admin.admin_house"))
 
     # Если метод GET, просто отображаем форму для добавления дома
-    return render_template("admin/add_house.html")
+    return render_template("admin/add_house.html", form=form)
 
 
 @admin_bp.route("/admin_bookings")
