@@ -8,15 +8,15 @@ import sqlite3
 import random
 import string
 from datetime import datetime, timedelta
-from apscheduler.schedulers.background import BackgroundScheduler
+# from apscheduler.schedulers.background import BackgroundScheduler
 
 from config import REAL_DB_PATH
 
 class EmailSender:
     CODE_EXPIRY_MINUTES = 2 # Время жизни кода в минутах
 
-    scheduler = BackgroundScheduler()
-    scheduler.start()
+    # scheduler = BackgroundScheduler()
+    # scheduler.start()
 
     def __init__(self, from_mail, mail_password, path2database):
         self.from_mail = from_mail
@@ -77,14 +77,14 @@ class EmailSender:
         print(f'Removed code {code} from database')
 
 
-    def _schedule_code_removal(self, code):
-        """Запланировать удаление кода через определенное время."""
-        self.scheduler.add_job(
-            func=self._remove_code_from_db,
-            trigger='date',
-            run_date=datetime.now() + timedelta(minutes=self.CODE_EXPIRY_MINUTES),
-            args=[code]
-        )
+    # def _schedule_code_removal(self, code):
+    #     """Запланировать удаление кода через определенное время."""
+    #     self.scheduler.add_job(
+    #         func=self._remove_code_from_db,
+    #         trigger='date',
+    #         run_date=datetime.now() + timedelta(minutes=self.CODE_EXPIRY_MINUTES),
+    #         args=[code]
+    #     )
 
 
     def _send_email_via_stmp(self, to_mail, verification_code):
@@ -168,7 +168,7 @@ class EmailSender:
         code = self._generate_unique_code()
         self._store_code_in_db(code, destination)
         self._send_email_via_stmp(destination, code)
-        self._schedule_code_removal(code)
+        # self._schedule_code_removal(code)
 
 
 sender = EmailSender(os.getenv("MAIL"), os.getenv("MAIL_PASSWORD"), REAL_DB_PATH)
