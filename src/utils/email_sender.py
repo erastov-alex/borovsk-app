@@ -1,3 +1,5 @@
+import os
+
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -8,7 +10,7 @@ import string
 from datetime import datetime, timedelta
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from config import MAIL, MAIL_PASSWORD, REAL_DB_PATH
+from config import REAL_DB_PATH
 
 class EmailSender:
     CODE_EXPIRY_MINUTES = 2 # Время жизни кода в минутах
@@ -169,4 +171,4 @@ class EmailSender:
         self._schedule_code_removal(code)
 
 
-sender = EmailSender(MAIL, MAIL_PASSWORD, REAL_DB_PATH)
+sender = EmailSender(os.getenv("MAIL"), os.getenv("MAIL_PASSWORD"), REAL_DB_PATH)

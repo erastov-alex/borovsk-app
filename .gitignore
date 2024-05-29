@@ -1,3 +1,7 @@
+# Secret data
+
+*.env
+
 # DB
 
 *.db

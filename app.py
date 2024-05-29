@@ -10,9 +10,8 @@ from src.utils.cache import init_cache
 
 app = Flask(__name__, template_folder="src/templates", static_folder="src/static")
 
-app.config["SECRET_KEY"] = SECRET_KEY
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
-# Конфигурация базы данных SQLite
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = SQLALCHEMY_TRACK_MODIFICATIONS
 
@@ -32,12 +31,11 @@ from src.models.houses import House
 
 migrate = Migrate(app, db)
 
-jwt = Api(app, JWT_SECRET_KEY)
+jwt = Api(app, os.getenv("JWT_SECRET_KEY"))
 
 from src.login import login_manager
 
 login_manager.init_app(app)
-
 
 from src.routes.main_routes import main_bp
 from src.routes.users_routes import users_bp
