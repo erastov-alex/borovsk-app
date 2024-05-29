@@ -124,3 +124,13 @@ def get_unavailable_dates(house_id):
             unavailable_dates.append(start_date.strftime("%Y-%m-%d"))
             start_date += timedelta(days=1)
     return unavailable_dates
+
+
+def check_unique(username, email):
+    is_username_unique = db.session.query(User.id).filter_by(username=username).first() is None
+    is_email_unique = db.session.query(User.id).filter_by(email=email).first() is None
+    
+    unique_username = username if is_username_unique else None
+    unique_email = email if is_email_unique else None
+    
+    return unique_username, unique_email

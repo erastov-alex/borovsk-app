@@ -167,9 +167,12 @@
             <input type="text" class="confirmation-input" id="code3" maxlength="1" required>
             <input type="text" class="confirmation-input" id="code4" maxlength="1" required>
           </div>
-
+          <div class="text-center mt-2">
+            <span id="timer"></span>
+            <a href="#" id="resend-link" style="display: none;">Выслать код повторно</a>
+          </div> 
           <input type="hidden" name="confirmation_code" id="confirmation_code">
-
+          
           <button type="submit" class="btn btn-outline-success-custom btn-lg mt-2 d-block mx-auto">Подтвердить</button>
         </form>
       </div>
@@ -192,54 +195,103 @@
       // Example starter JavaScript for disabling form submissions if there are invalid fields
       (function () {
         'use strict'
-    
+        
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = document.querySelectorAll('.needs-validation')
-    
+        
         // Loop over them and prevent submission
         Array.prototype.slice.call(forms)
-          .forEach(function (form) {
+            .forEach(function (form) {
             form.addEventListener('submit', function (event) {
-              if (!form.checkValidity()) {
+                if (!form.checkValidity()) {
                 event.preventDefault()
                 event.stopPropagation()
-              }
-    
-              form.classList.add('was-validated')
+                }
+        
+                form.classList.add('was-validated')
             }, false)
-          })
-      })()
-      {% if show_modal %}
+            })
+        })()
+        {% if show_modal %}
         document.getElementById('mainContainer').style.display = 'none'; // Скрыть основной контейнер
         document.getElementById('emailConfirmationModal').style.display = 'block'
-      {% endif %}
-      const inputs = document.querySelectorAll('.confirmation-input');
-      inputs.forEach((input, index) => {
+        {% endif %}
+        const inputs = document.querySelectorAll('.confirmation-input');
+        inputs.forEach((input, index) => {
         input.addEventListener('input', () => {
-          if (input.value.length === input.maxLength) {
+            if (input.value.length === input.maxLength) {
             if (index < inputs.length - 1) {
-              inputs[index + 1].focus();
+                inputs[index + 1].focus();
             }
-          }
+            }
         });
-
+        
         input.addEventListener('paste', (e) => {
-          e.preventDefault();
-          const pastedData = e.clipboardData.getData('text').trim().slice(0, 4);
-          [...pastedData].forEach((char, i) => {
+            e.preventDefault();
+            const pastedData = e.clipboardData.getData('text').trim().slice(0, 4);
+            [...pastedData].forEach((char, i) => {
             if (inputs[i]) {
-              inputs[i].value = char;
+                inputs[i].value = char;
             }
-          });
-          inputs[pastedData.length - 1].focus();
+            });
+            inputs[pastedData.length - 1].focus();
         });
-      });
-
-      // Собрать код из всех полей перед отправкой формы
-      document.getElementById('email-confirmation-form').addEventListener('submit', function() {
+        });
+        
+        // Собрать код из всех полей перед отправкой формы
+        document.getElementById('email-confirmation-form').addEventListener('submit', function() {
         const confirmationCodeField = document.getElementById('confirmation_code');
         confirmationCodeField.value = Array.from(inputs).map(input => input.value).join('');
-      });
+        });
+        
+        
+        document.addEventListener('DOMContentLoaded', function() {
+        let timerSpan = document.getElementById('timer');
+        let resendLink = document.getElementById('resend-link');
+        let countdown = 120;
+        
+        function startTimer() {
+            let interval = setInterval(function() {
+            let minutes = Math.floor(countdown / 60);
+            let seconds = countdown % 60;
+            timerSpan.textContent = `Отправить повторно через ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+            countdown--;
+        
+            if (countdown < 0) {
+                clearInterval(interval);
+                timerSpan.style.display = 'none';
+                resendLink.style.display = 'inline';
+            }
+            }, 1000);
+        }
+        
+        resendLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Implement the logic to resend the code here
+            // For example, you could make an AJAX request to your server to resend the code
+            fetch("{{ url_for('users.resend_code') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ form.csrf_token._value() }}'
+            },
+            body: JSON.stringify({ email: '{{ email }}' })
+            }).then(response => {
+            if (response.ok) {
+                countdown = 120;
+                timerSpan.style.display = 'inline';
+                resendLink.style.display = 'none';
+                startTimer();
+            } else {
+                // Handle error
+            }
+            }).catch(error => {
+            // Handle error
+            });
+        });
+        
+        startTimer();
+        });
     </script>
   </body>
 </html>

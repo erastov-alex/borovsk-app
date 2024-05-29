@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, render_template, redirect, url_for, request
+from flask import Blueprint, flash, render_template, redirect, url_for, request, jsonify
 from src.models.users import * 
 from src.utils.helpers import *
 from src.models.forms import *
@@ -46,24 +46,27 @@ def login():
 @users_bp.route("/register", methods=["GET", "POST"])
 def register():
     form = RegistrationForm()
-    if request.method == "POST":
+    if form.validate_on_submit():
         name = request.form.get("name")
         username = request.form.get("username")
         email = request.form.get("email")
+        username, email = check_unique(username, email)
+        if not username:
+            flash("Этот логин уже занят. Пожалуйста, выберите другой логин.", "danger")
+            return render_template("users/register.html", form=form, show_modal=False)
+        if not email:
+            flash("Этот адрес электронной почты уже используется. Пожалуйста, выберите другой адрес.", "danger")
+            return render_template("users/register.html", form=form, show_modal=False)
         password = request.form.get("password")
-        confirm_password = request.form.get("confirm_password")
         interested = True if request.form.get("interested") else False
-        form = RegistrationForm(username=username, email=email, password=password, confirm_password=confirm_password)
-        
-        if form.validate_on_submit():
-            sender.send_auth_code_email(email)
-            flash('На вашу почту отправлен код подтверждения. Пожалуйста, введите его для завершения регистрации.', 'info')
-            return render_template("users/register.html", form=form, show_modal=True, name=name, username=username, email=email, password=password, interested=interested)
+        sender.send_auth_code_email(email)
+        flash('На вашу почту отправлен код подтверждения. Пожалуйста, введите его для завершения регистрации.', 'info')
+        return render_template("users/register.html", form=form, show_modal=True, name=name, username=username, email=email, password=password, interested=interested)
 
-        else:
-            errors = {field.name: field.errors for field in form if field.errors}
-            flash("Регистрация не удалась. Пожалуйста, проверьте следующие поля:", "danger")
-            print(errors, "danger")
+    elif form.errors:
+        errors = {field.name: field.errors for field in form if field.errors}
+        flash("Регистрация не удалась. Пожалуйста, проверьте следующие поля:", "danger")
+        print(errors, "danger")
 
     return render_template("users/register.html", form=form, show_modal=False)
 
@@ -104,12 +107,7 @@ def verify_email():
             return redirect(url_for("users.user_panel"))
         except IntegrityError as e:
             db.session.rollback()
-            if "UNIQUE constraint failed: users.email" in str(e):
-                flash("Этот адрес электронной почты уже используется. Пожалуйста, выберите другой адрес.", "danger")
-            elif "UNIQUE constraint failed: users.username" in str(e):
-                flash("Этот логин уже занят. Пожалуйста, выберите другой логин.", "danger")
-            else:
-                flash("Произошла ошибка при регистрации. Пожалуйста, попробуйте еще раз.", "danger")
+            flash("Произошла ошибка при регистрации. Пожалуйста, попробуйте еще раз.", "danger")
     else:
         flash("Неверный или просроченный код подтверждения. Пожалуйста, попробуйте еще раз.", "danger")
 
@@ -125,6 +123,21 @@ def verify_email():
         password=password,
         interested=interested
     )
+
+
+@users_bp.route("/resend_code", methods=["POST"])
+def resend_code():
+    data = request.get_json()
+    email = data.get('email')
+
+    if email:
+        try:
+            sender.send_auth_code_email(email)
+            return jsonify({"message": "Код подтверждения отправлен повторно"}), 200
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+    else:
+        return jsonify({"error": "Email is required"}), 400
 
 
 @users_bp.route("/user_panel")
