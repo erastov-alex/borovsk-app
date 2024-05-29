@@ -11,6 +11,7 @@ from flask import (
 from src.utils.helpers import *
 from src.utils.cache import get_house_info
 from src.utils.cache import get_all_houses
+from src.models.forms import TimeForm, HouseSelectionForm, BookingConfirmationForm
 
 from flask_login import current_user, login_required
 
@@ -34,49 +35,50 @@ def index():
 @login_required
 def house_selection():
     houses = get_all_houses()
-    # Извлекаем house_id, start_date и end_date из параметров GET-запроса, если они есть
-    if request.method == "POST":
+    form = HouseSelectionForm()
+    if form.validate_on_submit():
         house_id = request.form.get("house_id")
         session["house_id"] = house_id
         return redirect(url_for("main.calendar"))
 
-    return render_template("main/house_selection.html", houses=houses)
+    return render_template("main/house_selection.html", houses=houses, form=form)
 
 
 @main_bp.route("/calendar", methods=["GET", "POST"])
 @login_required
 def calendar():
-    house_id = session.get("house_id")  # Retrieve house_id from session
+    form = TimeForm()
+    house_id = session.get("house_id")  
     if not house_id:
         return redirect(url_for("main.house_selection"))
-    """
-    Return list of unavailable dates for house_id in YYYY-MM-DD format
-    """
+
     unavailable_dates = get_unavailable_dates(house_id)
 
-    if request.method == "POST":
-        start_date = request.form.get("start_date")
-        end_date = request.form.get("end_date")
-        if not start_date and not end_date:
-            flash("Пожалуйста, выберите даты")
-        elif start_date in unavailable_dates or end_date in unavailable_dates:
+    if form.validate_on_submit():
+        start_date = form.start_date.data
+        end_date = form.end_date.data
+        if start_date in unavailable_dates or end_date in unavailable_dates:
             flash("К сожалению, выбранные даты заняты")
         else:
             session["start_date"] = start_date
             session["end_date"] = end_date
             return redirect(url_for("main.booking_confirmation"))
+    elif request.method == "POST":
+        flash("Пожалуйста, выберите даты")
 
     return render_template(
         "main/calendar.html",
         house_id=house_id,
         username=current_user.username,
         unavailable_dates=unavailable_dates,
+        form=form
     )
 
 
 @main_bp.route("/booking_confirmation", methods=["GET", "POST"])
 @login_required
 def booking_confirmation():
+    form = BookingConfirmationForm()
     house_id = session.get("house_id")
     start_date = session.get("start_date")
     end_date = session.get("end_date")
@@ -90,9 +92,10 @@ def booking_confirmation():
             house_id=house_id,
             start_date=start_date,
             end_date=end_date,
+            form=form
         )
 
-    elif request.method == "POST":
+    if request.method == "POST":
         # Если это POST запрос, обрабатываем данные бронирования
         user_id = current_user.id
         if user_id:
@@ -114,6 +117,7 @@ def booking_confirmation():
                 start_date=start_date,
                 end_date=end_date,
                 confirmed=True,
+                form=form
             )
 
         else:

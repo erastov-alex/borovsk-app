@@ -66,6 +66,7 @@
     <div class="buttons-container d-flex gap-2 justify-content-center">
         <a href="/house_selection" class="btn btn-outline-secondary">Назад</a>
         <form action="{{ url_for('main.calendar') }}" method="POST">
+            {{ form.hidden_tag() }}
             <input type="hidden" name="start_date" id="start_date">
             <input type="hidden" name="end_date" id="end_date">
             <button type="submit" class="btn btn-success-custom">Выбрать</button>

@@ -11,3 +11,9 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 CACHE_TYPE = "simple"
 
 JWT_SECRET_KEY = "BASE"
+
+MAIL = '' #only yandex
+
+MAIL_PASSWORD = ''
+
+REAL_DB_PATH = os.path.join('instance', 'database2.db')

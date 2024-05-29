@@ -19,9 +19,10 @@
           <p class="lead mb-4" >Стоимость - 12 500</p> 
 
           <form id="booking-form" method="post" action="/booking_confirmation">
+            {{ form.csrf_token }}
             <input type="hidden" id="house_id" name="house_id">
-            <input type="hidden" id="start_date_input" name="start_date">
-            <input type="hidden" id="end_date_input" name="end_date">
+            <input type="hidden" id="start_date" name="start_date">
+            <input type="hidden" id="end_date" name="end_date">
             <button type="button" class="btn btn-outline-secondary" onclick="window.location.href='/calendar'">Назад</button>
             <button type="submit" class="btn btn-success-custom" id="buttonConfirmation">Подтвердить бронирование</button>
           </form>

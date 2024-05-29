@@ -44,4 +44,15 @@ class HouseForm(FlaskForm):
     price = TextAreaField('Цена', validators=[DataRequired(message="Обязательное поле!")])
     submit = SubmitField('Сохранить')
     delete = SubmitField('Удалить дом')
+
+class HouseSelectionForm(FlaskForm):
+    house_id = IntegerField("HouseId", validators=[DataRequired(message=("Обязательное поле!"))])
     
+class TimeForm(FlaskForm):
+    start_date = StringField("StartTime", validators=[DataRequired(message="Обязательное поле!")])
+    end_date = StringField("EndTime", validators=[DataRequired(message="Обязательное поле!")])
+
+class BookingConfirmationForm(FlaskForm):
+    start_date = StringField("StartTime", validators=[DataRequired(message="Обязательное поле!")])
+    end_date = StringField("EndTime", validators=[DataRequired(message="Обязательное поле!")])
+    house_id = IntegerField("HouseId", validators=[DataRequired(message=("Обязательное поле!"))])
