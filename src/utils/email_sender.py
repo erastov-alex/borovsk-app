@@ -89,7 +89,7 @@ class EmailSender:
 
     def _send_email_via_stmp(self, to_mail, verification_code):
         # Настройка почтового сервера и учетных данных
-        smtp_server = 'smtp.yandex.ru'
+        smtp_server = 'mail.borovskybase.ru'
         smtp_port = 465
         
         # Формирование письма
