@@ -17,5 +17,5 @@ SQLALCHEMY_DATABASE_URI = f"sqlite:///{DATABASE_PATH}"
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 CACHE_TYPE = "simple"
 REAL_DB_PATH = os.path.join('instance', DATABASE_PATH)
-SMTP_SERVER = 'mail.hosting.reg.ru'
-SMTP_PORT = 465
+SMTP_SERVER = 'server190.hosting.reg.ru'
+SMTP_PORT = 587
