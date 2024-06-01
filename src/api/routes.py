@@ -14,6 +14,7 @@ api = Blueprint("api", __name__)
 
 
 @api.route("/api/send_mail", methods=["POST"])
+@jwt_required()
 def send_mail():
     data = request.get_json()
     to_mail = data.get("to_mail")
