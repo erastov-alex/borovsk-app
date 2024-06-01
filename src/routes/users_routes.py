@@ -59,9 +59,13 @@ def register():
             return render_template("users/register.html", form=form, show_modal=False)
         password = request.form.get("password")
         interested = True if request.form.get("interested") else False
-        sender.send_auth_code_email(email)
-        flash('На вашу почту отправлен код подтверждения. Пожалуйста, введите его для завершения регистрации.', 'info')
-        return render_template("users/register.html", form=form, show_modal=True, name=name, username=username, email=email, password=password, interested=interested)
+        is_sended = sender.send_auth_code_email(email)
+        if "200" in is_sended:
+            flash('На вашу почту отправлен код подтверждения. Пожалуйста, введите его для завершения регистрации.', 'info')
+            return render_template("users/register.html", form=form, show_modal=True, name=name, username=username, email=email, password=password, interested=interested)
+        else:
+            flash(is_sended)
+            return render_template("users/register.html", form=form, show_modal=False, name=name, username=username, email=email, password=password, interested=interested)
 
     elif form.errors:
         errors = {field.name: field.errors for field in form if field.errors}

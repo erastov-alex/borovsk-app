@@ -159,16 +159,19 @@ class EmailSender:
                 server.login(self.from_mail, self.mail_password)
                 server.sendmail(self.from_mail, to_mail, msg.as_string())
             print("Письмо отправлено успешно!")
+            return "200"
         except Exception as e:
             print(f"Ошибка при отправке письма: {e}")
+            return f"Ошибка при отправке письма: {e}"
 
 
     def send_auth_code_email(self, destination):
         self._create_table()
         code = self._generate_unique_code()
         self._store_code_in_db(code, destination)
-        self._send_email_via_stmp(destination, code)
+        sended = self._send_email_via_stmp(destination, code)
         # self._schedule_code_removal(code)
+        return sended
 
 
 sender = EmailSender(os.getenv("MAIL"), os.getenv("MAIL_PASSWORD"), REAL_DB_PATH)
