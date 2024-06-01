@@ -1,6 +1,6 @@
 import os
 
-import smtplib, ssl
+import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -148,10 +148,9 @@ class EmailSender:
         part2 = MIMEText(html_content, 'html')
         msg.attach(part1)
         msg.attach(part2)
-        context = ssl.create_default_context()
+
         try:
-            with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
-                server.starttls(context=context)
+            with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
                 server.login(self.from_mail, self.mail_password)
                 server.sendmail(self.from_mail, to_mail, msg.as_string())
             print("Письмо отправлено успешно!")
