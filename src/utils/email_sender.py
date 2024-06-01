@@ -10,7 +10,7 @@ import string
 from datetime import datetime, timedelta
 # from apscheduler.schedulers.background import BackgroundScheduler
 
-from config import REAL_DB_PATH
+from config import REAL_DB_PATH, SMTP_SERVER, SMTP_PORT
 
 class EmailSender:
     CODE_EXPIRY_MINUTES = 2 # Время жизни кода в минутах
@@ -88,10 +88,6 @@ class EmailSender:
 
 
     def _send_email_via_stmp(self, to_mail, verification_code):
-        # Настройка почтового сервера и учетных данных
-        smtp_server = 'mail.borovskybase.ru'
-        smtp_port = 465
-        
         # Формирование письма
         msg = MIMEMultipart('alternative')
         msg['Subject'] = 'Подтверждение Регистрации'
@@ -155,7 +151,7 @@ class EmailSender:
 
         # Отправка письма
         try:
-            with smtplib.SMTP_SSL(smtp_server, smtp_port) as server:
+            with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
                 server.login(self.from_mail, self.mail_password)
                 server.sendmail(self.from_mail, to_mail, msg.as_string())
             print("Письмо отправлено успешно!")
