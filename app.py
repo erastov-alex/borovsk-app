@@ -48,6 +48,8 @@ app.register_blueprint(bookings_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(api)
 
+app.config['WTF_CSRF_ENABLED'] = False 
+
 # Создание таблиц в базе данных
 # with app.app_context():
 #     db.create_all()
