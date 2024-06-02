@@ -8,6 +8,9 @@ from src.api.routes import api
 
 from src.utils.cache import init_cache
 
+from flask_mail import Mail
+from src.utils.email_sender import EmailSender
+
 application = Flask(__name__, template_folder="src/templates", static_folder="src/static")
 
 application.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
@@ -42,8 +45,19 @@ from src.routes.users_routes import users_bp
 from src.routes.booking_routes import bookings_bp
 from src.routes.admin_routes import admin_bp
 
+
+mail = Mail(application)
+# Create an instance of EmailSender
+application.config['MAIL_SERVER'] = SMTP_SERVER
+application.config['MAIL_PORT'] = SMTP_PORT
+application.config['MAIL_USE_SSL'] = True
+application.config['MAIL_USERNAME'] = os.getenv("MAIL")  # введите свой адрес электронной почты здесь
+application.config['MAIL_DEFAULT_SENDER'] = os.getenv("MAIL")  # и здесь
+application.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")  # введите пароль
+
+
 application.register_blueprint(main_bp)
-application.register_blueprint(users_bp)
+application.register_blueprint(users_bp, mail=mail)
 application.register_blueprint(bookings_bp)
 application.register_blueprint(admin_bp)
 application.register_blueprint(api)

@@ -1,14 +1,15 @@
-from flask import Blueprint, flash, render_template, redirect, url_for, request, jsonify
+from flask import Blueprint, flash, render_template, redirect, url_for, request, jsonify, current_app
 from src.models.users import * 
 from src.utils.helpers import *
 from src.models.forms import *
-from src.utils.email_sender import sender
 import hashlib
 import sqlite3
 
 from sqlalchemy.exc import IntegrityError
 
 from flask_login import login_user, logout_user, login_required, current_user
+
+from src.utils.email_sender import init_sender, init_mail
 
 users_bp = Blueprint("users", __name__)
 
@@ -59,7 +60,11 @@ def register():
             return render_template("users/register.html", form=form, show_modal=False)
         password = request.form.get("password")
         interested = True if request.form.get("interested") else False
-        is_sended = sender.send_auth_code_email(email)
+        
+        mail = init_mail(current_app)
+        email_sender = init_sender(mail)
+        
+        is_sended = email_sender.send_auth_code_email(email)
         if "200" in is_sended:
             flash('На вашу почту отправлен код подтверждения. Пожалуйста, введите его для завершения регистрации.', 'info')
             return render_template("users/register.html", form=form, show_modal=True, name=name, username=username, email=email, password=password, interested=interested)
@@ -86,7 +91,7 @@ def verify_email():
     interested = True if request.form.get("interested") else False
 
     # Проверка кода в базе данных
-    conn = sqlite3.connect(sender.path2database)
+    conn = sqlite3.connect(email_sender.path2database)
     cursor = conn.cursor()
     cursor.execute("SELECT code FROM temp_auth_codes WHERE destination = ? AND expiry_time > ?", (email, datetime.now()))
     result = cursor.fetchone()
@@ -136,7 +141,7 @@ def resend_code():
 
     if email:
         try:
-            sender.send_auth_code_email(email)
+            email_sender.send_auth_code_email(email)
             return jsonify({"message": "Код подтверждения отправлен повторно"}), 200
         except Exception as e:
             return jsonify({"error": str(e)}), 500

@@ -5,7 +5,7 @@ from src.models.bookings import *
 from src.models.houses import *
 
 from src.utils.helpers import *
-from src.utils.email_sender import sender
+# from src.utils.email_sender import sender
 
 from flask_jwt_extended import jwt_required
 
@@ -13,20 +13,20 @@ from flask_jwt_extended import jwt_required
 api = Blueprint("api", __name__)
 
 
-@api.route("/api/send_mail", methods=["POST"])
-@jwt_required()
-def send_mail():
-    data = request.get_json()
-    to_mail = data.get("to_mail")
-    if not to_mail:
-        return jsonify({"error": "Missing 'to_mail' field"}), 400
+# @api.route("/api/send_mail", methods=["POST"])
+# @jwt_required()
+# def send_mail():
+#     data = request.get_json()
+#     to_mail = data.get("to_mail")
+#     if not to_mail:
+#         return jsonify({"error": "Missing 'to_mail' field"}), 400
 
-    is_sended = sender.send_auth_code_email(to_mail)
+#     is_sended = sender.send_auth_code_email(to_mail)
     
-    if "200" in is_sended:
-        return jsonify({"message": "Email successfully sent"}), 200
-    else:
-        return jsonify({"error": "Failed to send email"}), 500
+#     if "200" in is_sended:
+#         return jsonify({"message": "Email successfully sent"}), 200
+#     else:
+#         return jsonify({"error": "Failed to send email"}), 500
 
 
 @api.route("/api/all_bookings", methods=["GET"])

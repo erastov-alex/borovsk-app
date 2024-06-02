@@ -1,16 +1,13 @@
-import os
-
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-
 import sqlite3
 import random
 import string
 from datetime import datetime, timedelta
 # from apscheduler.schedulers.background import BackgroundScheduler
 
-from config import REAL_DB_PATH, SMTP_SERVER, SMTP_PORT
+from config import REAL_DB_PATH
+
+from flask_mail import Message, Mail
+
 
 class EmailSender:
     CODE_EXPIRY_MINUTES = 2 # Время жизни кода в минутах
@@ -18,9 +15,8 @@ class EmailSender:
     # scheduler = BackgroundScheduler()
     # scheduler.start()
 
-    def __init__(self, from_mail, mail_password, path2database):
-        self.from_mail = from_mail
-        self.mail_password = mail_password
+    def __init__(self,mail, path2database):
+        self.mail = mail
         self.path2database = path2database
 
 
@@ -77,25 +73,11 @@ class EmailSender:
         print(f'Removed code {code} from database')
 
 
-    # def _schedule_code_removal(self, code):
-    #     """Запланировать удаление кода через определенное время."""
-    #     self.scheduler.add_job(
-    #         func=self._remove_code_from_db,
-    #         trigger='date',
-    #         run_date=datetime.now() + timedelta(minutes=self.CODE_EXPIRY_MINUTES),
-    #         args=[code]
-    #     )
-
-
     def _send_email_via_stmp(self, to_mail, verification_code):
         # Формирование письма
-        msg = MIMEMultipart('alternative')
-        msg['Subject'] = 'Подтверждение Регистрации'
-        msg['From'] = self.from_mail
-        msg['To'] = to_mail
-
+        msg = Message("Subject", recipients=[to_mail])
         # Текстовое содержимое
-        text_content = f"""\
+        msg.body  = f"""\
         Привет!
         Спасибо за регистрацию.
         Ваш проверочный код: {verification_code}
@@ -103,7 +85,7 @@ class EmailSender:
         """
 
         # HTML-содержимое
-        html_content = f"""\
+        msg.html = f"""\
         <html>
         <head>
             <style>
@@ -142,22 +124,14 @@ class EmailSender:
         </body>
         </html>
         """
-
-        # Присоединение текстового и HTML-содержимого к сообщению
-        part1 = MIMEText(text_content, 'plain')
-        part2 = MIMEText(html_content, 'html')
-        msg.attach(part1)
-        msg.attach(part2)
-
+        
         try:
-            with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
-                server.login(self.from_mail, self.mail_password)
-                server.sendmail(self.from_mail, to_mail, msg.as_string())
-            print("Письмо отправлено успешно!")
+            self.mail.send(msg)
+            print("Success!")
             return "200"
         except Exception as e:
-            print(f"Ошибка при отправке письма: {e}")
-            return f"Ошибка при отправке письма: {e}"
+            print(f"Error - {e}")
+            return "404"
 
 
     def send_auth_code_email(self, destination):
@@ -169,4 +143,10 @@ class EmailSender:
         return sended
 
 
-sender = EmailSender(os.getenv("MAIL"), os.getenv("MAIL_PASSWORD"), REAL_DB_PATH)
+def init_mail(app):
+    mail = Mail(app)
+    return mail
+
+def init_sender(mail):
+    sender = EmailSender(mail, REAL_DB_PATH)
+    return sender
