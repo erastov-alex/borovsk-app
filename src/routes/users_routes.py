@@ -91,6 +91,8 @@ def verify_email():
     interested = True if request.form.get("interested") else False
 
     # Проверка кода в базе данных
+    mail = init_mail(current_app)
+    email_sender = init_sender(mail)
     conn = sqlite3.connect(email_sender.path2database)
     cursor = conn.cursor()
     cursor.execute("SELECT code FROM temp_auth_codes WHERE destination = ? AND expiry_time > ?", (email, datetime.now()))
@@ -138,6 +140,8 @@ def verify_email():
 def resend_code():
     data = request.get_json()
     email = data.get('email')
+    mail = init_mail(current_app)
+    email_sender = init_sender(mail)
 
     if email:
         try:

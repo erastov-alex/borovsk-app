@@ -2,7 +2,6 @@ import sqlite3
 import random
 import string
 from datetime import datetime, timedelta
-# from apscheduler.schedulers.background import BackgroundScheduler
 
 from config import REAL_DB_PATH
 
@@ -75,7 +74,7 @@ class EmailSender:
 
     def _send_email_via_stmp(self, to_mail, verification_code):
         # Формирование письма
-        msg = Message("Subject", recipients=[to_mail])
+        msg = Message("Подтверждение Регистрации", recipients=[to_mail])
         # Текстовое содержимое
         msg.body  = f"""\
         Привет!
@@ -131,8 +130,8 @@ class EmailSender:
             return "200"
         except Exception as e:
             print(f"Error - {e}")
-            return "404"
-
+            return f"Error - {e}"
+            
 
     def send_auth_code_email(self, destination):
         self._create_table()

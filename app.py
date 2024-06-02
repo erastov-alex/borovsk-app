@@ -51,8 +51,8 @@ mail = Mail(application)
 application.config['MAIL_SERVER'] = SMTP_SERVER
 application.config['MAIL_PORT'] = SMTP_PORT
 application.config['MAIL_USE_SSL'] = True
-application.config['MAIL_USERNAME'] = os.getenv("MAIL")  # введите свой адрес электронной почты здесь
-application.config['MAIL_DEFAULT_SENDER'] = os.getenv("MAIL")  # и здесь
+application.config['MAIL_USERNAME'] = MAIL  # введите свой адрес электронной почты здесь
+application.config['MAIL_DEFAULT_SENDER'] = MAIL  # и здесь
 application.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")  # введите пароль
 
 
