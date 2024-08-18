@@ -283,12 +283,24 @@
 
 <!-- FINAL BLOCK  -->
 <div class="p-5 mb-4 bg-light rounded-3" id="custom-cards">
-	<div class="container-fluid py-5">
-	  <h1 class="display-5 fw-bold">Остались вопросы?</h1>
-	  <p class="col-md-8 fs-4">Воспользуйтесь формой заказа обратного звонка и мы свяжемся и уточним все детали</p>
-	  <button class="btn btn-success-custom btn-lg" type="button">Заказать звонок</button>
-	</div>
+  <div class="container-fluid py-5">
+    <h1 class="display-5 fw-bold">Остались вопросы?</h1>
+    <p class="col-md-8 fs-4">Мы всегда на связи!</p>
+    <p id="phone-number" class="fs-4 fw-bold">+79960310322</p>
+    <button class="btn btn-success-custom btn-lg" type="button" onclick="copyToClipboard()">Скопировать</button>
+  </div>
 </div>
+
+<script>
+  function copyToClipboard() {
+    const phoneNumber = document.getElementById('phone-number').textContent;
+    navigator.clipboard.writeText(phoneNumber).then(() => {
+      alert('Номер телефона скопирован в буфер обмена!');
+    }).catch(err => {
+      console.error('Ошибка при копировании: ', err);
+    });
+  }
+</script>
 {% endblock %}
 
 {% block scripts %}
