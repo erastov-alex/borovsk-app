@@ -303,3 +303,9 @@ p.text-shadow {
   opacity: 1; /* final opacity */
   transform: scale(1); /* final scale */
 }
+
+.borovsky-logo {
+  width: 39%; /* Occupy one-fifth of the parent container's width */
+  height: auto;
+  max-width: 100%;
+}

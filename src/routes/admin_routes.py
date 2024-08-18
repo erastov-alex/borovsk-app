@@ -119,9 +119,9 @@ def api():
 @admin_bp.route("/edit_house/<house_id>", methods=["GET", "POST"])
 @login_required
 def edit_house(house_id):
+    form = HouseForm()
     house = House.query.get(house_id)
-
-    if request.method == "POST":
+    if form.validate_on_submit():
         # Update house attributes
         house.name = request.form.get("name")
         house.floors = request.form.get("floors")
@@ -140,7 +140,7 @@ def edit_house(house_id):
         flash("Изменения Сохранены!")
         return redirect(url_for("admin.admin_house"))  # Redirect to houses list
 
-    return render_template("admin/add_house.html", edit=True, house=house)
+    return render_template("admin/add_house.html", edit=True, house=house, form=form)
 
 
 @admin_bp.route("/del_house/<house_id>", methods=["POST"])

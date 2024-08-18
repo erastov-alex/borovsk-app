@@ -95,8 +95,8 @@
   }
 
 .btn-success {
-    background-color: #6683EA;
-    border-color: #6683eaf1;
+    background-color: #74552cc1;
+    border-color: #74552cc1;
 }
 
 .btn-success:hover {
@@ -106,8 +106,8 @@
 }
 
 .btn-success:focus {
-    background-color: #6683EA; /* Цвет фона при фокусе */
-    border-color: #6683EA; /* Цвет обводки при фокусе */
+    background-color: #74552cc1; /* Цвет фона при фокусе */
+    border-color: #74552cc1; /* Цвет обводки при фокусе */
     box-shadow: 0 0 0 0.2rem rgba(41, 51, 90, 0.3); /* Опционально: добавить тень для подсветки */
 }
 
@@ -120,7 +120,7 @@
 .btn-success-custom {
     overflow: hidden;
     position: relative;
-    background-color: #6683EA;
+    background-color: #74552cc1;
     color: #fff
 }
 
@@ -148,7 +148,7 @@
 
 .btn-success-custom:hover {
     background-position: right center;
-    background-color: #6683eac1;
+    background-color: #74552cc1;
     color: #fff 
 }
 
