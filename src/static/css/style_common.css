@@ -31,7 +31,7 @@
 
 /* Стили для кнопки входа и регистрации */
 .btn-primary {
-    background-color: #6683EA;
+    background-color: #74552cc1;
     color: #fff; /* Цвет текста */
     border: none;
     border-radius: 5px;
@@ -41,11 +41,11 @@
 }
 
 .btn-primary:hover {
-    background-color: #6683EA; /* Изменение цвета фона при наведении */
+    background-color: #5e4424c1; /* Изменение цвета фона при наведении */
 }
 
 .login-btn:hover {
-    background-color: #6683EA; /* Изменение цвета фона при наведении */
+    background-color: #5e4424c1; /* Изменение цвета фона при наведении */
 }
 
 .btn-outline-light {
@@ -53,7 +53,7 @@
 }
 
 .btn-outline-light:hover {
-    background-color: #6683eac6; /* Изменение цвета фона при наведении */
+    background-color: #5e4424c1; /* Изменение цвета фона при наведении */
 }
 
 .welcome-block {
@@ -100,8 +100,8 @@
 }
 
 .btn-success:hover {
-    background-color: #6683eaad;
-    border-color: #6683eaf1;
+    background-color: #5e4424c1;
+    border-color: #5e4424c1;
     box-shadow: 0 0 0 0.2rem rgba(41, 51, 90, 0.1); /* Опционально: добавить тень для подсветки */
 }
 
@@ -112,8 +112,8 @@
 }
 
 .btn-success:active {
-    background-color: #6683EA; /* Цвет фона при фокусе */
-    border-color: #6683EA; /* Цвет обводки при фокусе */
+    background-color: #5e4424c1; /* Цвет фона при фокусе */
+    border-color: #5e4424c1; /* Цвет обводки при фокусе */
     box-shadow: 0 0 0 0.2rem rgba(135, 102, 234, 0.5); /* Опционально: добавить тень для подсветки */
 }
 
@@ -148,7 +148,7 @@
 
 .btn-success-custom:hover {
     background-position: right center;
-    background-color: #74552cc1;
+    background-color: #5e4424c1;
     color: #fff 
 }
 
@@ -173,8 +173,8 @@
 
 .btn-outline-success-custom:hover {
     color: #ffffffdc;
-    border-color: #6683eadc;
-    background-color: #6683EA;
+    border-color: #5e4424c1;
+    background-color: #5e4424c1;
     box-shadow: 0 0 0 0.2rem rgba(135, 102, 234, 0.1); /* Опционально: добавить тень для подсветки */
 }
 
