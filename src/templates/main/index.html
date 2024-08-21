@@ -18,7 +18,7 @@
   <div class="effects"></div>
   <div class="video-bg__content">
       <img src="static/img/logo_new3.png" alt="Borovsky Logo" class="borovsky-logo" />
-      <a href="/house_selection" class="btn btn-success-custom btn-lg">Забронировать</a>
+      <a href="#bookingPhone" class="btn btn-success-custom btn-lg">Забронировать</a>
   </div>
 </div>
 
@@ -28,7 +28,7 @@
       <div class="col-md-5 p-lg-5 mx-auto my-5">
         <img src="static/img/logo_new3.png" alt="Borovsky Logo" class="borovsky-logo" />
           <p class="nunito-sans-font mb-4">Загородный комплекс для выходных на природе</p>
-          <a href="/house_selection" class="btn btn-success-custom btn-lg">Забронировать</a>
+          <a href="#bookingPhone" class="btn btn-success-custom btn-lg">Забронировать</a>
       </div>
       <div class="product-device shadow-sm d-none d-md-block"></div>
       <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
@@ -95,7 +95,7 @@
             </div>
           </div>
           <div class="button-block"> 
-              <a href="{{ url_for('main.house_details', house_id=house.id) }}" class="btn btn-success-custom">Выбрать</a>
+              <a href="#bookingPhone" class="btn btn-success-custom">Выбрать</a>
           </div>
         </div>
         <!-- RIGHT SIDE -->
@@ -282,9 +282,9 @@
 <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A027152c95e6f25f0cfb737e3019bcd13b49abc581c79f63ec839cac5ddd5064a&amp;width=100%25&amp;height=400&amp;lang=ru_RU&amp;scroll=true"></script>
 
 <!-- FINAL BLOCK  -->
-<div class="p-5 mb-4 bg-light rounded-3" id="custom-cards">
+<div class="p-5 mb-4 bg-light rounded-3" id="bookingPhone">
   <div class="container-fluid py-5">
-    <h1 class="display-5 fw-bold">Остались вопросы?</h1>
+    <h1 class="display-5 fw-bold">Для бронирования звоните по телефону</h1>
     <p class="col-md-8 fs-4">Мы всегда на связи!</p>
     <p id="phone-number" class="fs-4 fw-bold">+79960310322</p>
     <button class="btn btn-success-custom btn-lg" type="button" onclick="copyToClipboard()">Скопировать</button>
